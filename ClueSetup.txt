@@ -1,0 +1,13 @@
+// Rooms and room cards
+Room, Canal, C
+Room, Pizza Place, P
+Room, Shed, S
+Room, Left Apartments, L
+Room, Right Apartments, R
+Room, Burger Place, B
+Room, Alley, A
+Room, Vape Shop, V
+Room, Music Store, M
+// other spaces on board
+Space, Unused, X
+Space, Walkway, W
