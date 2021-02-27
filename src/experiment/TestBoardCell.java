@@ -19,7 +19,7 @@ public class TestBoardCell {
 	}
 	
 	public Set<TestBoardCell> getAdjList() {
-		return adjList;
+		return null;	// IMPLEMENT
 	}
 	
 	public void setRoom(boolean newRoom) {
@@ -33,6 +33,7 @@ public class TestBoardCell {
 	public void setOccupied(boolean newOccupied) {
 		isOccupied = newOccupied;
 	}
+	
 	public boolean getOccupied() {
 		return isOccupied;
 	}

@@ -15,6 +15,9 @@ public class TestBoard {
 	
 	// constructor which sets up the board
 	public TestBoard() {
+		super();
+		// IMPLEMENT
+		/*
 		for(int i = 0; i < BOARD_ROWS_COLS; i++) {	
 			// Create a temporary list containing a new row
 			ArrayList<TestBoardCell> temp = new ArrayList<TestBoardCell>();
@@ -26,10 +29,13 @@ public class TestBoard {
 			// add the temporary list to the board
 			board.add(temp);
 		}
+		*/
 	}
 	
 	// recursive function which calculates the possible cells the player can move to
 	public void calcTargets(TestBoardCell startCell, int pathlength) {
+		// IMPLEMENT
+		/*
 		for(TestBoardCell adjCell : startCell.getAdjList()) {
 			// if you have already visited the cell, skip
 			if(!visited.contains(adjCell)) {
@@ -46,14 +52,15 @@ public class TestBoard {
 				visited.remove(adjCell);
 			}
 		}
+		*/
 	}
 	
 	// getters for targets and cells
 	public Set<TestBoardCell> getTargets(){
-		return targets;
+		return null;
 	}
 
 	public TestBoardCell getCell(int row, int col) {
-		return board.get(row).get(col);
+		return null;
 	}
 }
