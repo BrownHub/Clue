@@ -4,47 +4,55 @@ import java.util.ArrayList;
 import java.util.Set;
 
 public class TestBoard {
-	
+
 	// member variables
-	private ArrayList<ArrayList<TestBoardCell>> board;
+	private TestBoardCell[][] grid;
 	private Set<TestBoardCell> targets;
 	private Set<TestBoardCell> visited;
-	
+
 	// Size of the board
-	private static int BOARD_ROWS_COLS = 4;
-	
+	final static int COLS = 4;
+	final static int ROWS = 4;
+
 	// constructor which sets up the board
 	public TestBoard() {
-<<<<<<< HEAD
 		super();
-		// IMPLEMENT
-		/*
-=======
->>>>>>> ad9463ed2840d5962f3a720a64fa81a8d697b587
-		for(int i = 0; i < BOARD_ROWS_COLS; i++) {	
-			// Create a temporary list containing a new row
-			ArrayList<TestBoardCell> temp = new ArrayList<TestBoardCell>();
-			for(int j = 0; j < BOARD_ROWS_COLS; j++) {
+		// Create a temporary array 
+		TestBoardCell[] temp;
+		grid = new TestBoardCell[ROWS][COLS];
+		for(int i = 0; i < ROWS; i++) {	
+			// Create a new array in temp, allocate memory
+			temp = new TestBoardCell[ROWS];
+			for(int j = 0; j < COLS; j++) {
 				// Create a temporary cell, add it to the temporary list
 				TestBoardCell currCell = new TestBoardCell(i, j);
-				temp.add(currCell);
+				temp[j] = currCell;
 			}
 			// add the temporary list to the board
-			board.add(temp);
+			grid[i] = temp;
 		}
-<<<<<<< HEAD
-		*/
-=======
->>>>>>> ad9463ed2840d5962f3a720a64fa81a8d697b587
+		
+		// Create adjacency lists
+		for(int i = 0; i < ROWS; i++) {	
+			for(int j = 0; j < COLS; j++) {
+				if(i + 1 < ROWS) {
+					grid[i][j].addAdjacency(grid[i + 1][j]);
+				}
+				if(j + 1 < COLS) {
+					grid[i][j].addAdjacency(grid[i][j + 1]);
+				}
+				if(i - 1 >= 0) {
+					grid[i][j].addAdjacency(grid[i - 1][j]);
+				}
+				if(j - 1 >= 0) {
+					grid[i][j].addAdjacency(grid[i][j - 1]);
+				}
+			}
+		}
 	}
-	
+
 	// recursive function which calculates the possible cells the player can move to
 	public void calcTargets(TestBoardCell startCell, int pathlength) {
-<<<<<<< HEAD
-		// IMPLEMENT
-		/*
-=======
->>>>>>> ad9463ed2840d5962f3a720a64fa81a8d697b587
 		for(TestBoardCell adjCell : startCell.getAdjList()) {
 			// if you have already visited the cell, skip
 			if(!visited.contains(adjCell)) {
@@ -53,7 +61,7 @@ public class TestBoard {
 				// base case: the adjacent cells are the targets
 				if(pathlength == 1) {
 					targets.add(adjCell);
-				// recursive case, the targets are contained by the next cell grouping
+					// recursive case, the targets are contained by the next cell grouping
 				} else {
 					calcTargets(adjCell, pathlength - 1);
 				}
@@ -61,26 +69,14 @@ public class TestBoard {
 				visited.remove(adjCell);
 			}
 		}
-<<<<<<< HEAD
-		*/
-=======
->>>>>>> ad9463ed2840d5962f3a720a64fa81a8d697b587
-	}
-	
-	// getters for targets and cells
-	public Set<TestBoardCell> getTargets(){
-<<<<<<< HEAD
-		return null;
 	}
 
-	public TestBoardCell getCell(int row, int col) {
-		return null;
-=======
+	// getters for targets and cells
+	public Set<TestBoardCell> getTargets(){
 		return targets;
 	}
 
 	public TestBoardCell getCell(int row, int col) {
-		return board.get(row).get(col);
->>>>>>> ad9463ed2840d5962f3a720a64fa81a8d697b587
+		return grid[row][col];
 	}
 }
