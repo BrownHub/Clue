@@ -1,5 +1,6 @@
 package experiment;
 
+import java.util.HashSet;
 import java.util.Set;
 
 public class TestBoardCell {
@@ -7,10 +8,12 @@ public class TestBoardCell {
 	private Set<TestBoardCell> adjList;
 	private boolean isRoom;
 	private boolean isOccupied;
+	private int row, col;
 	
 	// constructor
 	public TestBoardCell(int row, int column) {
 		super();
+		adjList = new HashSet<TestBoardCell>();
 	}
 	
 	// Getter and setter functions
@@ -19,11 +22,7 @@ public class TestBoardCell {
 	}
 	
 	public Set<TestBoardCell> getAdjList() {
-<<<<<<< HEAD
-		return null;	// IMPLEMENT
-=======
 		return adjList;
->>>>>>> ad9463ed2840d5962f3a720a64fa81a8d697b587
 	}
 	
 	public void setRoom(boolean newRoom) {
@@ -37,10 +36,7 @@ public class TestBoardCell {
 	public void setOccupied(boolean newOccupied) {
 		isOccupied = newOccupied;
 	}
-<<<<<<< HEAD
-	
-=======
->>>>>>> ad9463ed2840d5962f3a720a64fa81a8d697b587
+
 	public boolean getOccupied() {
 		return isOccupied;
 	}
