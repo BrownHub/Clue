@@ -1,0 +1,36 @@
+commit d6db8182d06acbd26ac31a87e8905bece0e6d072
+Author: Kendall Brown <kendallcraigbrown@mymail.mines.edu>
+Date:   Fri Feb 26 20:17:37 2021 -0700
+
+    Catching up
+
+commit 6246390816ef92a9e9f1049555f168156687b0aa
+Merge: c444551 cc7feb3
+Author: Kendall Brown <kendallcraigbrown@mymail.mines.edu>
+Date:   Wed Feb 24 18:39:05 2021 -0700
+
+    Merge branch 'river' of https://github.com/BrownHub/Clue into river
+
+commit c444551a1bf206c61c6949aebf1f7e6bf304ea96
+Author: Kendall Brown <kendallcraigbrown@mymail.mines.edu>
+Date:   Wed Feb 24 18:38:41 2021 -0700
+
+    Modified layout to add a room, correct symbols, and change room layouts. Created .csv file.
+
+commit cc7feb34fba1fd73f58dfd30d4f77182ab1a320e
+Author: clayne <carson.layne@me.com>
+Date:   Wed Feb 24 18:08:18 2021 -0700
+
+    added readme, updated ClueSetup
+
+commit aa0764a9cbabf27f99b4e018f95f56419b69fa6c
+Author: clayne <carson.layne@me.com>
+Date:   Wed Feb 24 17:47:38 2021 -0700
+
+    Created ClueLayout.xlsx
+
+commit ab4ececfa06f044e0dcceb0b20ff6c546187fa2d
+Author: Kendall Brown <kendallcraigbrown@mymail.mines.edu>
+Date:   Wed Feb 24 17:30:24 2021 -0700
+
+    Initial commit
