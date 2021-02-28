@@ -1,6 +1,7 @@
 package experiment;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Set;
 
 public class TestBoard {
@@ -31,7 +32,7 @@ public class TestBoard {
 			// add the temporary list to the board
 			grid[i] = temp;
 		}
-		
+
 		// Create adjacency lists
 		for(int i = 0; i < ROWS; i++) {	
 			for(int j = 0; j < COLS; j++) {
@@ -49,24 +50,36 @@ public class TestBoard {
 				}
 			}
 		}
+
+		targets = new HashSet<TestBoardCell>();
+		visited = new HashSet<TestBoardCell>();
 	}
 
 	// recursive function which calculates the possible cells the player can move to
 	public void calcTargets(TestBoardCell startCell, int pathlength) {
+		targets.clear();
+		visited.clear();
+		visited.add(startCell);
+		findAllTargets(startCell, pathlength);
+	}
+
+	private void findAllTargets(TestBoardCell startCell, int pathlength) {
 		for(TestBoardCell adjCell : startCell.getAdjList()) {
-			// if you have already visited the cell, skip
-			if(!visited.contains(adjCell)) {
-				// add the cell to the visited list
-				visited.add(adjCell);
-				// base case: the adjacent cells are the targets
-				if(pathlength == 1) {
-					targets.add(adjCell);
-					// recursive case, the targets are contained by the next cell grouping
-				} else {
-					calcTargets(adjCell, pathlength - 1);
+			if(!adjCell.getOccupied() && !adjCell.isRoom()) {
+				// if you have already visited the cell, skip
+				if(!visited.contains(adjCell)) {
+					// add the cell to the visited list
+					visited.add(adjCell);
+					// base case: the adjacent cells are the targets
+					if(pathlength == 1) {
+						targets.add(adjCell);
+						// recursive case, the targets are contained by the next cell grouping
+					} else {
+						findAllTargets(adjCell, pathlength - 1);
+					}
+					// remove the cell from the visited list
+					visited.remove(adjCell);
 				}
-				// remove the cell from the visited list
-				visited.remove(adjCell);
 			}
 		}
 	}

@@ -11,9 +11,11 @@ public class TestBoardCell {
 	private int row, col;
 	
 	// constructor
-	public TestBoardCell(int row, int column) {
+	public TestBoardCell(int setRow, int setCol) {
 		super();
 		adjList = new HashSet<TestBoardCell>();
+		row = setRow;
+		col = setCol;
 	}
 	
 	// Getter and setter functions
