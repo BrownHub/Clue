@@ -24,10 +24,7 @@ public class FileInitTests {
 		board = Board.getInstance();
 
 		// load ClueLayout.csv
-		board.loadConfigFiles("ClueLayout.csv");
-
-		// load ClueSetup.txt
-		board.loadSetupConfig("ClueSetup.txt");
+		board.setConfigFiles("ClueLayout.csv", "ClueSetup.txt");
 
 		// initialize the board
 		board.initialize();

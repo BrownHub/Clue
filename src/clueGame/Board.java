@@ -12,13 +12,9 @@ public class Board {
 	private Set<BoardCell> targets;
 	private Set<BoardCell> visited;
 	private String layoutConfigFile;
-<<<<<<< HEAD
 	private String setupConfigFile;
-=======
-	private String setuptConfigFile;
->>>>>>> dc48daf38ce1c3845eabcf315f557a6ab11c6471
 	private Map<Character, Room> roomMap;
-	private static Board theInstance;
+	private static Board theInstance = new Board();
 	
 	// Size of the board
 	private int numRows;
@@ -27,7 +23,6 @@ public class Board {
 	// constructor which sets up the board
 	public Board() {
 		super();
-<<<<<<< HEAD
 	}
 	
 	// this method returns the only Board
@@ -35,47 +30,6 @@ public class Board {
 		return theInstance;
 	}
 
-=======
-		/*
-		// Create a temporary array 
-		BoardCell[] temp;
-		grid = new BoardCell[ROWS][COLS];
-		for(int i = 0; i < ROWS; i++) {	
-			// Create a new array in temp, allocate memory
-			temp = new BoardCell[ROWS];
-			for(int j = 0; j < COLS; j++) {
-				// Create a temporary cell, add it to the temporary list
-				BoardCell currCell = new BoardCell(i, j);
-				temp[j] = currCell;
-			}
-			// add the temporary list to the board
-			grid[i] = temp;
-		}
-
-		// Create adjacency lists
-		for(int i = 0; i < ROWS; i++) {	
-			for(int j = 0; j < COLS; j++) {
-				if(i + 1 < ROWS) {
-					grid[i][j].addAdjacency(grid[i + 1][j]);
-				}
-				if(j + 1 < COLS) {
-					grid[i][j].addAdjacency(grid[i][j + 1]);
-				}
-				if(i - 1 >= 0) {
-					grid[i][j].addAdjacency(grid[i - 1][j]);
-				}
-				if(j - 1 >= 0) {
-					grid[i][j].addAdjacency(grid[i][j - 1]);
-				}
-			}
-		}
-
-		targets = new HashSet<BoardCell>();
-		visited = new HashSet<BoardCell>();
-		*/
-	}
-	/*
->>>>>>> dc48daf38ce1c3845eabcf315f557a6ab11c6471
 	// recursive function which calculates the possible cells the player can move to
 	public void calcTargets(BoardCell startCell, int pathlength) {
 		targets.clear();
@@ -104,7 +58,7 @@ public class Board {
 			}
 		}
 	}
-<<<<<<< HEAD
+
 	
 	// initialize the board
 	public void initialize() {
@@ -147,34 +101,17 @@ public class Board {
 		
 	}
 	
-	public void loadConfigFiles(String boardCSV) {
-		
-	}
-	
-	public void loadSetupConfig(String boardSetup) {
-=======
-	*/
-	
-	public void initialize() {
-		
-	}
-	
 	public void loadConfigFiles() {
 		
 	}
 	
 	public void loadSetupConfig() {
->>>>>>> dc48daf38ce1c3845eabcf315f557a6ab11c6471
 		
 	}
-	
-	public void loadLayoutConfig() {
+
+	public void loadLayoutConfig() {	
 		
-<<<<<<< HEAD
-	} 
-=======
 	}
->>>>>>> dc48daf38ce1c3845eabcf315f557a6ab11c6471
 	
 	// getters for targets and cells
 	public Set<BoardCell> getTargets(){
@@ -182,21 +119,19 @@ public class Board {
 	}
 
 	public BoardCell getCell(int row, int col) {
-		return grid[row][col];
+		return new BoardCell(0, 0);
 	}
-<<<<<<< HEAD
 
 	public Room getRoom(BoardCell cell) {
-		return roomMap.get(cell.getInitial());
+		return new Room("Stub", new BoardCell(0,0), new BoardCell(0,0));
 	}
 	
 	public Room getRoom(char c) {
-		return roomMap.get(c);
+		return new Room("Stub", new BoardCell(0,0), new BoardCell(0,0));
 	}
 	
 	public void setConfigFiles(String boardCSV, String boardSetup) {
-		loadConfigFiles(boardCSV);
-		loadSetupConfig(boardSetup);
+		
 	}
 
 	public int getNumRows() {
@@ -206,7 +141,4 @@ public class Board {
 	public int getNumColumns() {
 		return 1;
 	}
-
-=======
->>>>>>> dc48daf38ce1c3845eabcf315f557a6ab11c6471
 }
