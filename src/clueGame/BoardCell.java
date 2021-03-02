@@ -8,9 +8,13 @@ public class BoardCell {
 	private Set<BoardCell> adjList;
 	private boolean isRoom;
 	private boolean isOccupied;
+<<<<<<< HEAD
 	private boolean isDoorway;
 	private int row, col;
 	DoorDirection doorDirection;
+=======
+	private int row, col;
+>>>>>>> dc48daf38ce1c3845eabcf315f557a6ab11c6471
 	private char initial;
 	private boolean roomLabel;
 	private boolean roomCenter;
@@ -48,6 +52,7 @@ public class BoardCell {
 	public boolean getOccupied() {
 		return isOccupied;
 	}
+<<<<<<< HEAD
 	
 	public boolean isDoorway() {
 		return isDoorway;
@@ -72,4 +77,6 @@ public class BoardCell {
 	public DoorDirection getDoorDirection() {
 		return doorDirection;
 	}
+=======
+>>>>>>> dc48daf38ce1c3845eabcf315f557a6ab11c6471
 }
