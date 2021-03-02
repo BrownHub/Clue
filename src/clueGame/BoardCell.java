@@ -8,7 +8,10 @@ public class BoardCell {
 	private Set<BoardCell> adjList;
 	private boolean isRoom;
 	private boolean isOccupied;
+
+	private boolean isDoorway;
 	private int row, col;
+	DoorDirection doorDirection;
 	private char initial;
 	private boolean roomLabel;
 	private boolean roomCenter;
@@ -46,4 +49,30 @@ public class BoardCell {
 	public boolean getOccupied() {
 		return isOccupied;
 	}
+
+	
+	public boolean isDoorway() {
+		return isDoorway;
+	}
+	
+	public char getInitial() {
+		return initial;
+	}
+	
+	public boolean isLabel() {
+		return roomLabel;
+	}
+	
+	public boolean isRoomCenter() {
+		return roomCenter;
+	}
+	
+	public char getSecretPassage() {
+		return '\0';
+	}
+	
+	public DoorDirection getDoorDirection() {
+		return doorDirection;
+	}
+
 }

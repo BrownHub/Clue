@@ -1,0 +1,6 @@
+We wanted to test that all four directions work, thus we tested (4, 17), (0, 6), (0, 11), and (17, 0), which are attached to different rooms.
+We created a constant variable called NUM_DOORS, which contains the number of doors in our board, and used that to compare with the number of doors we determine by the for loop.
+(0, 0) tests a cell that is "Music Store" but is not a center or label cell.
+(19, 9) tests to identify a room center cell
+(29, 0) tests to identify a secret passage cell
+(2, 3) tests to identify an unused space
