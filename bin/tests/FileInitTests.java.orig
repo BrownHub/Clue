@@ -12,8 +12,8 @@ import clueGame.*;
 public class FileInitTests {
 	// used to check if the board was loaded properly
 	public static final int LEGEND_SIZE = 11;
-	public static final int NUM_ROWS = 30;
-	public static final int NUM_COLUMNS = 19;
+	public static final int NUM_ROWS = 29;
+	public static final int NUM_COLUMNS = 18;
 	public static final int NUM_DOORS = 16;
 
 	private static Board board;

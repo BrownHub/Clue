@@ -1,21 +1,25 @@
 package clueGame;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Map;
+import java.util.Scanner;
 import java.util.Set;
 
 public class Board {
 
 	// member variables
 	private BoardCell[][] grid;
+	private ArrayList<String[]> stringGrid = new ArrayList();
 	private Set<BoardCell> targets;
 	private Set<BoardCell> visited;
 	private String layoutConfigFile;
 	private String setupConfigFile;
 	private Map<Character, Room> roomMap;
 	private static Board theInstance = new Board();
-	
+
 	// Size of the board
 	private int numRows;
 	private int numCols;
@@ -24,7 +28,7 @@ public class Board {
 	public Board() {
 		super();
 	}
-	
+
 	// this method returns the only Board
 	public static Board getInstance() {
 		return theInstance;
@@ -59,10 +63,47 @@ public class Board {
 		}
 	}
 
-	
+
 	// initialize the board
 	public void initialize() {
-		
+		try {
+			File layoutConfig = new File(layoutConfigFile);
+			Scanner fin = new Scanner(layoutConfig);
+			String[] temp;
+			while(fin.hasNext()) {
+				temp = fin.nextLine().split(",");
+				stringGrid.add(temp);
+				numCols = temp.length;
+				numRows++;
+			}
+			grid = new BoardCell[numRows][numCols];
+			File setupConfig = new File(setupConfigFile); 
+			fin = new Scanner(setupConfig);
+			BoardCell currCenterCell = null;
+			BoardCell currLabelCell = null;
+			while(fin.hasNext()) {
+				temp = fin.nextLine().split(", ");
+				if(!temp[0].contains("//")) {
+					for(int i = 0; i < numRows; i++) {
+						for(int j = 0; j < numCols; j++) {
+							if(stringGrid.get(i)[j] == temp[2].charAt(0) + "*") {
+								currCenterCell = new BoardCell(i, j);
+							}
+							if(stringGrid.get(i)[j] == temp[2].charAt(0) + "#") {
+								currLabelCell = new BoardCell(i, j);
+							}
+						}
+					}
+					if(temp[0] == "Room") {
+						roomMap.put(temp[2].charAt(0), new Room(temp[1], currCenterCell, currLabelCell));
+					}
+				}
+			}
+			// Room, Canal, C
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+			System.out.println("Could not read file layout");
+		}
 		// Create a temporary array 
 		BoardCell[] temp;
 		grid = new BoardCell[numRows][numCols];
@@ -98,22 +139,29 @@ public class Board {
 
 		targets = new HashSet<BoardCell>();
 		visited = new HashSet<BoardCell>();
-		
+
 	}
-	
+
 	public void loadConfigFiles() {
-		
+
 	}
-	
+
+	// initializes the roomMap according to the setup config
 	public void loadSetupConfig() {
-		
+
 	}
 
 	public void loadLayoutConfig() {	
-		
+
 	}
-	
+
 	// getters for targets and cells
+
+	public void setConfigFiles(String boardCSV, String boardSetup) {
+		layoutConfigFile = "data\\" + boardCSV;
+		setupConfigFile = "data\\" + boardSetup;
+	}
+
 	public Set<BoardCell> getTargets(){
 		return targets;
 	}
@@ -125,20 +173,16 @@ public class Board {
 	public Room getRoom(BoardCell cell) {
 		return new Room("Stub", new BoardCell(0,0), new BoardCell(0,0));
 	}
-	
+
 	public Room getRoom(char c) {
 		return new Room("Stub", new BoardCell(0,0), new BoardCell(0,0));
 	}
-	
-	public void setConfigFiles(String boardCSV, String boardSetup) {
-		
-	}
 
 	public int getNumRows() {
-		return 1;
+		return numRows;
 	}
 
 	public int getNumColumns() {
-		return 1;
+		return numCols;
 	}
 }

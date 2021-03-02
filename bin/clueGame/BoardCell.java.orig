@@ -59,9 +59,6 @@ public class BoardCell {
 		return initial;
 	}
 	
-	public void setInitial(char currInitial) {
-		initial = currInitial;
-	}
 	public boolean isLabel() {
 		return roomLabel;
 	}
