@@ -108,7 +108,7 @@ public class FileInitTests {
 		room = board.getRoom(cell);
 		assertTrue(room != null);
 		assertEquals(room.getName(), "Left Apartments");
-		assertTrue(cell.getSecretPassage() == 'K');
+		assertTrue(cell.getSecretPassage() == 'R');
 		
 		// check if a cell is a walkway
 		cell = board.getCell(4, 0);

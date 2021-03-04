@@ -50,6 +50,9 @@ public class BoardCell {
 		return isOccupied;
 	}
 
+	public void setDoorway(boolean t) {
+		isDoorway = t;
+	}
 	
 	public boolean isDoorway() {
 		return isDoorway;
@@ -62,8 +65,16 @@ public class BoardCell {
 	public void setInitial(char currInitial) {
 		initial = currInitial;
 	}
+	
+	public void setLabel(boolean label) {
+		roomLabel = label;
+	}
 	public boolean isLabel() {
 		return roomLabel;
+	}
+	
+	public void setRoomCenter(boolean center) {
+		roomCenter = center;
 	}
 	
 	public boolean isRoomCenter() {
@@ -71,11 +82,19 @@ public class BoardCell {
 	}
 	
 	public char getSecretPassage() {
-		return '\0';
+		return secretPassage;
+	}
+	
+	public void setDoorDirection(DoorDirection dir) {
+		doorDirection = dir;
 	}
 	
 	public DoorDirection getDoorDirection() {
 		return doorDirection;
+	}
+
+	public void setSecretPassage(char c) {
+		secretPassage = c;
 	}
 
 }

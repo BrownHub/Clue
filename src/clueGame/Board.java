@@ -3,6 +3,7 @@ package clueGame;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Scanner;
@@ -12,13 +13,13 @@ public class Board {
 
 	// member variables
 	private BoardCell[][] grid;
-	private ArrayList<String[]> stringGrid = new ArrayList();
+	private ArrayList<String[]> stringGrid;
 	private Set<BoardCell> targets;
 	private Set<BoardCell> visited;
 	private String layoutConfigFile;
 	private String setupConfigFile;
 	private Map<Character, Room> roomMap;
-	private static Board theInstance = new Board();
+	private static Board theInstance;
 
 	// Size of the board
 	private int numRows;
@@ -31,6 +32,8 @@ public class Board {
 
 	// this method returns the only Board
 	public static Board getInstance() {
+		theInstance = new Board();
+
 		return theInstance;
 	}
 
@@ -67,52 +70,76 @@ public class Board {
 	// initialize the board
 	public void initialize() {
 		try {
-			File layoutConfig = new File(layoutConfigFile);
-			Scanner fin = new Scanner(layoutConfig);
-			String[] temp;
-			while(fin.hasNext()) {
-				temp = fin.nextLine().split(",");
-				stringGrid.add(temp);
-				numCols = temp.length;
-				numRows++;
-			}
-			grid = new BoardCell[numRows][numCols];
-			File setupConfig = new File(setupConfigFile); 
-			fin = new Scanner(setupConfig);
-			BoardCell currCenterCell = null;
-			BoardCell currLabelCell = null;
-			while(fin.hasNext()) {
-				temp = fin.nextLine().split(", ");
-				if(!temp[0].contains("//")) {
-					for(int i = 0; i < numRows; i++) {
-						for(int j = 0; j < numCols; j++) {
-							if(stringGrid.get(i)[j] == temp[2].charAt(0) + "*") {
-								currCenterCell = new BoardCell(i, j);
-							}
-							if(stringGrid.get(i)[j] == temp[2].charAt(0) + "#") {
-								currLabelCell = new BoardCell(i, j);
-							}
-						}
-					}
-					if(temp[0] == "Room") {
-						roomMap.put(temp[2].charAt(0), new Room(temp[1], currCenterCell, currLabelCell));
-					}
-				}
-			}
-			// Room, Canal, C
+			loadSetupConfig();
+			loadLayoutConfig();
 		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
-			System.out.println("Could not read file layout");
+		} catch (BadConfigFormatException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
+
 		// Create a temporary array 
 		BoardCell[] temp;
 		grid = new BoardCell[numRows][numCols];
-		for(int i = 0; i < numRows; i++) {	
+		for(int i = 0; i < numRows; i++) {
 			// Create a new array in temp, allocate memory
 			temp = new BoardCell[numRows];
 			for(int j = 0; j < numCols; j++) {
 				// Create a temporary cell, add it to the temporary list
+				// member variables
 				BoardCell currCell = new BoardCell(i, j);
+				currCell.setInitial(stringGrid.get(i)[j].charAt(0));
+				// isRoom
+				if(roomMap.containsKey(stringGrid.get(i)[j].charAt(0)) && stringGrid.get(i)[j].charAt(0) != 'X' && stringGrid.get(i)[j].charAt(0) != 'W') {
+					currCell.setRoom(true);
+				} else {
+					currCell.setRoom(false);
+				}
+
+				if(stringGrid.get(i)[j].contains("v")) {
+					currCell.setDoorway(true);
+					currCell.setDoorDirection(DoorDirection.DOWN);
+
+				} else if(stringGrid.get(i)[j].contains("<")) {
+					currCell.setDoorway(true);
+					currCell.setDoorDirection(DoorDirection.LEFT);
+
+				} else if(stringGrid.get(i)[j].contains(">")) {
+					currCell.setDoorway(true);
+					currCell.setDoorDirection(DoorDirection.RIGHT);
+
+				} else if(stringGrid.get(i)[j].contains("^")) {
+					currCell.setDoorway(true);
+					currCell.setDoorDirection(DoorDirection.UP);
+
+				} else {
+					currCell.setDoorway(false);
+					currCell.setDoorDirection(DoorDirection.NONE);
+				}
+
+				if(stringGrid.get(i)[j].contains("#")) {
+					currCell.setLabel(true);
+					roomMap.get(stringGrid.get(i)[j].charAt(0)).setLabelCell(currCell);
+				} else {
+					currCell.setLabel(false);
+				}
+				if(stringGrid.get(i)[j].length() > 1) {
+					if(!stringGrid.get(i)[j].contains("#") && 
+							!stringGrid.get(i)[j].contains("*") && 
+							!stringGrid.get(i)[j].contains("v") && 
+							!stringGrid.get(i)[j].contains("<") && 
+							!stringGrid.get(i)[j].contains(">") && 
+							!stringGrid.get(i)[j].contains("^"))
+						currCell.setSecretPassage(stringGrid.get(i)[j].charAt(1));
+				}
+				if(stringGrid.get(i)[j].contains("*")) {
+					currCell.setRoomCenter(true);
+					roomMap.get(stringGrid.get(i)[j].charAt(0)).setCenterCell(currCell);
+				} else {
+					currCell.setRoomCenter(false);
+				}
 				temp[j] = currCell;
 			}
 			// add the temporary list to the board
@@ -142,16 +169,54 @@ public class Board {
 
 	}
 
-	public void loadConfigFiles() {
-
-	}
-
 	// initializes the roomMap according to the setup config
-	public void loadSetupConfig() {
-
+	public void loadSetupConfig() throws BadConfigFormatException, FileNotFoundException {
+		roomMap = new HashMap();
+		File setupConfig = new File(setupConfigFile); 
+		Scanner fin = new Scanner(setupConfig);
+		String[] temp;
+		while(fin.hasNext()) {
+			temp = fin.nextLine().split(", ");
+			if(!temp[0].contains("//")) {
+				// Test that an exception is thrown for a config file with a room type
+				// that is not Card or Other
+				if(!temp[0].contains("Room") && !temp[0].contains("Space")) {
+					throw new BadConfigFormatException();
+				}
+				roomMap.put(temp[2].charAt(0), new Room(temp[1]));
+			}
+		}
 	}
+	// Test that an exception is thrown for a config file that does not
+	// have the same number of columns for each row
 
-	public void loadLayoutConfig() {	
+	public void loadLayoutConfig() throws BadConfigFormatException, FileNotFoundException {	
+		stringGrid = new ArrayList();
+		File layoutConfig = new File(layoutConfigFile);
+		Scanner fin = new Scanner(layoutConfig);
+		String[] temp;
+		int prev = 0;
+		while(fin.hasNext()) {
+			temp = fin.nextLine().split(",");
+			stringGrid.add(temp);
+			prev = numCols;
+			numCols = temp.length;
+			if(numCols != prev && numRows > 0) {
+				throw new BadConfigFormatException();
+			}
+			numRows++;
+		}
+		
+		for(int i = 0; i < numRows; i++) {
+			// Test that an exception is thrown for a config file that specifies
+			// a room that is not in the legend. See first test for other important
+			// comments.
+			for(int j = 0; j < numCols; j++) {
+				if(!roomMap.containsKey(stringGrid.get(i)[j].charAt(0))) {
+					throw new BadConfigFormatException();
+				}
+			}
+		}
 
 	}
 
@@ -167,15 +232,15 @@ public class Board {
 	}
 
 	public BoardCell getCell(int row, int col) {
-		return new BoardCell(0, 0);
+		return grid[row][col];
 	}
 
 	public Room getRoom(BoardCell cell) {
-		return new Room("Stub", new BoardCell(0,0), new BoardCell(0,0));
+		return roomMap.get(cell.getInitial());
 	}
 
 	public Room getRoom(char c) {
-		return new Room("Stub", new BoardCell(0,0), new BoardCell(0,0));
+		return roomMap.get(c);
 	}
 
 	public int getNumRows() {

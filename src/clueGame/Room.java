@@ -7,6 +7,10 @@ public class Room {
 	private BoardCell labelCell;
 	
 	// constructor
+	public Room(String aName) {
+		super();
+		setName(aName);
+	}
 	public Room(String aName, BoardCell center, BoardCell label) {
 		super();
 		setName(aName);
