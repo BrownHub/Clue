@@ -125,6 +125,7 @@ public class Board {
 				} else {
 					currCell.setLabel(false);
 				}
+				
 				if(stringGrid.get(i)[j].length() > 1) {
 					if(!stringGrid.get(i)[j].contains("#") && 
 							!stringGrid.get(i)[j].contains("*") && 
@@ -140,6 +141,7 @@ public class Board {
 				} else {
 					currCell.setRoomCenter(false);
 				}
+				
 				temp[j] = currCell;
 			}
 			// add the temporary list to the board
@@ -217,7 +219,6 @@ public class Board {
 				}
 			}
 		}
-
 	}
 
 	// getters for targets and cells
@@ -249,5 +250,9 @@ public class Board {
 
 	public int getNumColumns() {
 		return numCols;
+	}
+
+	public Set<BoardCell> getAdjList(int i, int j) {
+		return getCell(i, j).getAdjList();
 	}
 }
