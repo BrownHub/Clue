@@ -20,7 +20,7 @@ public class BoardAdjTargetTests {
 		// Create board
 		board = Board.getInstance();
 		// set the file names
-		board.setConfigFiles("ClueLayout306.csv", "ClueSetup306.txt");		
+		board.setConfigFiles("ClueLayout.csv", "ClueSetup.txt");		
 		// Initialize 
 		board.initialize();
 	}
@@ -29,7 +29,6 @@ public class BoardAdjTargetTests {
 	// These cells are Teal on the planning spreadsheet
 	@Test
 	public void testAdjacenciesRooms() {
-<<<<<<< HEAD
 		
 		// Walkways with 4 adjacency rooms
 		Set<BoardCell> adjList= board.getAdjList(8, 1);
@@ -47,10 +46,6 @@ public class BoardAdjTargetTests {
 		
 		//Doorways access room centers
 		adjList= board.getAdjList(4, 1);
-=======
-		//Doorways access room centers
-		Set<BoardCell> adjList= board.getAdjList(4, 1);
->>>>>>> e6590091a3bf6beceac1b72a2433c5526a4affb6
 		assertEquals(4, adjList.size());
 		assertTrue(adjList.contains(board.getCell(4, 0)));
 		assertTrue(adjList.contains(board.getCell(2, 1)));
@@ -70,7 +65,6 @@ public class BoardAdjTargetTests {
 		//Room cells aren't added
 		adjList = board.getAdjList(10, 15);
 		assertEquals(2, adjList.size());
-<<<<<<< HEAD
 		
 		// Rooms that are not centers should not have adjacent locations
 		adjList = board.getAdjList(13, 5);
@@ -82,19 +76,11 @@ public class BoardAdjTargetTests {
 	@Test
 	public void testTargets() {
 		// test that targets are collected properly - walkways
-=======
-	}
-	
-	
-	@Test
-	public void testTargets() {
->>>>>>> e6590091a3bf6beceac1b72a2433c5526a4affb6
 		board.calcTargets(board.getCell(11, 1), 2);
 		Set<BoardCell> targetList= board.getTargets();
 		assertEquals(7, targetList.size());
 		assertTrue(targetList.contains(board.getCell(10, 0)));
 		assertTrue(targetList.contains(board.getCell(11, 3)));
-<<<<<<< HEAD
 		
 		// Leaving a room(without secret passage)
 		board.calcTargets(board.getCell(28, 9), 3);
@@ -140,7 +126,5 @@ public class BoardAdjTargetTests {
 		targetList = board.getTargets();
 		assertEquals(0, targetList.size());
 		
-=======
->>>>>>> e6590091a3bf6beceac1b72a2433c5526a4affb6
 	}
 }

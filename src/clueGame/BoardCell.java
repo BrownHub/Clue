@@ -15,7 +15,7 @@ public class BoardCell {
 	private char initial;
 	private boolean roomLabel;
 	private boolean roomCenter;
-	private char secretPassage;
+	private char secretPassage = '\0';
 	
 	// constructor
 	public BoardCell(int setRow, int setCol) {

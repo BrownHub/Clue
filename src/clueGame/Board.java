@@ -125,43 +125,82 @@ public class Board {
 				} else {
 					currCell.setLabel(false);
 				}
-				
-				if(stringGrid.get(i)[j].length() > 1) {
-					if(!stringGrid.get(i)[j].contains("#") && 
-							!stringGrid.get(i)[j].contains("*") && 
-							!stringGrid.get(i)[j].contains("v") && 
-							!stringGrid.get(i)[j].contains("<") && 
-							!stringGrid.get(i)[j].contains(">") && 
-							!stringGrid.get(i)[j].contains("^"))
-						currCell.setSecretPassage(stringGrid.get(i)[j].charAt(1));
-				}
+
 				if(stringGrid.get(i)[j].contains("*")) {
 					currCell.setRoomCenter(true);
 					roomMap.get(stringGrid.get(i)[j].charAt(0)).setCenterCell(currCell);
 				} else {
 					currCell.setRoomCenter(false);
 				}
-				
+
+				if(stringGrid.get(i)[j].length() > 1) {
+					if(!stringGrid.get(i)[j].contains("#") && 
+							!stringGrid.get(i)[j].contains("*") && 
+							!stringGrid.get(i)[j].contains("v") && 
+							!stringGrid.get(i)[j].contains("<") && 
+							!stringGrid.get(i)[j].contains(">") && 
+							!stringGrid.get(i)[j].contains("^")) {
+						currCell.setSecretPassage(stringGrid.get(i)[j].charAt(1));
+					}
+				}
 				temp[j] = currCell;
 			}
-			// add the temporary list to the board
 			grid[i] = temp;
 		}
 
 		// Create adjacency lists
-		for(int i = 0; i < numRows; i++) {	
+		for(int i = 0; i < numRows; i++) {
 			for(int j = 0; j < numCols; j++) {
-				if(i + 1 < numRows) {
-					grid[i][j].addAdj(grid[i + 1][j]);
-				}
-				if(j + 1 < numCols) {
-					grid[i][j].addAdj(grid[i][j + 1]);
-				}
-				if(i - 1 >= 0) {
-					grid[i][j].addAdj(grid[i - 1][j]);
-				}
-				if(j - 1 >= 0) {
-					grid[i][j].addAdj(grid[i][j - 1]);
+				if(grid[i][j].getInitial() == 'W') {
+					if(grid[i][j].isDoorway()) {
+						if(i + 1 < numRows) {
+							if(grid[i][j].getDoorDirection() == DoorDirection.DOWN) {
+								grid[i][j].addAdj(roomMap.get(grid[i + 1][j].getInitial()).getCenterCell());
+								roomMap.get(grid[i + 1][j].getInitial()).getCenterCell().addAdj(grid[i][j]);
+							} else if(grid[i + 1][j].getInitial() == 'W') {
+								grid[i][j].addAdj(grid[i + 1][j]);
+							}
+						}
+						if(j + 1 < numCols) {
+							if(grid[i][j].getDoorDirection() == DoorDirection.RIGHT) {
+								grid[i][j].addAdj(roomMap.get(grid[i][j + 1].getInitial()).getCenterCell());
+								roomMap.get(grid[i][j + 1].getInitial()).getCenterCell().addAdj(grid[i][j]);
+							} else if(grid[i][j + 1].getInitial() == 'W') {
+								grid[i][j].addAdj(grid[i][j + 1]);
+							}
+						}
+						if(i - 1 >= 0) {
+							if(grid[i][j].getDoorDirection() == DoorDirection.UP) {
+								grid[i][j].addAdj(roomMap.get(grid[i - 1][j].getInitial()).getCenterCell());
+								roomMap.get(grid[i - 1][j].getInitial()).getCenterCell().addAdj(grid[i][j]);
+							} else if(grid[i - 1][j].getInitial() == 'W') {
+								grid[i][j].addAdj(grid[i - 1][j]);
+							}
+						}
+						if(j - 1 >= 0) {
+							if(grid[i][j].getDoorDirection() == DoorDirection.LEFT) {
+								grid[i][j].addAdj(roomMap.get(grid[i][j - 1].getInitial()).getCenterCell());
+								roomMap.get(grid[i][j - 1].getInitial()).getCenterCell().addAdj(grid[i][j]);
+							} else if(grid[i][j - 1].getInitial() == 'W') {
+								grid[i][j].addAdj(grid[i][j - 1]);
+							}
+						}
+					} else {
+						if(i + 1 < numRows && grid[i + 1][j].getInitial() == 'W') {
+							grid[i][j].addAdj(grid[i + 1][j]);
+						}
+						if(j + 1 < numCols && grid[i][j + 1].getInitial() == 'W') {
+							grid[i][j].addAdj(grid[i][j + 1]);
+						}
+						if(i - 1 >= 0 && grid[i - 1][j].getInitial() == 'W') {
+							grid[i][j].addAdj(grid[i - 1][j]);
+						}
+						if(j - 1 >= 0 && grid[i][j - 1].getInitial() == 'W') {
+							grid[i][j].addAdj(grid[i][j - 1]);
+						}
+					}
+				} else if(grid[i][j].getSecretPassage() != '\0') {
+					roomMap.get(grid[i][j].getInitial()).getCenterCell().addAdj(roomMap.get(grid[i][j].getSecretPassage()).getCenterCell());
 				}
 			}
 		}
@@ -208,7 +247,7 @@ public class Board {
 			}
 			numRows++;
 		}
-		
+
 		for(int i = 0; i < numRows; i++) {
 			// Test that an exception is thrown for a config file that specifies
 			// a room that is not in the legend. See first test for other important
