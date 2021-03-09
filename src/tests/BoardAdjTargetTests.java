@@ -92,6 +92,7 @@ public class BoardAdjTargetTests {
 		// Leaving a room(with secret passage)
 		board.calcTargets(board.getCell(19, 9), 2);
 		targetList = board.getTargets();
+		System.out.println(targetList);
 		assertEquals(6, targetList.size());
 		assertTrue(targetList.contains(board.getCell(16, 9)));
 		assertTrue(targetList.contains(board.getCell(23, 9)));

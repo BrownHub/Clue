@@ -44,8 +44,9 @@ public class Board {
 		visited.add(startCell);
 		findAllTargets(startCell, pathlength);
 	}
-
-	private void findAllTargets(BoardCell startCell, int pathlength) {
+	
+	// recursive function called in calcTargets which determines targets
+	private void findAllTargets(BoardCell startCell, int pathlength) {		
 		for(BoardCell adjCell : startCell.getAdjList()) {
 			if(!adjCell.getOccupied() && !adjCell.isRoom()) {
 				// if you have already visited the cell, skip
@@ -62,6 +63,10 @@ public class Board {
 					// remove the cell from the visited list
 					visited.remove(adjCell);
 				}
+			}
+			// add room center if moving into a room
+			if(adjCell.isRoomCenter() && !visited.contains(adjCell)) {
+				targets.add(adjCell);
 			}
 		}
 	}

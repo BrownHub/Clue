@@ -21,8 +21,8 @@ public class BoardCell {
 	public BoardCell(int setRow, int setCol) {
 		super();
 		adjList = new HashSet<BoardCell>();
-		row = setRow;
-		col = setCol;
+		setRow(setRow);
+		setCol(setCol);
 	}
 	
 	// Getter and setter functions
@@ -95,6 +95,22 @@ public class BoardCell {
 
 	public void setSecretPassage(char c) {
 		secretPassage = c;
+	}
+
+	public int getRow() {
+		return row;
+	}
+
+	public void setRow(int newRow) {
+		row = newRow;
+	}
+
+	public int getCol() {
+		return col;
+	}
+
+	public void setCol(int newCol) {
+		col = newCol;
 	}
 
 }
