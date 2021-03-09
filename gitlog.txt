@@ -1,3 +1,15 @@
+commit cc2c335c14f6949e1920bb514bddb035e68b4ad1
+Author: Kendall Brown <kendallcraigbrown@mymail.mines.edu>
+Date:   Mon Mar 8 19:15:55 2021 -0700
+
+    Tweaked 'findAllTargets' in 'Board' to satisfy targets tests
+
+commit 2f4853c59b857d4f22bf5244127ed5b6c03fcf66
+Author: clayne <carson.layne@me.com>
+Date:   Sat Mar 6 17:00:52 2021 -0700
+
+    Ensured Adjacency Tests pass
+
 commit a183badae642e1f1664edda8838d898cc4ec7e48
 Merge: 3b33028 e659009
 Author: clayne <carson.layne@me.com>
