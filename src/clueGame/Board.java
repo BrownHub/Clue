@@ -218,7 +218,9 @@ public class Board {
 						}
 					}
 				} else if(current_cell.getSecretPassage() != '\0') {
-					roomMap.get(current_cell.getInitial()).getCenterCell().addAdj(roomMap.get(current_cell.getSecretPassage()).getCenterCell());
+					BoardCell secretPassageExit = roomMap.get(current_cell.getSecretPassage()).getCenterCell();
+					BoardCell currentRoomCenter = roomMap.get(current_cell.getInitial()).getCenterCell();
+					currentRoomCenter.addAdj(secretPassageExit);
 				}
 			}
 		}
