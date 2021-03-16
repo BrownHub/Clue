@@ -44,7 +44,7 @@ public class Board {
 		visited.add(startCell);
 		findAllTargets(startCell, pathlength);
 	}
-	
+
 	// recursive function called in calcTargets which determines targets
 	private void findAllTargets(BoardCell startCell, int pathlength) {		
 		for(BoardCell adjCell : startCell.getAdjList()) {
@@ -103,50 +103,59 @@ public class Board {
 					currCell.setRoom(false);
 				}
 
-				if(stringGrid.get(i)[j].contains("v")) {
-					currCell.setDoorway(true);
-					currCell.setDoorDirection(DoorDirection.DOWN);
-
-				} else if(stringGrid.get(i)[j].contains("<")) {
-					currCell.setDoorway(true);
-					currCell.setDoorDirection(DoorDirection.LEFT);
-
-				} else if(stringGrid.get(i)[j].contains(">")) {
-					currCell.setDoorway(true);
-					currCell.setDoorDirection(DoorDirection.RIGHT);
-
-				} else if(stringGrid.get(i)[j].contains("^")) {
-					currCell.setDoorway(true);
-					currCell.setDoorDirection(DoorDirection.UP);
-
+				if(stringGrid.size() > 1) { 
+					switch (stringGrid.get(i)[j].charAt(1)) {
+					case 'v':
+						currCell.setDoorway(true);
+						currCell.setDoorDirection(DoorDirection.DOWN);
+						currCell.setLabel(false);
+						currCell.setRoomCenter(false);
+						break;
+					case '<':
+						currCell.setDoorway(true);
+						currCell.setDoorDirection(DoorDirection.LEFT);
+						currCell.setLabel(false);
+						currCell.setRoomCenter(false);
+						break;
+					case '>':
+						currCell.setDoorway(true);
+						currCell.setDoorDirection(DoorDirection.RIGHT);
+						currCell.setLabel(false);
+						currCell.setRoomCenter(false);
+						break;
+					case '^':
+						currCell.setDoorway(true);
+						currCell.setDoorDirection(DoorDirection.UP);
+						currCell.setLabel(false);
+						currCell.setRoomCenter(false);
+						break;
+					case '#':
+						currCell.setDoorway(false);
+						currCell.setDoorDirection(DoorDirection.NONE);
+						currCell.setLabel(true);
+						roomMap.get(stringGrid.get(i)[j].charAt(0)).setLabelCell(currCell);
+						currCell.setRoomCenter(false);
+						break;
+					case '*':
+						currCell.setDoorway(false);
+						currCell.setDoorDirection(DoorDirection.NONE);
+						currCell.setLabel(false);
+						currCell.setRoomCenter(true);
+						roomMap.get(stringGrid.get(i)[j].charAt(0)).setCenterCell(currCell);
+						break;
+					default:
+						currCell.setDoorway(false);
+						currCell.setDoorDirection(DoorDirection.NONE);
+						currCell.setLabel(false);
+						currCell.setRoomCenter(false);
+						currCell.setSecretPassage(stringGrid.get(i)[j].charAt(1));
+						break;
+					}
 				} else {
 					currCell.setDoorway(false);
 					currCell.setDoorDirection(DoorDirection.NONE);
-				}
-
-				if(stringGrid.get(i)[j].contains("#")) {
-					currCell.setLabel(true);
-					roomMap.get(stringGrid.get(i)[j].charAt(0)).setLabelCell(currCell);
-				} else {
 					currCell.setLabel(false);
-				}
-
-				if(stringGrid.get(i)[j].contains("*")) {
-					currCell.setRoomCenter(true);
-					roomMap.get(stringGrid.get(i)[j].charAt(0)).setCenterCell(currCell);
-				} else {
 					currCell.setRoomCenter(false);
-				}
-
-				if(stringGrid.get(i)[j].length() > 1) {
-					if(!stringGrid.get(i)[j].contains("#") && 
-							!stringGrid.get(i)[j].contains("*") && 
-							!stringGrid.get(i)[j].contains("v") && 
-							!stringGrid.get(i)[j].contains("<") && 
-							!stringGrid.get(i)[j].contains(">") && 
-							!stringGrid.get(i)[j].contains("^")) {
-						currCell.setSecretPassage(stringGrid.get(i)[j].charAt(1));
-					}
 				}
 				temp[j] = currCell;
 			}
