@@ -69,7 +69,7 @@ public class Board {
 	}
 	
 
-	// initialize the board
+	// load files to create board and adjacency lists
 	public void initialize() {
 		try {
 			loadSetupConfig();
@@ -87,6 +87,7 @@ public class Board {
 
 	}
 
+	//Uses a string grid to create cells and add them to the game board
 	private void createGrid() {
 		// Create a temporary array 
 		BoardCell[] temp;
@@ -95,12 +96,12 @@ public class Board {
 			// Create a new array in temp, allocate memory
 			temp = new BoardCell[numRows];
 			for(int j = 0; j < numCols; j++) {
-				// Create a temporary cell, add it to the temporary list
+				// Create a temporary cell, set its attributes, and add it to the temporary list
 				BoardCell currCell = new BoardCell(i, j);
 				String currCellInfo = stringGrid.get(i)[j];
 				currCell.setInitial(currCellInfo.charAt(0));
 				currCell.setRoom(roomMap.containsKey(currCell.getInitial()) && currCell.getInitial() != 'X' && currCell.getInitial() != 'W');
-				if(stringGrid.size() > 1) { 
+				if(currCellInfo.length() > 1) { 
 					switch (currCellInfo.charAt(1)) {
 					case 'v':
 						currCell.setDoorway(true);
@@ -160,24 +161,15 @@ public class Board {
 		}
 	}
 	
+	//Adds valid cells to current cell's adjacency list
 	private void createAdjacencyList() {
-		// Create adjacency lists
 		for(int i = 0; i < numRows; i++) {
 			for(int j = 0; j < numCols; j++) {
 				BoardCell currentCell = grid[i][j];
+				//Checks if cells are valid before adding to adjacency list
 				if(currentCell.getInitial() == 'W') {
-					BoardCell belowCell = grid[i + 1][j];
-					BoardCell rightCell = grid[i][j + 1];
-					BoardCell aboveCell = grid[i - 1][j];
-					BoardCell leftCell = grid[i][j - 1];
-					if(currentCell.isDoorway()) {
-						downDoorAdjacency(i, currentCell, belowCell);
-						rightDoorAdjacency(j, currentCell, rightCell);
-						aboveDoorAdjacency(i, currentCell, aboveCell);
-						leftDoorAdjacency(j, currentCell, leftCell);
-					} else {
-						addAdjacentCells(i, j, currentCell, belowCell, rightCell, aboveCell, leftCell);
-					}
+					addAdjacentCells(i, j, currentCell);
+					
 				} else if(currentCell.getSecretPassage() != '\0') {
 					BoardCell secretPassageExit = roomMap.get(currentCell.getSecretPassage()).getCenterCell();
 					BoardCell currentRoomCenter = roomMap.get(currentCell.getInitial()).getCenterCell();
@@ -187,67 +179,65 @@ public class Board {
 		}
 	}
 
-	private void addAdjacentCells(int i, int j, BoardCell currentCell, BoardCell belowCell, BoardCell rightCell,
-			BoardCell aboveCell, BoardCell leftCell) {
-		if(i + 1 < numRows && belowCell.getInitial() == 'W') {
-			currentCell.addAdj(belowCell);
+	//Adds center cell of room and surrounding walkways to adjacency list if cell is a door
+	private void addAdjacentCells(int i, int j, BoardCell currentCell) {
+		if(i + 1 < numRows) {
+			downAdjacency(i, currentCell, grid[i + 1][j]);
 		}
-		if(j + 1 < numCols && rightCell.getInitial() == 'W') {
-			currentCell.addAdj(rightCell);
+		if(j + 1 < numCols) {
+			rightAdjacency(j, currentCell, grid[i][j + 1]);
 		}
-		if(i - 1 >= 0 && aboveCell.getInitial() == 'W') {
-			currentCell.addAdj(aboveCell);
+		if(i - 1 >= 0) {
+			aboveAdjacency(i, currentCell, grid[i - 1][j]);
 		}
-		if(j - 1 >= 0 && leftCell.getInitial() == 'W') {
+		if(j - 1 >= 0) {
+			leftAdjacency(j, currentCell, grid[i][j - 1]);
+		}
+	}
+
+	//For doorway pointing left, adds center cell of room. Otherwise, adds walkway to left.
+	private void leftAdjacency(int j, BoardCell currentCell, BoardCell leftCell) {
+		if(currentCell.isDoorDirection(DoorDirection.LEFT)) {
+			BoardCell centerCell = roomMap.get(leftCell.getInitial()).getCenterCell();
+			currentCell.addAdj(centerCell);
+			centerCell.addAdj(currentCell);
+		} else if(leftCell.getInitial() == 'W') {
 			currentCell.addAdj(leftCell);
 		}
+
 	}
 
-	private void leftDoorAdjacency(int j, BoardCell currentCell, BoardCell leftCell) {
-		if(j - 1 >= 0) {
-			if(currentCell.isDoorDirection(DoorDirection.LEFT)) {
-				BoardCell centerCell = roomMap.get(leftCell.getInitial()).getCenterCell();
-				currentCell.addAdj(centerCell);
-				centerCell.addAdj(currentCell);
-			} else if(leftCell.getInitial() == 'W') {
-				currentCell.addAdj(leftCell);
-			}
+	//For doorway pointing up, adds center cell of room. Otherwise, adds walkway above.
+	private void aboveAdjacency(int i, BoardCell currentCell, BoardCell aboveCell) {
+		if(currentCell.isDoorDirection(DoorDirection.UP)) {
+			BoardCell centerCell = roomMap.get(aboveCell.getInitial()).getCenterCell();
+			currentCell.addAdj(centerCell);
+			centerCell.addAdj(currentCell);
+		} else if(aboveCell.getInitial() == 'W') {
+			currentCell.addAdj(aboveCell);
+		}
+
+	}
+
+	//For doorway pointing right, adds center cell of room. Otherwise, adds walkway to right.
+	private void rightAdjacency(int j, BoardCell currentCell, BoardCell rightCell) {
+		if(currentCell.isDoorDirection(DoorDirection.RIGHT)) {
+			BoardCell centerCell = roomMap.get(rightCell.getInitial()).getCenterCell();
+			currentCell.addAdj(centerCell);
+			centerCell.addAdj(currentCell);
+		} else if(rightCell.getInitial() == 'W') {
+			currentCell.addAdj(rightCell);
 		}
 	}
 
-	private void aboveDoorAdjacency(int i, BoardCell currentCell, BoardCell aboveCell) {
-		if(i - 1 >= 0) {
-			if(currentCell.isDoorDirection(DoorDirection.UP)) {
-				BoardCell centerCell = roomMap.get(aboveCell.getInitial()).getCenterCell();
-				currentCell.addAdj(centerCell);
-				centerCell.addAdj(currentCell);
-			} else if(aboveCell.getInitial() == 'W') {
-				currentCell.addAdj(aboveCell);
-			}
-		}
-	}
-
-	private void rightDoorAdjacency(int j, BoardCell currentCell, BoardCell rightCell) {
-		if(j + 1 < numCols) {
-			if(currentCell.isDoorDirection(DoorDirection.RIGHT)) {
-				BoardCell centerCell = roomMap.get(rightCell.getInitial()).getCenterCell();
-				currentCell.addAdj(centerCell);
-				centerCell.addAdj(currentCell);
-			} else if(rightCell.getInitial() == 'W') {
-				currentCell.addAdj(rightCell);
-			}
-		}
-	}
-
-	private void downDoorAdjacency(int i, BoardCell currentCell, BoardCell belowCell) {
-		if(i + 1 < numRows) {
-			if(currentCell.isDoorDirection(DoorDirection.DOWN)) {
-				BoardCell centerCell = roomMap.get(belowCell.getInitial()).getCenterCell();
-				currentCell.addAdj(centerCell);
-				centerCell.addAdj(currentCell);
-			} else if(belowCell.getInitial() == 'W') {
-				currentCell.addAdj(belowCell);
-			}
+	//For doorway pointing down, adds center cell of room. Otherwise, adds walkway below.
+	private void downAdjacency(int i, BoardCell currentCell, BoardCell belowCell) {
+		if(currentCell.isDoorDirection(DoorDirection.DOWN)) {
+			BoardCell centerCell = roomMap.get(belowCell.getInitial()).getCenterCell();
+			currentCell.addAdj(centerCell);
+			centerCell.addAdj(currentCell);
+		} else if(belowCell.getInitial() == 'W') {
+			currentCell.addAdj(belowCell);
 		}
 	}
 	// initializes the roomMap according to the setup config
@@ -268,15 +258,17 @@ public class Board {
 			}
 		}
 	}
+	
 	// Test that an exception is thrown for a config file that does not
 	// have the same number of columns for each row
-
 	public void loadLayoutConfig() throws BadConfigFormatException, FileNotFoundException {	
 		stringGrid = new ArrayList<>();
 		File layoutConfig = new File(layoutConfigFile);
 		Scanner fin = new Scanner(layoutConfig);
 		String[] temp;
 		int prev = 0;
+		//Splits each line by commas and adds each cell to string grid
+		//Counts rows and columns of input
 		while(fin.hasNext()) {
 			temp = fin.nextLine().split(",");
 			stringGrid.add(temp);
@@ -288,10 +280,10 @@ public class Board {
 			numRows++;
 		}
 
+		// Test that an exception is thrown for a config file that specifies
+		// a room that is not in the legend. See first test for other important
+		// comments.
 		for(int i = 0; i < numRows; i++) {
-			// Test that an exception is thrown for a config file that specifies
-			// a room that is not in the legend. See first test for other important
-			// comments.
 			for(int j = 0; j < numCols; j++) {
 				if(!roomMap.containsKey(stringGrid.get(i)[j].charAt(0))) {
 					throw new BadConfigFormatException();
@@ -301,7 +293,6 @@ public class Board {
 	}
 
 	// getters for targets and cells
-
 	public void setConfigFiles(String boardCSV, String boardSetup) {
 		layoutConfigFile = "data\\" + boardCSV;
 		setupConfigFile = "data\\" + boardSetup;
