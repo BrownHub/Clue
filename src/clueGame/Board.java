@@ -48,19 +48,17 @@ public class Board {
 	// recursive function called in calcTargets which determines targets
 	private void findAllTargets(BoardCell startCell, int pathlength) {		
 		for(BoardCell adjCell : startCell.getAdjList()) {
+			// add if its not occupied, is not a room, and is not already visited
 			if(!adjCell.getOccupied() && !adjCell.isRoom() && !visited.contains(adjCell)) {
-				// add the cell to the visited list
 				visited.add(adjCell);
-				// base case: the adjacent cells are the targets
-				if(pathlength == 1) {
+				if(pathlength == 1) {	// base case: the adjacent cells are the targets
 					targets.add(adjCell);
-					// recursive case, the targets are contained by the next cell grouping
-				} else {
+				} else {				// recursive case, the targets are contained by the next cell grouping
 					findAllTargets(adjCell, pathlength - 1);
 				}
-				// remove the cell from the visited list
 				visited.remove(adjCell);
 			}
+			
 			// add room center if moving into a room
 			if(adjCell.isRoomCenter() && !visited.contains(adjCell)) {
 				targets.add(adjCell);
@@ -71,7 +69,7 @@ public class Board {
 
 	// load files to create board and adjacency lists
 	public void initialize() {
-		try {
+		try {		// try/catch for FileNotFound and BadConfigFormat Exceptions 
 			loadSetupConfig();
 			loadLayoutConfig();
 		} catch (BadConfigFormatException | FileNotFoundException e) {
@@ -89,12 +87,10 @@ public class Board {
 
 	//Uses a string grid to create cells and add them to the game board
 	private void createGrid() {
-		// Create a temporary array 
-		BoardCell[] temp;
-		grid = new BoardCell[numRows][numCols];
+		BoardCell[] temp;	// temporary array will be added to the grid each iteration
+		grid = new BoardCell[numRows][numCols];		// allocate memory for the grid
 		for(int i = 0; i < numRows; i++) {
-			// Create a new array in temp, allocate memory
-			temp = new BoardCell[numRows];
+			temp = new BoardCell[numRows];		// allocate memory for the temporary array
 			for(int j = 0; j < numCols; j++) {
 				// Create a temporary cell, set its attributes, and add it to the temporary list
 				BoardCell currCell = new BoardCell(i, j);
@@ -103,45 +99,45 @@ public class Board {
 				currCell.setRoom(roomMap.containsKey(currCell.getInitial()) && currCell.getInitial() != 'X' && currCell.getInitial() != 'W');
 				if(currCellInfo.length() > 1) { 
 					switch (currCellInfo.charAt(1)) {
-					case 'v':
+					case 'v':	// attributes of a doorway pointing down
 						currCell.setDoorway(true);
 						currCell.setDoorDirection(DoorDirection.DOWN);
 						currCell.setLabel(false);
 						currCell.setRoomCenter(false);
 						break;
-					case '<':
+					case '<':	// attributes of a doorway pointing left
 						currCell.setDoorway(true);
 						currCell.setDoorDirection(DoorDirection.LEFT);
 						currCell.setLabel(false);
 						currCell.setRoomCenter(false);
 						break;
-					case '>':
+					case '>':	// attributes of a doorway pointing right
 						currCell.setDoorway(true);
 						currCell.setDoorDirection(DoorDirection.RIGHT);
 						currCell.setLabel(false);
 						currCell.setRoomCenter(false);
 						break;
-					case '^':
+					case '^':	// attributes of a doorway pointing up
 						currCell.setDoorway(true);
 						currCell.setDoorDirection(DoorDirection.UP);
 						currCell.setLabel(false);
 						currCell.setRoomCenter(false);
 						break;
-					case '#':
+					case '#':	// attributes of a room label cell
 						currCell.setDoorway(false);
 						currCell.setDoorDirection(DoorDirection.NONE);
 						currCell.setLabel(true);
 						roomMap.get(currCell.getInitial()).setLabelCell(currCell);
 						currCell.setRoomCenter(false);
 						break;
-					case '*':
+					case '*':	// attributes of a room center cell
 						currCell.setDoorway(false);
 						currCell.setDoorDirection(DoorDirection.NONE);
 						currCell.setLabel(false);
 						currCell.setRoomCenter(true);
 						roomMap.get(currCell.getInitial()).setCenterCell(currCell);
 						break;
-					default:
+					default:	// attributes of a secret passage
 						currCell.setDoorway(false);
 						currCell.setDoorDirection(DoorDirection.NONE);
 						currCell.setLabel(false);
@@ -149,7 +145,7 @@ public class Board {
 						currCell.setSecretPassage(currCellInfo.charAt(1));
 						break;
 					}
-				} else {
+				} else {	// attributes of a walkway/unused/room
 					currCell.setDoorway(false);
 					currCell.setDoorDirection(DoorDirection.NONE);
 					currCell.setLabel(false);
@@ -169,8 +165,8 @@ public class Board {
 				//Checks if cells are valid before adding to adjacency list
 				if(currentCell.getInitial() == 'W') {
 					addAdjacentCells(i, j, currentCell);
-					
 				} else if(currentCell.getSecretPassage() != '\0') {
+					// adds the secret passage to the current room center
 					BoardCell secretPassageExit = roomMap.get(currentCell.getSecretPassage()).getCenterCell();
 					BoardCell currentRoomCenter = roomMap.get(currentCell.getInitial()).getCenterCell();
 					currentRoomCenter.addAdj(secretPassageExit);
@@ -181,16 +177,16 @@ public class Board {
 
 	//Adds center cell of room and surrounding walkways to adjacency list if cell is a door
 	private void addAdjacentCells(int i, int j, BoardCell currentCell) {
-		if(i + 1 < numRows) {
+		if(i + 1 < numRows) {	// checks if the cell below is valid
 			downAdjacency(i, currentCell, grid[i + 1][j]);
 		}
-		if(j + 1 < numCols) {
+		if(j + 1 < numCols) {	// checks if the cell right is valid
 			rightAdjacency(j, currentCell, grid[i][j + 1]);
 		}
-		if(i - 1 >= 0) {
+		if(i - 1 >= 0) {	// checks if the cell above is valid
 			aboveAdjacency(i, currentCell, grid[i - 1][j]);
 		}
-		if(j - 1 >= 0) {
+		if(j - 1 >= 0) {	// checks if the cell left is valid
 			leftAdjacency(j, currentCell, grid[i][j - 1]);
 		}
 	}
@@ -240,6 +236,7 @@ public class Board {
 			currentCell.addAdj(belowCell);
 		}
 	}
+	
 	// initializes the roomMap according to the setup config
 	public void loadSetupConfig() throws BadConfigFormatException, FileNotFoundException {
 		roomMap = new HashMap<>();

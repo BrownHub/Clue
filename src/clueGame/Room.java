@@ -11,6 +11,7 @@ public class Room {
 		super();
 		setName(aName);
 	}
+	// separate constructor creating a room initializing centers and labels
 	public Room(String aName, BoardCell center, BoardCell label) {
 		super();
 		setName(aName);
