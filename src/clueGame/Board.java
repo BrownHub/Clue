@@ -95,65 +95,70 @@ public class Board {
 				// Create a temporary cell, set its attributes, and add it to the temporary list
 				BoardCell currCell = new BoardCell(i, j);
 				String currCellInfo = stringGrid.get(i)[j];
-				currCell.setInitial(currCellInfo.charAt(0));
-				currCell.setRoom(roomMap.containsKey(currCell.getInitial()) && currCell.getInitial() != 'X' && currCell.getInitial() != 'W');
-				if(currCellInfo.length() > 1) { 
-					switch (currCellInfo.charAt(1)) {
-					case 'v':	// attributes of a doorway pointing down
-						currCell.setDoorway(true);
-						currCell.setDoorDirection(DoorDirection.DOWN);
-						currCell.setLabel(false);
-						currCell.setRoomCenter(false);
-						break;
-					case '<':	// attributes of a doorway pointing left
-						currCell.setDoorway(true);
-						currCell.setDoorDirection(DoorDirection.LEFT);
-						currCell.setLabel(false);
-						currCell.setRoomCenter(false);
-						break;
-					case '>':	// attributes of a doorway pointing right
-						currCell.setDoorway(true);
-						currCell.setDoorDirection(DoorDirection.RIGHT);
-						currCell.setLabel(false);
-						currCell.setRoomCenter(false);
-						break;
-					case '^':	// attributes of a doorway pointing up
-						currCell.setDoorway(true);
-						currCell.setDoorDirection(DoorDirection.UP);
-						currCell.setLabel(false);
-						currCell.setRoomCenter(false);
-						break;
-					case '#':	// attributes of a room label cell
-						currCell.setDoorway(false);
-						currCell.setDoorDirection(DoorDirection.NONE);
-						currCell.setLabel(true);
-						roomMap.get(currCell.getInitial()).setLabelCell(currCell);
-						currCell.setRoomCenter(false);
-						break;
-					case '*':	// attributes of a room center cell
-						currCell.setDoorway(false);
-						currCell.setDoorDirection(DoorDirection.NONE);
-						currCell.setLabel(false);
-						currCell.setRoomCenter(true);
-						roomMap.get(currCell.getInitial()).setCenterCell(currCell);
-						break;
-					default:	// attributes of a secret passage
-						currCell.setDoorway(false);
-						currCell.setDoorDirection(DoorDirection.NONE);
-						currCell.setLabel(false);
-						currCell.setRoomCenter(false);
-						currCell.setSecretPassage(currCellInfo.charAt(1));
-						break;
-					}
-				} else {	// attributes of a walkway/unused/room
-					currCell.setDoorway(false);
-					currCell.setDoorDirection(DoorDirection.NONE);
-					currCell.setLabel(false);
-					currCell.setRoomCenter(false);
-				}
+				setAttributes(currCell, currCellInfo);
 				temp[j] = currCell;
 			}
 			grid[i] = temp;
+		}
+	}
+
+	//Sets attributes of cell according to information from string grid cell
+	private void setAttributes(BoardCell currCell, String currCellInfo) {
+		currCell.setInitial(currCellInfo.charAt(0));
+		currCell.setRoom(roomMap.containsKey(currCell.getInitial()) && currCell.getInitial() != 'X' && currCell.getInitial() != 'W');
+		if(currCellInfo.length() > 1) { 
+			switch (currCellInfo.charAt(1)) {
+			case 'v':	// attributes of a doorway pointing down
+				currCell.setDoorway(true);
+				currCell.setDoorDirection(DoorDirection.DOWN);
+				currCell.setLabel(false);
+				currCell.setRoomCenter(false);
+				break;
+			case '<':	// attributes of a doorway pointing left
+				currCell.setDoorway(true);
+				currCell.setDoorDirection(DoorDirection.LEFT);
+				currCell.setLabel(false);
+				currCell.setRoomCenter(false);
+				break;
+			case '>':	// attributes of a doorway pointing right
+				currCell.setDoorway(true);
+				currCell.setDoorDirection(DoorDirection.RIGHT);
+				currCell.setLabel(false);
+				currCell.setRoomCenter(false);
+				break;
+			case '^':	// attributes of a doorway pointing up
+				currCell.setDoorway(true);
+				currCell.setDoorDirection(DoorDirection.UP);
+				currCell.setLabel(false);
+				currCell.setRoomCenter(false);
+				break;
+			case '#':	// attributes of a room label cell
+				currCell.setDoorway(false);
+				currCell.setDoorDirection(DoorDirection.NONE);
+				currCell.setLabel(true);
+				roomMap.get(currCell.getInitial()).setLabelCell(currCell);
+				currCell.setRoomCenter(false);
+				break;
+			case '*':	// attributes of a room center cell
+				currCell.setDoorway(false);
+				currCell.setDoorDirection(DoorDirection.NONE);
+				currCell.setLabel(false);
+				currCell.setRoomCenter(true);
+				roomMap.get(currCell.getInitial()).setCenterCell(currCell);
+				break;
+			default:	// attributes of a secret passage
+				currCell.setDoorway(false);
+				currCell.setDoorDirection(DoorDirection.NONE);
+				currCell.setLabel(false);
+				currCell.setRoomCenter(false);
+				currCell.setSecretPassage(currCellInfo.charAt(1));
+				break;
+			}
+		} else {	// attributes of a walkway/unused/room
+			currCell.setDoorway(false);
+			currCell.setDoorDirection(DoorDirection.NONE);
+			currCell.setLabel(false);
+			currCell.setRoomCenter(false);
 		}
 	}
 	
