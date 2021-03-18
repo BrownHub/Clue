@@ -4,9 +4,16 @@ public class BadConfigFormatException extends Exception {
 	private String errorMsg;
 	
 	public BadConfigFormatException() {
-		errorMsg = "Error: Bad Config Format";
+		setErrorMsg("Error: Bad Config Format");
 	}
 	public BadConfigFormatException(String message) {
-		errorMsg = message;
+		setErrorMsg(message);
+	}
+	public String getErrorMsg() {
+		return errorMsg;
+	}
+	
+	public void setErrorMsg(String errorMsg) {
+		this.errorMsg = errorMsg;
 	}
 }

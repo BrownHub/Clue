@@ -10,7 +10,8 @@ public class BoardCell {
 	private boolean isOccupied;
 
 	private boolean isDoorway;
-	private int row, col;
+	private int row; 
+	private int col;
 	DoorDirection doorDirection;
 	private char initial;
 	private boolean roomLabel;
@@ -20,7 +21,7 @@ public class BoardCell {
 	// constructor
 	public BoardCell(int setRow, int setCol) {
 		super();
-		adjList = new HashSet<BoardCell>();
+		adjList = new HashSet<>();
 		setRow(setRow);
 		setCol(setCol);
 	}
@@ -92,7 +93,10 @@ public class BoardCell {
 	public DoorDirection getDoorDirection() {
 		return doorDirection;
 	}
-
+	
+	public boolean isDoorDirection(DoorDirection dir) {
+		return this.doorDirection == dir;
+	}
 	public void setSecretPassage(char c) {
 		secretPassage = c;
 	}
