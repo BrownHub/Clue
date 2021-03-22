@@ -1,5 +1,6 @@
 package clueGame;
 
+import java.awt.Color;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
@@ -8,6 +9,7 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Scanner;
 import java.util.Set;
+
 
 public class Board {
 
@@ -19,6 +21,9 @@ public class Board {
 	private String layoutConfigFile;
 	private String setupConfigFile;
 	private Map<Character, Room> roomMap;
+	private Set<Player> players;
+	private Set<Card> deck;
+	private Set<Card> solutionDeck;
 	private static Board theInstance;
 
 	// Size of the board
@@ -245,6 +250,8 @@ public class Board {
 	// initializes the roomMap according to the setup config
 	public void loadSetupConfig() throws BadConfigFormatException, FileNotFoundException {
 		roomMap = new HashMap<>();
+		deck = new HashSet<>();
+		players = new HashSet<>();
 		File setupConfig = new File(setupConfigFile); 
 		Scanner fin = new Scanner(setupConfig);
 		String[] temp;
@@ -257,6 +264,10 @@ public class Board {
 					throw new BadConfigFormatException();
 				}
 				roomMap.put(temp[2].charAt(0), new Room(temp[1]));
+				
+				// TODO: Create deck and players
+				deck.add(new Card("Stub", "Stub"));
+				players.add(new Player("Stub", Color.BLACK, 0, 0));
 			}
 		}
 	}
@@ -326,5 +337,17 @@ public class Board {
 
 	public Set<BoardCell> getAdjList(int i, int j) {
 		return getCell(i, j).getAdjList();
+	}
+
+	public Set<Player> getPlayerSet() {
+		return players;
+	}
+	
+	public Set<Card> getDeck() {
+		return deck;
+	}
+	
+	public Set<Card> getSolutionDeck() {
+		return solutionDeck;
 	}
 }

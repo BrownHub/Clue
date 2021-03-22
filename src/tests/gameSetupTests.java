@@ -5,19 +5,25 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import java.awt.Color;
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
+import java.awt.Color;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import clueGame.Board;
 import clueGame.BoardCell;
+import clueGame.Card;
+import clueGame.ComputerPlayer;
+import clueGame.HumanPlayer;
+import clueGame.Player;
 
 public class gameSetupTests {
 	private static Board board;
-	
+	private static Set<String> playerNames = new HashSet<>(Arrays.asList("Tony", "Marco", "Mario", "Anna", "Rosa", "Laura"));
+	private static Set<Color> playerColors = new HashSet<>(Arrays.asList(Color.BLUE, Color.CYAN, Color.GREEN, Color.MAGENTA, Color.RED, Color.PINK));
 	@BeforeAll
 	public static void setUp() {
 		// Board is singleton, get the only instance
@@ -39,23 +45,25 @@ public class gameSetupTests {
 		int humanCount = 0;
 		int computerCount = 0;
 		Set<Color> checkUniqueColors = new HashSet<>();
-		Set<String> checkUniqueName = new HashSet<>();
+		Set<String> checkUniqueNames = new HashSet<>();
 		
 		for(Player currPlayer : playerList) {
-			if(currPlayer.isHuman) {
+			
+			if(currPlayer instanceof HumanPlayer) {
 				humanCount++;
-			} else {
+			} else if (currPlayer instanceof ComputerPlayer) {
 				computerCount++;
 			}
 			
-			assertTrue(board.getPlayerNames().contains(currPlayer.getName()));
-			assertTrue(board.getPlayerColors().contains(currPlayer.getColor()));
-			
-			assertFalse(checkUniqueColors.contains(currPlayer.getColor()));
-			assertFalse(checkUniqueName.contains(currPlayer.getName()));
-			
-			checkUniqueColors.add(currPlayer.getColor());
-			checkUniqueColors.add(currPlayer.getName());
+			String currName = currPlayer.getName();
+			assertTrue(playerNames.contains(currName));
+			assertFalse(checkUniqueNames.contains(currName));
+			checkUniqueNames.add(currName);
+
+			Color currColor = currPlayer.getColor();
+			assertTrue(playerColors.contains(currColor));
+			assertFalse(checkUniqueColors.contains(currColor));			
+			checkUniqueColors.add(currColor);
 		}
 		
 		assertTrue(humanCount == 1);
@@ -108,7 +116,7 @@ public class gameSetupTests {
 		assertTrue(deck.size() >= 21);
 		
 		for(Card currCard : deck) {
-			assertTrue(cardTypes.contains(currCard.type()));
+			assertTrue(cardTypes.contains(currCard.getType()));
 			assertFalse(uniqueCards.contains(currCard));
 			uniqueCards.add(currCard);
 		}
