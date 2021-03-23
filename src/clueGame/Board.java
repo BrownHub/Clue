@@ -91,10 +91,11 @@ public class Board {
 		for(Card c : deck) {
 			removeDeck.add(c);
 		}
+		if(deck.size() > 9) {
+			createSolutionDeck();
 		
-		createSolutionDeck();
-		
-		createPlayerHands();
+			createPlayerHands();
+		}
 		
 		createGrid();
 
