@@ -20,6 +20,11 @@ public abstract class Player {
 		
 	}
 	
+	public Card disproveSuggestion(Solution aSolution) {
+		// TODO Auto-generated method stub
+		return new Card("Stub", CardType.PERSON);
+	}
+	
 	// getters and setters	
 	public int getRow() {
 		return row;

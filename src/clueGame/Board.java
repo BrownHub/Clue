@@ -442,7 +442,7 @@ public class Board {
 	}
 	
 	// Checks if the accusation is equal to the answer
-	public boolean checkSolution(Solution userSol) {
+	public boolean checkAccusation(Solution userSol) {
 		//return userSol.isEqual(theAnswer);
 		return false;
 	}
@@ -496,5 +496,9 @@ public class Board {
 	public Set<Card> getDeckWithoutSolution() {
 		return deckWithoutSolution;
 	}
-	
+
+	public Card handleSuggestion(Player p, Solution aSolution, ArrayList<Player> playerList) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }
