@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
+import java.util.Random;
 import java.util.Scanner;
 import java.util.Set;
 
@@ -23,6 +24,10 @@ public class Board {
 	private Map<Character, Room> roomMap;
 	private Set<Player> players;
 	private Set<Card> deck;
+	private Set<Card> removeDeck;
+	private Set<Card> playerDeck;
+	private Set<Card> weaponDeck;
+	private Set<Card> roomDeck;
 	private Set<Card> solutionDeck;
 	private static Board theInstance;
 
@@ -81,6 +86,16 @@ public class Board {
 			e.printStackTrace();
 		}
 		
+		solutionDeck = new HashSet<>();
+		removeDeck = new HashSet<>();
+		for(Card c : deck) {
+			removeDeck.add(c);
+		}
+		
+		createSolutionDeck();
+		
+		createPlayerHands();
+		
 		createGrid();
 
 		createAdjacencyList();
@@ -105,6 +120,47 @@ public class Board {
 			}
 			grid[i] = temp;
 		}
+	}
+	
+	//  the solution deck
+	private void createSolutionDeck() {
+		Card solutionWeapon;
+		Card solutionPlayer;
+		Card solutionRoom;
+		solutionWeapon = getRandomCard(weaponDeck);
+		solutionPlayer = getRandomCard(playerDeck);
+		solutionRoom = getRandomCard(roomDeck);
+		
+		solutionDeck.add(solutionWeapon);
+		solutionDeck.add(solutionPlayer);
+		solutionDeck.add(solutionRoom);
+		removeDeck.remove(solutionWeapon);
+		removeDeck.remove(solutionPlayer);
+		removeDeck.remove(solutionRoom);
+	}
+	
+	// create the player's hands
+	private void createPlayerHands() {
+		Card randCard;
+		for(Player currPlayer : players) {
+			for(int i = 0; i < 3; i++) {
+				randCard = getRandomCard(removeDeck);
+				removeDeck.remove(randCard);
+				currPlayer.addCard(randCard);
+			}
+		}
+	}
+	private Card getRandomCard(Set<Card> subDeck) {
+		int size = subDeck.size();
+		int cardIndex = new Random().nextInt(size);
+		int i = 0;
+		for(Card currCard : subDeck) {
+			if(i == cardIndex) {
+				return currCard;
+			}
+			i++;
+		}
+		return null;
 	}
 
 	//Sets attributes of cell according to information from string grid cell
@@ -247,10 +303,13 @@ public class Board {
 		}
 	}
 	
-	// initializes the roomMap according to the setup config
+	// initializes the roomMap and Deck according to the setup config
 	public void loadSetupConfig() throws BadConfigFormatException, FileNotFoundException {
 		roomMap = new HashMap<>();
 		deck = new HashSet<>();
+		roomDeck = new HashSet<>();
+		playerDeck = new HashSet<>();
+		weaponDeck = new HashSet<>();
 		players = new HashSet<>();
 		File setupConfig = new File(setupConfigFile); 
 		Scanner fin = new Scanner(setupConfig);
@@ -260,26 +319,35 @@ public class Board {
 			if(!temp[0].contains("//")) {
 				// Test that an exception is thrown for a config file with a room type
 				// that is not Card or Other
+				Card currCard;
 				switch (temp[0]) {
-				case "Room": 
-					deck.add(new Card(temp[1], temp[0]));
+				case "Room":
+					currCard = new Card(temp[1], temp[0]);
+					deck.add(currCard);
+					roomDeck.add(currCard);
 				case "Space":
 					roomMap.put(temp[2].charAt(0), new Room(temp[1]));
 					break;
 				case "Human":
+					currCard = new Card(temp[1], "Player");
 					players.add(new HumanPlayer(temp[1], getColor(temp[2]), Integer.parseInt(temp[3]), Integer.parseInt(temp[4])));
-					deck.add(new Card(temp[1],"Player"));
+					deck.add(currCard);
+					playerDeck.add(currCard);
 					break;
 				case "Computer":
+					currCard = new Card(temp[1], "Player");
 					players.add(new ComputerPlayer(temp[1], getColor(temp[2]), Integer.parseInt(temp[3]), Integer.parseInt(temp[4])));
-					deck.add(new Card(temp[1], "Player"));
+					deck.add(currCard);
+					playerDeck.add(currCard);
+					break;
+				case "Weapon":
+					currCard = new Card(temp[1], "Weapon");
+					deck.add(currCard);
+					weaponDeck.add(currCard);
 					break;
 				default:
 					throw new BadConfigFormatException();
 				}
-				
-				// TODO: Create deck and players
-				deck.add(new Card("Stub", "Stub"));
 			}
 		}
 	}

@@ -20,4 +20,8 @@ Computer, Rosa, MAGENTA, 7, 17
 Computer, Laura, PINK, 5, 9
 // Weapon Cards
 Weapon, Pizza Cutter
-Weapon, 
+Weapon, Drowned
+Weapon, Knife
+Weapon, Hands
+Weapon, Poison
+Weapon, Gun
