@@ -61,6 +61,7 @@ public class gameSetupTests {
 			checkUniqueNames.add(currName);
 
 			Color currColor = currPlayer.getColor();
+			System.out.println(currColor);
 			assertTrue(playerColors.contains(currColor));
 			assertFalse(checkUniqueColors.contains(currColor));			
 			checkUniqueColors.add(currColor);
@@ -72,8 +73,8 @@ public class gameSetupTests {
 	
 	@Test
 	public void testPlayerLocations() {
-		// Check that each person starts at a valid location on the board
-		// check that each player has a unique location on the board
+		// Check that each person starts at a valid location on the board - implemented
+		// check that each player has a unique location on the board - implemented
 		Set<Player> playerList = board.getPlayerSet();
 		
 		Set<BoardCell> checkUniqueLocations = new HashSet<>();

@@ -260,18 +260,77 @@ public class Board {
 			if(!temp[0].contains("//")) {
 				// Test that an exception is thrown for a config file with a room type
 				// that is not Card or Other
-				if(!temp[0].contains("Room") && !temp[0].contains("Space")) {
+				switch (temp[0]) {
+				case "Room": 
+					deck.add(new Card(temp[1], temp[0]));
+				case "Space":
+					roomMap.put(temp[2].charAt(0), new Room(temp[1]));
+					break;
+				case "Human":
+					players.add(new HumanPlayer(temp[1], getColor(temp[2]), Integer.parseInt(temp[3]), Integer.parseInt(temp[4])));
+					deck.add(new Card(temp[1],"Player"));
+					break;
+				case "Computer":
+					players.add(new ComputerPlayer(temp[1], getColor(temp[2]), Integer.parseInt(temp[3]), Integer.parseInt(temp[4])));
+					deck.add(new Card(temp[1], "Player"));
+					break;
+				default:
 					throw new BadConfigFormatException();
 				}
-				roomMap.put(temp[2].charAt(0), new Room(temp[1]));
 				
 				// TODO: Create deck and players
 				deck.add(new Card("Stub", "Stub"));
-				players.add(new Player("Stub", Color.BLACK, 0, 0));
 			}
 		}
 	}
 	
+	private Color getColor(String color) {
+		switch (color) {
+		case "black":
+		case "BLACK":
+			return Color.black;
+		case "blue":
+		case"BLUE":
+			return Color.blue;
+		case "CYAN":
+		case "cyan":
+			return Color.cyan;
+		case "darkGray":
+		case "DARK_GRAY":
+			return Color.darkGray;
+		case "gray":
+		case "GRAY":
+			return Color.gray;
+		case "GREEN":
+		case "green":
+			return Color.green;
+		case "LIGHT_GRAY":
+		case "lightGray":
+			return Color.lightGray;
+		case "magenta":
+		case "MAGENTA":
+			return Color.magenta;
+		case "orange":
+		case "ORANGE":
+			return Color.orange;
+		case "pink":
+		case "PINK":
+			return Color.pink;
+		case "red":
+		case "RED":
+			return Color.red;
+		case "white":
+		case "WHITE":
+			return Color.white;
+		case "yellow":
+		case "YELLOW":
+			return Color.yellow;
+		default:
+			break;
+		}
+		return Color.black;
+	}
+
 	// Test that an exception is thrown for a config file that does not
 	// have the same number of columns for each row
 	public void loadLayoutConfig() throws BadConfigFormatException, FileNotFoundException {	
