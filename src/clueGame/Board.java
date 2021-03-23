@@ -28,7 +28,7 @@ public class Board {
 	private Set<Card> playerDeck;
 	private Set<Card> weaponDeck;
 	private Set<Card> roomDeck;
-	private Set<Card> solutionDeck;
+	private Solution theAnswer;
 	private static Board theInstance;
 
 	// Size of the board
@@ -86,13 +86,12 @@ public class Board {
 			e.printStackTrace();
 		}
 		
-		solutionDeck = new HashSet<>();
 		removeDeck = new HashSet<>();
 		for(Card c : deck) {
 			removeDeck.add(c);
 		}
 		if(deck.size() > 9) {
-			createSolutionDeck();
+			createTheAnswer();
 		
 			createPlayerHands();
 		}
@@ -124,7 +123,7 @@ public class Board {
 	}
 	
 	//  the solution deck
-	private void createSolutionDeck() {
+	private void createTheAnswer() {
 		Card solutionWeapon;
 		Card solutionPlayer;
 		Card solutionRoom;
@@ -132,9 +131,7 @@ public class Board {
 		solutionPlayer = getRandomCard(playerDeck);
 		solutionRoom = getRandomCard(roomDeck);
 		
-		solutionDeck.add(solutionWeapon);
-		solutionDeck.add(solutionPlayer);
-		solutionDeck.add(solutionRoom);
+		theAnswer = new Solution(solutionPlayer, solutionRoom, solutionWeapon);
 		removeDeck.remove(solutionWeapon);
 		removeDeck.remove(solutionPlayer);
 		removeDeck.remove(solutionRoom);
@@ -321,28 +318,33 @@ public class Board {
 				// Test that an exception is thrown for a config file with a room type
 				// that is not Card or Other
 				Card currCard;
+				CardType type;
 				switch (temp[0]) {
 				case "Room":
-					currCard = new Card(temp[1], temp[0]);
+					type = CardType.ROOM;
+					currCard = new Card(temp[1], type);
 					deck.add(currCard);
 					roomDeck.add(currCard);
 				case "Space":
 					roomMap.put(temp[2].charAt(0), new Room(temp[1]));
 					break;
 				case "Human":
-					currCard = new Card(temp[1], "Player");
+					type = CardType.PERSON;
+					currCard = new Card(temp[1], type);
 					players.add(new HumanPlayer(temp[1], getColor(temp[2]), Integer.parseInt(temp[3]), Integer.parseInt(temp[4])));
 					deck.add(currCard);
 					playerDeck.add(currCard);
 					break;
 				case "Computer":
-					currCard = new Card(temp[1], "Player");
+					type = CardType.PERSON;
+					currCard = new Card(temp[1], type);
 					players.add(new ComputerPlayer(temp[1], getColor(temp[2]), Integer.parseInt(temp[3]), Integer.parseInt(temp[4])));
 					deck.add(currCard);
 					playerDeck.add(currCard);
 					break;
 				case "Weapon":
-					currCard = new Card(temp[1], "Weapon");
+					type = CardType.WEAPON;
+					currCard = new Card(temp[1], type);
 					deck.add(currCard);
 					weaponDeck.add(currCard);
 					break;
@@ -359,7 +361,7 @@ public class Board {
 		case "BLACK":
 			return Color.black;
 		case "blue":
-		case"BLUE":
+		case "BLUE":
 			return Color.blue;
 		case "CYAN":
 		case "cyan":
@@ -475,7 +477,7 @@ public class Board {
 		return deck;
 	}
 	
-	public Set<Card> getSolutionDeck() {
-		return solutionDeck;
+	public Solution getTheAnswer() {
+		return theAnswer;
 	}
 }

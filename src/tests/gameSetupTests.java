@@ -16,11 +16,13 @@ import org.junit.jupiter.api.Test;
 import clueGame.Board;
 import clueGame.BoardCell;
 import clueGame.Card;
+import clueGame.CardType;
 import clueGame.ComputerPlayer;
 import clueGame.HumanPlayer;
 import clueGame.Player;
+import clueGame.Solution;
 
-public class gameSetupTests {
+public class GameSetupTests {
 	private static Board board;
 	private static Set<String> playerNames = new HashSet<>(Arrays.asList("Tony", "Marco", "Mario", "Anna", "Rosa", "Laura"));
 	private static Set<Color> playerColors = new HashSet<>(Arrays.asList(Color.BLUE, Color.CYAN, Color.GREEN, Color.MAGENTA, Color.RED, Color.PINK));
@@ -108,10 +110,10 @@ public class gameSetupTests {
 
 		Set<Card> uniqueCards = new HashSet<>();
 
-		Set<String> cardTypes = new HashSet<>();
-		cardTypes.add("Room");
-		cardTypes.add("Player");
-		cardTypes.add("Weapon");
+		Set<CardType> cardTypes = new HashSet<>();
+		cardTypes.add(CardType.ROOM);
+		cardTypes.add(CardType.PERSON);
+		cardTypes.add(CardType.WEAPON);
 
 		assertTrue(deck.size() >= 21);
 
@@ -121,8 +123,10 @@ public class gameSetupTests {
 			uniqueCards.add(currCard);
 		}
 
-		Set<Card> solutionDeck = board.getSolutionDeck();
-		assertTrue(solutionDeck.size() == 3);
+		Solution theAnswer = board.getTheAnswer();
+		assertTrue(deck.contains(theAnswer.person));
+		assertTrue(deck.contains(theAnswer.weapon));
+		assertTrue(deck.contains(theAnswer.room));
 
 		for(Player currPlayer : playerList) {
 			Set<Card> currHand = currPlayer.getHand();
@@ -130,7 +134,9 @@ public class gameSetupTests {
 
 			for(Card currCard : currHand) {
 				assertTrue(deck.contains(currCard));
-				assertFalse(solutionDeck.contains(currCard));
+				assertFalse(theAnswer.person.equals(currCard));
+				assertFalse(theAnswer.weapon.equals(currCard));
+				assertFalse(theAnswer.room.equals(currCard));
 			}
 		}
 	}

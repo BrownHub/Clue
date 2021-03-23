@@ -2,8 +2,8 @@ package clueGame;
 
 public class Card {
 	private String name;
-	private String type;
-	public Card(String name, String type) {
+	private CardType type;
+	public Card(String name, CardType type) {
 		this.name = name;
 		this.type = type;
 	}
@@ -13,7 +13,7 @@ public class Card {
 		return name;
 	}
 	
-	public String getType() {
+	public CardType getType() {
 		return type;
 	}
 }

@@ -4,7 +4,7 @@ import java.awt.Color;
 import java.util.HashSet;
 import java.util.Set;
 
-public class Player {
+public abstract class Player {
 	int row;
 	int col;
 	String name;
@@ -20,11 +20,7 @@ public class Player {
 		
 	}
 	
-	// getters and setters
-	public boolean isHuman() {
-		return false;
-	}
-	
+	// getters and setters	
 	public int getRow() {
 		return row;
 	}

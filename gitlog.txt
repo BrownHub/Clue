@@ -1,3 +1,57 @@
+commit d4759d12f7017aa4ccd7494e114ddfeed5a18f94
+Author: Kendall Brown <kendallcraigbrown@mymail.mines.edu>
+Date:   Wed Mar 17 20:05:51 2021 -0600
+
+    Refactored attribute code for readability.
+
+commit da6b832a95cb65537be8bb3122ddea038b7420e0
+Author: clayne <carson.layne@me.com>
+Date:   Wed Mar 17 19:57:22 2021 -0600
+
+    Added inline comments describing complicated lines
+
+commit 78dd2c1209252d724195082e62c1d403a13f8a3b
+Author: Kendall Brown <kendallcraigbrown@mymail.mines.edu>
+Date:   Wed Mar 17 19:43:44 2021 -0600
+
+    Added block comments and fixed helper method refactoring.
+
+commit 65e7098b8c6676dcb3e6930838ed6b0e6b1bd8c7
+Author: clayne <carson.layne@me.com>
+Date:   Wed Mar 17 18:56:21 2021 -0600
+
+    Refactored methods: Extracted sections from larger method into helper functions
+
+commit 27eebe5d8de773d5c7bf0998e29cc099c5f0f13b
+Author: Kendall Brown <kendallcraigbrown@mymail.mines.edu>
+Date:   Tue Mar 16 14:25:40 2021 -0600
+
+    Refactored unnecessary if statements.
+
+commit b3b6fe031bb428da7ffd80ca18a018b9c10c5284
+Author: clayne <carson.layne@me.com>
+Date:   Tue Mar 16 14:11:17 2021 -0600
+
+    Improved readability of code when adding a secret passage exit to a room center.
+
+commit 3acb156b75f11e1261fa08b28845fe21dc5025a9
+Author: Kendall Brown <kendallcraigbrown@mymail.mines.edu>
+Date:   Tue Mar 16 14:03:39 2021 -0600
+
+    Refactored grid locations to readable variables
+
+commit e4f1e32b237e5a0397eb25fc9fb66a31fbc59f4d
+Author: clayne <carson.layne@me.com>
+Date:   Tue Mar 16 13:40:49 2021 -0600
+
+    Refactor if-elseif-else statement to switch-case statement
+
+commit b3fdb9afb3f888b8c610b94511cc41ff75da15f9
+Author: Kendall Brown <kendallcraigbrown@mymail.mines.edu>
+Date:   Mon Mar 8 19:16:50 2021 -0700
+
+    Created log
+
 commit cc2c335c14f6949e1920bb514bddb035e68b4ad1
 Author: Kendall Brown <kendallcraigbrown@mymail.mines.edu>
 Date:   Mon Mar 8 19:15:55 2021 -0700
