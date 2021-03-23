@@ -10,4 +10,8 @@ public class Solution {
 		room = r;
 		weapon = w;
 	}
+
+	public boolean isEqual(Solution solB) {
+		return (this.person.equals(solB.person) && this.room.equals(solB.room) && this.weapon.equals(solB.weapon));
+	}
 }

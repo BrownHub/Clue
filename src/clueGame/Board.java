@@ -24,6 +24,7 @@ public class Board {
 	private Map<Character, Room> roomMap;
 	private Set<Player> players;
 	private Set<Card> deck;
+	private Set<Card> deckWithoutSolution;
 	private Set<Card> removeDeck;
 	private Set<Card> playerDeck;
 	private Set<Card> weaponDeck;
@@ -135,6 +136,11 @@ public class Board {
 		removeDeck.remove(solutionWeapon);
 		removeDeck.remove(solutionPlayer);
 		removeDeck.remove(solutionRoom);
+		
+		deckWithoutSolution = new HashSet<>();
+		for(Card c : removeDeck) {
+			deckWithoutSolution.add(c);
+		}
 	}
 	
 	// create the player's hands
@@ -148,7 +154,7 @@ public class Board {
 			}
 		}
 	}
-	private Card getRandomCard(Set<Card> subDeck) {
+	public Card getRandomCard(Set<Card> subDeck) {
 		int size = subDeck.size();
 		int cardIndex = new Random().nextInt(size);
 		int i = 0;
@@ -434,7 +440,13 @@ public class Board {
 			}
 		}
 	}
-
+	
+	// Checks if the accusation is equal to the answer
+	public boolean checkSolution(Solution userSol) {
+		//return userSol.isEqual(theAnswer);
+		return false;
+	}
+	
 	// getters for targets and cells
 	public void setConfigFiles(String boardCSV, String boardSetup) {
 		layoutConfigFile = "data\\" + boardCSV;
@@ -480,4 +492,9 @@ public class Board {
 	public Solution getTheAnswer() {
 		return theAnswer;
 	}
+	
+	public Set<Card> getDeckWithoutSolution() {
+		return deckWithoutSolution;
+	}
+	
 }
