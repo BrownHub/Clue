@@ -1,3 +1,39 @@
+commit a58e536d5104c2d056785c612ac6efbe4929ffe5
+Author: Kendall Brown <kendallcraigbrown@mymail.mines.edu>
+Date:   Mon Mar 22 22:05:30 2021 -0600
+
+    Refactored to add CardType. Refactored Player as abstract. Created Solution class. Updated tests to reflect changes and ensured that they pass.
+
+commit c51e29d5d821bb2ec4a0eea3bc10a3e4012cbee0
+Author: clayne <carson.layne@me.com>
+Date:   Mon Mar 22 20:27:42 2021 -0600
+
+    Ensured that all tests pass
+
+commit d525d5e9589bd522889e2b83bf94bee1d85d3b7a
+Author: clayne <carson.layne@me.com>
+Date:   Mon Mar 22 19:59:17 2021 -0600
+
+    Updated Board, ClueSetup, and Player to pass card tests
+
+commit 96c4a2d0fa03dce93e0a98132fdd23da3ff4c9cb
+Author: clayne <carson.layne@me.com>
+Date:   Mon Mar 22 18:39:10 2021 -0600
+
+    ensured that testLoadPeople and testPlayerLocations JUnit tests pass
+
+commit 3f1892e88b2948754ba706b5d6de00966c154014
+Author: clayne <carson.layne@me.com>
+Date:   Mon Mar 22 17:02:56 2021 -0600
+
+    Created Card, Player, ComputerPlayer, and HumanPlayer classes. Implemented stub methods to ensure JUnit tests fail.
+
+commit bffc688e3b8b719a2a4bc950f85b62b09315bbea
+Author: clayne <carson.layne@me.com>
+Date:   Mon Mar 22 16:18:52 2021 -0600
+
+    Created gameSetupTests class, created tests
+
 commit d4759d12f7017aa4ccd7494e114ddfeed5a18f94
 Author: Kendall Brown <kendallcraigbrown@mymail.mines.edu>
 Date:   Wed Mar 17 20:05:51 2021 -0600
