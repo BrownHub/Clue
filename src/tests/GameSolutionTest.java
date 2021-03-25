@@ -52,7 +52,7 @@ public class GameSolutionTest {
 	
 	@Test
 	public void testDisproveSuggestion() {
-		ComputerPlayer playerA = new ComputerPlayer("playerA", Color.BLUE, 0, 0);
+		ComputerPlayer playerA = new ComputerPlayer("playerA", Color.BLUE, 0, 0, null, null, null);
 		
 		Solution aSolution = new Solution(person, room2, weapon2);
 		Solution bSolution = new Solution(person, room, weapon);
@@ -92,9 +92,9 @@ public class GameSolutionTest {
 	
 	@Test
 	public void testHandleSuggestion() {
-		ComputerPlayer playerA = new ComputerPlayer("playerA", Color.BLUE, 0, 0);
+		ComputerPlayer playerA = new ComputerPlayer("playerA", Color.BLUE, 0, 0, null, null, null);
 		HumanPlayer playerB = new HumanPlayer("playerB", Color.GREEN, 1, 1);
-		ComputerPlayer playerC = new ComputerPlayer("playerC", Color.PINK, 2, 2);
+		ComputerPlayer playerC = new ComputerPlayer("playerC", Color.PINK, 2, 2, null, null, null);
 		ArrayList<Player> playerList = new ArrayList<>();
 		
 		Solution aSolution = new Solution(person, room2, weapon2);

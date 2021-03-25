@@ -359,6 +359,14 @@ public class Board {
 				}
 			}
 		}
+		
+		for (Player player: players) {
+			if (player instanceof ComputerPlayer) {
+				((ComputerPlayer) player).setUnseenWeapons(weaponDeck);
+				((ComputerPlayer) player).setUnseenPersons(playerDeck);
+				((ComputerPlayer) player).setUnseenRooms(roomDeck);
+			}
+		}
 	}
 	
 	private Color getColor(String color) {

@@ -8,6 +8,9 @@ public class Card {
 		this.type = type;
 	}
 	
+	public Card() {
+		this.name = "stub";
+	}
 	// getters and setters
 	public String getName() {
 		return name;
