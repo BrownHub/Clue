@@ -19,7 +19,7 @@ import clueGame.Player;
 import clueGame.Solution;
 
 public class ComputerAITest {
-	
+
 	private static Board board;
 	private static ComputerPlayer testPlayer;
 	private static Set<Card> weapons;
@@ -34,7 +34,9 @@ public class ComputerAITest {
 	private static Card person1;
 	private static Card person2;
 	private static Card person3;
-	
+	private static ComputerPlayer noRoomPlayer;
+	private static ComputerPlayer oneRoomPlayer;
+
 	@BeforeAll
 	public static void setup() {
 		// Board is singleton, get the only instance
@@ -68,33 +70,92 @@ public class ComputerAITest {
 		persons.add(person3);
 		// Initialize a player to test with
 		testPlayer = new ComputerPlayer("testPlayer", Color.blue, 2, 1, weapons, persons, rooms);
-		
+		noRoomPlayer = new ComputerPlayer("testPlayer", Color.blue, 9, 0, weapons, persons, rooms);
+		oneRoomPlayer = new ComputerPlayer("testPlayer", Color.blue, 9, 9, weapons, persons, rooms);
 	}
-	
+
 	@Test
 	public void testSelectTargets() {
+		board.calcTargets(board.getCell(noRoomPlayer.getRow(), noRoomPlayer.getCol()), 1);
+		Set<BoardCell> noRoomTargets = board.getTargets();
 		
+		// Assert that chosen rooms are random
+		int up = 0;
+		int down = 0;
+		int right = 0;
+		for(int i = 0; i < 20; i++) {
+			if (board.getCell(9, 1)== noRoomPlayer.selectTargets(noRoomTargets)) {
+				right++;
+			}
+			if (board.getCell(10, 0)== noRoomPlayer.selectTargets(noRoomTargets)) {
+				down++;
+			}
+			if (board.getCell(8, 0)== noRoomPlayer.selectTargets(noRoomTargets)) {	
+				up++;
+			}
+		}
+		assertTrue(up > 2);
+		assertTrue(down > 2);
+		assertTrue(right > 2);
+		
+		Set<BoardCell> oneRoomTargets = new HashSet<>();
+		BoardCell firstTarget = new BoardCell(0, 0);
+		BoardCell secondTarget = new BoardCell(0, 0);
+		BoardCell roomTarget = new BoardCell(0, 0);
+		Card roomCard = new Card("Room", CardType.ROOM);
+		roomTarget.setRoom(true);
+		roomTarget.setInitial('R');
+		oneRoomTargets.add(firstTarget);
+		oneRoomTargets.add(secondTarget);
+		oneRoomTargets.add(roomTarget);
+		
+		// Assert that if there is a room in the targets that has not been seen, return it as the target
+		assertTrue(oneRoomPlayer.selectTargets(oneRoomTargets) == roomTarget);
+		
+		// Assert that if rooms are seen, then the choice is random between each target
+		
+		// remove every possible room from the unseen list
+		oneRoomPlayer.addCard(roomCard);
+		
+		up = 0;
+		down = 0;
+		int room = 0;
+		for(int i = 0; i < 20; i++) {
+			if (firstTarget == oneRoomPlayer.selectTargets(oneRoomTargets)) {
+				down++;
+			}
+			if (secondTarget == oneRoomPlayer.selectTargets(oneRoomTargets)) {	
+				up++;
+			}
+			if (roomTarget == oneRoomPlayer.selectTargets(oneRoomTargets)) {
+				room++;
+			}
+		}
+		assertTrue(up > 2);
+		assertTrue(down > 2);
+		assertTrue(room > 2);
+
 	}
-	
+
 	@Test
 	public void testCreateSuggestion() {
 		char suggestionRoom = testPlayer.createSuggestion().room.getName().charAt(0);
 		char computerPlayerRoom = board.getCell(testPlayer.getRow(), testPlayer.getCol()).getInitial();
 		assertEquals(suggestionRoom, computerPlayerRoom);
-		
+
 		int timesGun = 0;
 		int timesNotGun = 0;
 		int timesSpoon = 0;
 		int timesDude = 0;
 		int timesNotDude = 0;
 		int timesOtherGuy = 0;
-		
+
 		for (int i = 0; i < 20; i++) {
 			testPlayer = new ComputerPlayer("testPLayer", Color.blue, 2, 1, weapons, persons, rooms);
-			
+
 			for (int j = 0; j < 3; j++) {
 				Solution suggestion = testPlayer.createSuggestion();
-				
+
 				if(j < 2) {
 					testPlayer.removeSeen(suggestion.weapon);
 					testPlayer.removeSeen(suggestion.person);
@@ -113,7 +174,7 @@ public class ComputerAITest {
 						timesSpoon++;
 						break;
 					}
-					
+
 					switch (suggestion.person.getName()) {
 					case "Dude":
 						timesDude++;
@@ -125,14 +186,14 @@ public class ComputerAITest {
 						timesOtherGuy++;
 						break;
 					}
-					
+
 					assertTrue(testPlayer.getUnseenWeapons().contains(suggestion.weapon));
 					assertTrue(testPlayer.getUnseenPersons().contains(suggestion.person));
 					assertTrue(testPlayer.getUnseenRooms().contains(suggestion.room));
 				}
 			}
 		}
-		
+
 		assertTrue(timesGun > 1);
 		assertTrue(timesNotGun > 1);
 		assertTrue(timesSpoon > 1);

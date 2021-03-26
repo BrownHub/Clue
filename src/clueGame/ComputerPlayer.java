@@ -23,6 +23,11 @@ public class ComputerPlayer extends Player {
 		super(name, color, row, col);
 	}
 	
+	public BoardCell selectTargets(Set<BoardCell> targets) {
+		// TODO: create method
+		return new BoardCell(0, 0);
+	}
+	
 	public Solution createSuggestion() {
 		// TODO create method
 		return new Solution(stub, stub, stub);
