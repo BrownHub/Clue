@@ -104,7 +104,7 @@ public class ComputerAITest {
 		BoardCell roomTarget = new BoardCell(0, 0);
 		Card roomCard = new Card("Room", CardType.ROOM);
 		roomTarget.setRoom(true);
-		roomTarget.setInitial('R');
+		roomTarget.setInitial('M');
 		oneRoomTargets.add(firstTarget);
 		oneRoomTargets.add(secondTarget);
 		oneRoomTargets.add(roomTarget);
@@ -120,7 +120,7 @@ public class ComputerAITest {
 		up = 0;
 		down = 0;
 		int room = 0;
-		for(int i = 0; i < 20; i++) {
+		for(int i = 0; i < 25; i++) {
 			if (firstTarget == oneRoomPlayer.selectTargets(oneRoomTargets)) {
 				down++;
 			}
@@ -139,8 +139,9 @@ public class ComputerAITest {
 
 	@Test
 	public void testCreateSuggestion() {
-		char suggestionRoom = testPlayer.createSuggestion().room.getName().charAt(0);
+		
 		char computerPlayerRoom = board.getCell(testPlayer.getRow(), testPlayer.getCol()).getInitial();
+		char suggestionRoom = testPlayer.createSuggestion(board.getRoom(computerPlayerRoom)).room.getName().charAt(0);
 		assertEquals(suggestionRoom, computerPlayerRoom);
 
 		int timesGun = 0;
@@ -152,14 +153,24 @@ public class ComputerAITest {
 
 		for (int i = 0; i < 20; i++) {
 			testPlayer = new ComputerPlayer("testPLayer", Color.blue, 2, 1, weapons, persons, rooms);
-
+			weapons = new HashSet();
+			persons = new HashSet();
+			rooms = new HashSet();
+			weapons.add(weapon1);
+			weapons.add(weapon2);
+			weapons.add(weapon3);
+			rooms.add(room1);
+			rooms.add(room2);
+			rooms.add(room3);
+			persons.add(person1);
+			persons.add(person2);
+			persons.add(person3);
 			for (int j = 0; j < 3; j++) {
-				Solution suggestion = testPlayer.createSuggestion();
+				Solution suggestion = testPlayer.createSuggestion(board.getRoom(computerPlayerRoom));
 
 				if(j < 2) {
 					testPlayer.removeSeen(suggestion.weapon);
 					testPlayer.removeSeen(suggestion.person);
-					testPlayer.removeSeen(suggestion.room);
 				}
 
 				if(j >= 2) {
@@ -189,7 +200,6 @@ public class ComputerAITest {
 
 					assertTrue(testPlayer.getUnseenWeapons().contains(suggestion.weapon));
 					assertTrue(testPlayer.getUnseenPersons().contains(suggestion.person));
-					assertTrue(testPlayer.getUnseenRooms().contains(suggestion.room));
 				}
 			}
 		}

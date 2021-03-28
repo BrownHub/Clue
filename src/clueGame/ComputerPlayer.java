@@ -1,7 +1,9 @@
 package clueGame;
 
 import java.awt.Color;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Random;
 import java.util.Set;
 
 public class ComputerPlayer extends Player {
@@ -24,13 +26,60 @@ public class ComputerPlayer extends Player {
 	}
 	
 	public BoardCell selectTargets(Set<BoardCell> targets) {
-		// TODO: create method
-		return new BoardCell(0, 0);
+		boolean tempFlag = false;
+		ArrayList<BoardCell> roomList = new ArrayList<>();
+		for(BoardCell b : targets) {
+			for(Card room : unseenRooms) {
+				if(room.getName().charAt(0) == b.getInitial()) {
+					tempFlag = true;
+				}
+			}
+			if(b.isRoom() && tempFlag) {
+				roomList.add(b);
+			}
+		}
+		if(roomList.size() > 0) {
+			int randIndex = new Random().nextInt(roomList.size());
+			return roomList.get(randIndex);
+		}
+		
+		int randIndex = new Random().nextInt(targets.size());
+		int currIndex = 0;
+		for(BoardCell b : targets) {
+			if(currIndex == randIndex) {
+				return b;
+			}
+			currIndex++;
+		}
+		return null;
 	}
 	
-	public Solution createSuggestion() {
-		// TODO create method
-		return new Solution(stub, stub, stub);
+	public Solution createSuggestion(Room room) {
+		int random = new Random().nextInt(unseenPersons.size());
+		int randomCounter = 0;
+		Card tempPerson = new Card();
+		Card tempWeapon = new Card();
+		Card tempRoom = new Card(room.getName(), CardType.ROOM);
+		
+		for (Card person : unseenPersons) {
+			if (randomCounter == random) {
+				tempPerson = person;
+				break;
+			}
+			randomCounter++;
+		}
+		
+		random = new Random().nextInt(unseenWeapons.size());
+		randomCounter = 0;
+		for (Card weapon : unseenWeapons) {
+			if (randomCounter == random) {
+				tempWeapon = weapon;
+				break;
+			}
+			randomCounter++;
+		}
+		
+		return new Solution(tempPerson, tempRoom, tempWeapon);
 	}
 	
 	public void addCard(Card c) {
@@ -58,9 +107,7 @@ public class ComputerPlayer extends Player {
 	}
 	
 	public Set<Card> getUnseenWeapons(){
-		Set<Card> stubSet = new HashSet();
-		stubSet.add(stub);
-		return stubSet;
+		return unseenWeapons;
 	}
 	
 	public void setUnseenPersons(Set<Card> persons) {
@@ -68,9 +115,7 @@ public class ComputerPlayer extends Player {
 	}
 	
 	public Set<Card> getUnseenPersons(){
-		Set<Card> stubSet = new HashSet();
-		stubSet.add(stub);
-		return stubSet;
+		return unseenPersons;
 	}
 	
 	public void setUnseenRooms(Set<Card> rooms) {
@@ -78,8 +123,6 @@ public class ComputerPlayer extends Player {
 	}
 	
 	public Set<Card> getUnseenRooms(){
-		Set<Card> stubSet = new HashSet();
-		stubSet.add(stub);
-		return stubSet;
+		return unseenRooms;
 	}
 }
