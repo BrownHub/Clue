@@ -451,8 +451,21 @@ public class Board {
 	
 	// Checks if the accusation is equal to the answer
 	public boolean checkAccusation(Solution userSol) {
-		//return userSol.isEqual(theAnswer);
-		return false;
+		return userSol.isEqual(theAnswer);
+	}
+	
+	
+	public Card handleSuggestion(Player p, Solution aSolution, ArrayList<Player> playerList) {
+		for (Player player : playerList) {
+			if (player != p) {
+				Card disprovingCard = player.disproveSuggestion(aSolution);
+				if (disprovingCard != null) {
+					return disprovingCard;
+				}
+			}
+		}
+
+		return null;
 	}
 	
 	// getters for targets and cells
@@ -503,10 +516,5 @@ public class Board {
 	
 	public Set<Card> getDeckWithoutSolution() {
 		return deckWithoutSolution;
-	}
-
-	public Card handleSuggestion(Player p, Solution aSolution, ArrayList<Player> playerList) {
-		// TODO Auto-generated method stub
-		return null;
 	}
 }

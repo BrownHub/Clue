@@ -1,7 +1,9 @@
 package clueGame;
 
 import java.awt.Color;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Random;
 import java.util.Set;
 
 public abstract class Player {
@@ -21,8 +23,20 @@ public abstract class Player {
 	}
 	
 	public Card disproveSuggestion(Solution aSolution) {
-		// TODO Auto-generated method stub
-		return new Card("Stub", CardType.PERSON);
+		ArrayList<Card> matches = new ArrayList();
+		
+		for (Card cardInHand : hand) {
+			if (cardInHand.equals(aSolution.person) || 
+					cardInHand.equals(aSolution.room) || 
+							cardInHand.equals(aSolution.weapon)) {
+				matches.add(cardInHand);
+			}
+		}
+		
+		if (matches.size() > 0) {
+			return matches.get(new Random().nextInt(matches.size()));
+		}
+		return null;
 	}
 	
 	// getters and setters	
