@@ -1,3 +1,57 @@
+commit b62b867aa84e5e01b174ec50e42037efeaa45d66
+Author: Kendall Brown <kendallbrwn@gmail.com>
+Date:   Sat Mar 27 22:29:30 2021 -0600
+
+    Implemented 'ComputerAITest'
+
+commit 0c2ea6f5f80c444f48b60f5a713c93c8dcacc9a9
+Author: Kendall Brown <kendallbrwn@gmail.com>
+Date:   Sat Mar 27 21:08:44 2021 -0600
+
+    Implemented 'GameSolutionTest'
+
+commit 18e8eb684d37c9f8c2a09269517e579b9fb11f78
+Author: clayne <carson.layne@me.com>
+Date:   Thu Mar 25 18:16:28 2021 -0600
+
+    Implemented SelectTargets test for ComputerAITest and updated and Refactored GameSolutionTest to work with refactors from creating ComputerAITest
+
+commit aae1c27af9bdd1866916a601d24b73fc7daddda5
+Author: Kendall Brown <kendallbrwn@gmail.com>
+Date:   Thu Mar 25 16:08:01 2021 -0600
+
+    Implemented failing 'testCreateSuggestion()' method
+
+commit 34be74b4275e0f8ff482d3ebbc62b8cc2243392c
+Author: clayne <carson.layne@me.com>
+Date:   Thu Mar 25 13:15:57 2021 -0600
+
+    Created ComputerAITest Class
+
+commit 5db23fd37dbfc140775742d5456cddb6605e9d3d
+Author: Kendall Brown <kendallbrwn@gmail.com>
+Date:   Thu Mar 25 12:26:56 2021 -0600
+
+    Fixed name of 'GameSetupTests'
+
+commit dc101d5b96f3d9fa4bd4d7fd0b6464c051840e82
+Author: clayne <carson.layne@me.com>
+Date:   Tue Mar 23 14:31:14 2021 -0600
+
+    implemented tests for HandleSuggestion and DisproveSuggestion, ensured they fail
+
+commit 28321c2b91310b413c9f47cc0d33d956fd47f7db
+Author: clayne <carson.layne@me.com>
+Date:   Tue Mar 23 13:46:12 2021 -0600
+
+    Created GameSolutionTest file, implemented checkAccusation and ensured it failed
+
+commit 1de51e8548e404119e2a50c4fb1560c692cb7ba5
+Author: Kendall Brown <kendallcraigbrown@mymail.mines.edu>
+Date:   Mon Mar 22 22:06:20 2021 -0600
+
+    Created gitlog
+
 commit a58e536d5104c2d056785c612ac6efbe4929ffe5
 Author: Kendall Brown <kendallcraigbrown@mymail.mines.edu>
 Date:   Mon Mar 22 22:05:30 2021 -0600
