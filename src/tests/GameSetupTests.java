@@ -25,7 +25,7 @@ import clueGame.Solution;
 public class GameSetupTests {
 	private static Board board;
 	private static Set<String> playerNames = new HashSet<>(Arrays.asList("Tony", "Marco", "Mario", "Anna", "Rosa", "Laura"));
-	private static Set<Color> playerColors = new HashSet<>(Arrays.asList(Color.BLUE, Color.CYAN, Color.GREEN, Color.MAGENTA, Color.RED, Color.PINK));
+	private static Set<Color> playerColors = new HashSet<>(Arrays.asList(Color.BLUE, Color.CYAN, Color.GREEN, Color.MAGENTA, Color.ORANGE, Color.PINK));
 	@BeforeAll
 	public static void setUp() {
 		// Board is singleton, get the only instance

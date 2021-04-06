@@ -1,6 +1,7 @@
 package clueGame;
 
 import java.awt.Color;
+import java.awt.Graphics;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
@@ -11,8 +12,10 @@ import java.util.Random;
 import java.util.Scanner;
 import java.util.Set;
 
+import javax.swing.JPanel;
 
-public class Board {
+
+public class Board extends JPanel {
 
 	// member variables
 	private BoardCell[][] grid;
@@ -40,6 +43,7 @@ public class Board {
 	// constructor which sets up the board
 	public Board() {
 		super();
+		
 	}
 
 	// this method returns the only Board
@@ -48,7 +52,17 @@ public class Board {
 
 		return theInstance;
 	}
-
+	
+	@Override
+	public void paintComponent(Graphics g) {
+		super.paintComponent(g);
+		for(BoardCell[] cells : grid) {
+			for(BoardCell c : cells) {
+				c.draw(g, getWidth() / numCols, getHeight() / numRows);
+			}
+		}
+	}
+	
 	// recursive function which calculates the possible cells the player can move to
 	public void calcTargets(BoardCell startCell, int pathlength) {
 		targets.clear();
@@ -112,7 +126,7 @@ public class Board {
 		BoardCell[] temp;	// temporary array will be added to the grid each iteration
 		grid = new BoardCell[numRows][numCols];		// allocate memory for the grid
 		for(int i = 0; i < numRows; i++) {
-			temp = new BoardCell[numRows];		// allocate memory for the temporary array
+			temp = new BoardCell[numCols];		// allocate memory for the temporary array
 			for(int j = 0; j < numCols; j++) {
 				// Create a temporary cell, set its attributes, and add it to the temporary list
 				BoardCell currCell = new BoardCell(i, j);

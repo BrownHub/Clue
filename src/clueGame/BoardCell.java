@@ -1,5 +1,6 @@
 package clueGame;
 
+import java.awt.Graphics;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -24,6 +25,18 @@ public class BoardCell {
 		adjList = new HashSet<>();
 		setRow(setRow);
 		setCol(setCol);
+	}
+	
+	public void draw(Graphics g, int width, int height) {
+		// TODO Auto-generated method stub
+		int size;
+		if (width > height) {
+			size = height;
+		} else {
+			size = width;
+		}
+
+		g.drawRect(size * col, size * row, size, size);
 	}
 	
 	// Getter and setter functions

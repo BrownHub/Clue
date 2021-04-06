@@ -1,3 +1,40 @@
+commit 957eeabbf7dc03011d0668f9251eff14e5af4bac
+Merge: cb2be23 87f106e
+Author: clayne <carson.layne@me.com>
+Date:   Mon Apr 5 20:18:36 2021 -0600
+
+    Implemented updating the seen GUI, added tests to see if they work properly, matches the colors of the seen cards to the player who had that card in the GUI
+
+commit 87f106ef6f2fc9d204090cf7a0b34f2c536f2a19
+Author: Kendall Brown <kendallbrwn@gmail.com>
+Date:   Mon Apr 5 20:30:00 2021 -0600
+
+    'KnownCardsPanel' now displays initial seen cards from hand
+
+commit cb2be23e7b1a7ff33b507cf5329c9a4c82a47823
+Author: clayne <carson.layne@me.com>
+Date:   Mon Apr 5 20:12:12 2021 -0600
+
+    Implemented updating the seen GUI, added tests to see if they work properly, matches the colors of the seen cards to the player who had that card in the GUI
+
+commit 55418bce857e37b8856caaae146aabc8e54333b0
+Author: Kendall Brown <kendallbrwn@gmail.com>
+Date:   Sun Apr 4 22:01:39 2021 -0600
+
+    Created skeleton of 'KnownCardsPanel'
+
+commit c4ed05f7d5088af10e19506fbfdcaa399b1c3d26
+Author: clayne <carson.layne@me.com>
+Date:   Sun Apr 4 19:59:14 2021 -0600
+
+    Created setters and implemented test in main method
+
+commit c650a22f17bd70c97a301f54aee4ed156aaf67fd
+Author: Kendall Brown <kendallbrwn@gmail.com>
+Date:   Sun Apr 4 19:27:59 2021 -0600
+
+    Created GUI skeleton for 'GameControlPanel'
+
 commit b62b867aa84e5e01b174ec50e42037efeaa45d66
 Author: Kendall Brown <kendallbrwn@gmail.com>
 Date:   Sat Mar 27 22:29:30 2021 -0600
