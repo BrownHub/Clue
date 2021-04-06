@@ -30,6 +30,7 @@ public class Board {
 	private Set<Card> weaponDeck;
 	private Set<Card> roomDeck;
 	private Solution theAnswer;
+	private HumanPlayer thePlayer;
 	private static Board theInstance;
 
 	// Size of the board
@@ -337,7 +338,8 @@ public class Board {
 				case "Human":
 					type = CardType.PERSON;
 					currCard = new Card(temp[1], type);
-					players.add(new HumanPlayer(temp[1], getColor(temp[2]), Integer.parseInt(temp[3]), Integer.parseInt(temp[4])));
+					thePlayer = new HumanPlayer(temp[1], getColor(temp[2]), Integer.parseInt(temp[3]), Integer.parseInt(temp[4]));
+					players.add(thePlayer);
 					deck.add(currCard);
 					playerDeck.add(currCard);
 					break;
@@ -516,5 +518,9 @@ public class Board {
 	
 	public Set<Card> getDeckWithoutSolution() {
 		return deckWithoutSolution;
+	}
+	
+	public HumanPlayer getThePlayer() {
+		return thePlayer;
 	}
 }

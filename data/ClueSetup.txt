@@ -13,7 +13,7 @@ Space, Unused, X
 Space, Walkway, W
 // Players, player colors, player locations
 Human, Tony, BLUE, 9, 1
-Computer, Marco, RED, 22, 4
+Computer, Marco, ORANGE, 22, 4
 Computer, Mario, CYAN, 24, 8
 Computer, Anna, GREEN, 22, 14
 Computer, Rosa, MAGENTA, 7, 17
