@@ -1,6 +1,7 @@
 package clueGame;
 
 import java.awt.Color;
+import java.awt.Graphics;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Random;
@@ -39,6 +40,21 @@ public abstract class Player {
 		return null;
 	}
 	
+	public void draw(Graphics g, int width, int height, int boardWidth, int columns) {
+		int size;
+		if (width > height) {
+			size = height;
+		} else {
+			size = width;
+		}
+		
+		int offset;
+		offset = (boardWidth - (size * columns)) / 2;
+		g.setColor(playerColor);
+		g.fillOval(size * col + offset, size * row, size, size);
+		g.drawOval(size * col + offset, size * row, size, size);
+	}
+	
 	// getters and setters	
 	public int getRow() {
 		return row;
@@ -63,4 +79,5 @@ public abstract class Player {
 	public void addCard(Card c) {
 		hand.add(c);
 	}
+
 }

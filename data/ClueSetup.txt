@@ -2,8 +2,8 @@
 Room, Canal, C
 Room, Pizza Place, P
 Room, Shed, S
-Room, Left Apartments, L
-Room, Right Apartments, R
+Room, Left Apt, L
+Room, Right Apt, R
 Room, Burger Place, B
 Room, Alley, A
 Room, Vape Shop, V

@@ -1,7 +1,9 @@
 package clueGame;
 
+import java.awt.Color;
 import java.awt.Graphics;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 public class BoardCell {
@@ -27,18 +29,78 @@ public class BoardCell {
 		setCol(setCol);
 	}
 	
-	public void draw(Graphics g, int width, int height) {
+	public void draw(Graphics g, int width, int height, int boardWidth, int columns) {
 		// TODO Auto-generated method stub
+		g.setColor(Color.black);	
 		int size;
 		if (width > height) {
 			size = height;
 		} else {
 			size = width;
 		}
+		
+		int offset;
+		offset = (boardWidth - (size * columns)) / 2;
+		
+		if(isRoom) {
+			g.setColor(Color.GRAY);
+			g.fillRect(size * col + offset, size * row, size, size);
+		} else if(isDoorway) {
+			g.setColor(Color.YELLOW);
+			g.fillRect(size * col + offset, size * row, size, size);
+			g.setColor(Color.BLUE);
+			
+			switch (doorDirection) {
+			case UP:
+				g.fillRect(size * col + offset, size * row, size, size / 6);
+				break;
+			case DOWN:
+				g.fillRect(size * col + offset, size * row + size * 5 / 6 + 1, size, size / 6);
+				break;
+			case LEFT:
+				g.fillRect(size * col + offset, size * row, size / 6, size);
+				break;
+			case RIGHT:
+				g.fillRect(size * col + offset +  size * 5 / 6 + 1, size * row, size / 6, size);
+				break;
+			default:
+				break;
+			}
 
-		g.drawRect(size * col, size * row, size, size);
+			if(doorDirection == DoorDirection.UP) {
+				g.fillRect(size * col + offset, size * row, size, size / 6);
+			}
+			if(doorDirection == DoorDirection.UP) {
+				g.fillRect(size * col + offset, size * row, size, size / 6);
+			}
+			if(doorDirection == DoorDirection.UP) {
+				g.fillRect(size * col + offset, size * row, size, size / 6);
+			}
+		} else if(initial == 'X') {
+			g.setColor(Color.BLACK);
+			g.fillRect(size * col + offset, size * row, size, size);
+		} else if (initial == 'W') {
+			g.setColor(Color.YELLOW);
+			g.fillRect(size * col + offset, size * row, size, size);
+		}
+		if (!isRoom) {
+			g.setColor(Color.black);	
+			g.drawRect(size * col + offset, size * row, size, size);
+		}
 	}
 	
+	public void drawLabel(Graphics g, int width, int height, int boardWidth, int columns, Map<Character, Room> roomMap) {
+		int size;
+		if (width > height) {
+			size = height;
+		} else {
+			size = width;
+		}
+		int offset;
+		offset = (boardWidth - (size * columns)) / 2;
+		g.setColor(Color.BLUE); 
+		g.drawString(roomMap.get(initial).getName(), size * col + offset, size * row);
+	}
 	// Getter and setter functions
 	public void addAdj(BoardCell adj) {
 		adjList.add(adj);

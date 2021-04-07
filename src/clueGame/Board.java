@@ -58,11 +58,26 @@ public class Board extends JPanel {
 		super.paintComponent(g);
 		for(BoardCell[] cells : grid) {
 			for(BoardCell c : cells) {
-				c.draw(g, getWidth() / numCols, getHeight() / numRows);
+				c.draw(g, getWidth() / numCols, getHeight() / numRows, getWidth(), numCols);
+			}
+		}
+		
+		for(Player p : players) {
+			p.draw(g, getWidth() / numCols, getHeight() / numRows, getWidth(), numCols);
+		}
+		drawLabels(g);
+	}
+	
+	private void drawLabels(Graphics g) {
+		for(BoardCell[] cells : grid) {
+			for(BoardCell c : cells) {
+				if(c.isLabel()) {
+					c.drawLabel(g, getWidth() / numCols, getHeight() / numRows, getWidth(), numCols, roomMap);
+				}
 			}
 		}
 	}
-	
+
 	// recursive function which calculates the possible cells the player can move to
 	public void calcTargets(BoardCell startCell, int pathlength) {
 		targets.clear();
