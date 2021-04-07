@@ -29,9 +29,10 @@ public class BoardCell {
 		setCol(setCol);
 	}
 	
+	//Draws the cell
 	public void draw(Graphics g, int width, int height, int boardWidth, int columns) {
-		// TODO Auto-generated method stub
 		g.setColor(Color.black);	
+		//Set size of grid squares
 		int size;
 		if (width > height) {
 			size = height;
@@ -39,13 +40,17 @@ public class BoardCell {
 			size = width;
 		}
 		
+		//Set centering offset
 		int offset;
 		offset = (boardWidth - (size * columns)) / 2;
 		
+		//Display grid square details
 		if(isRoom) {
+			//Display room
 			g.setColor(Color.GRAY);
 			g.fillRect(size * col + offset, size * row, size, size);
 		} else if(isDoorway) {
+			//Display doorway
 			g.setColor(Color.YELLOW);
 			g.fillRect(size * col + offset, size * row, size, size);
 			g.setColor(Color.BLUE);
@@ -77,30 +82,37 @@ public class BoardCell {
 				g.fillRect(size * col + offset, size * row, size, size / 6);
 			}
 		} else if(initial == 'X') {
+			//Display unused space
 			g.setColor(Color.BLACK);
 			g.fillRect(size * col + offset, size * row, size, size);
 		} else if (initial == 'W') {
+			//Display walkway
 			g.setColor(Color.YELLOW);
 			g.fillRect(size * col + offset, size * row, size, size);
 		}
 		if (!isRoom) {
+			//Display grid
 			g.setColor(Color.black);	
 			g.drawRect(size * col + offset, size * row, size, size);
 		}
 	}
 	
+	//Display room label
 	public void drawLabel(Graphics g, int width, int height, int boardWidth, int columns, Map<Character, Room> roomMap) {
+		//Set grid square size
 		int size;
 		if (width > height) {
 			size = height;
 		} else {
 			size = width;
 		}
+		//Set centering offset
 		int offset;
 		offset = (boardWidth - (size * columns)) / 2;
 		g.setColor(Color.BLUE); 
 		g.drawString(roomMap.get(initial).getName(), size * col + offset, size * row);
 	}
+	
 	// Getter and setter functions
 	public void addAdj(BoardCell adj) {
 		adjList.add(adj);
