@@ -4,6 +4,9 @@ import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.LinkedList;
+import java.util.Queue;
+import java.util.Random;
 import java.util.Scanner;
 
 import javax.swing.JButton;
@@ -24,9 +27,29 @@ public class GameControlPanel extends JPanel{
 	private JTextArea guessResult;
 	private JButton next;
 	private JButton makeAccusation;
-
+	private Board board;
+	private Queue<Player> playerQueue;
+	private Random rand;
 	// Constructor, creates and implements each panel
 	public GameControlPanel() {
+		setLayout(new GridLayout(2, 2));
+		add(createTurnPanel());
+		add(createButtonPanel());
+		add(createGuessPanel());
+		add(createGuessResultPanel());
+
+	}
+	// Constructor, creates and implements each panel
+	public GameControlPanel(Board board) {
+		this.board = board;
+		rand = new Random();
+		playerQueue = new LinkedList<>();
+		playerQueue.add(this.board.getThePlayer());
+		for(Player p : this.board.getPlayerSet()) {
+			if(!(p instanceof HumanPlayer)) {
+				playerQueue.add(p);
+			}
+		}
 		setLayout(new GridLayout(2, 2));
 		add(createTurnPanel());
 		add(createButtonPanel());
@@ -40,9 +63,9 @@ public class GameControlPanel extends JPanel{
 		JPanel panel = new JPanel();
 		panel.setLayout(new GridLayout(2, 2));
 		JLabel turnLabel = new JLabel("Player turn");
-		playerTurn = new JTextField("Col. Mustard");
+		playerTurn = new JTextField(playerQueue.peek().getName());
 		playerTurn.setEditable(false);
-		playerTurn.setBackground(Color.orange);
+		playerTurn.setBackground(playerQueue.peek().getColor());
 		JLabel rollLabel = new JLabel("Roll");
 		rollValue = new JTextField("5");
 		rollValue.setEditable(false);
@@ -112,11 +135,15 @@ public class GameControlPanel extends JPanel{
 	
 	// setters for each panel
 	private void setPlayerTurn() {
-		playerTurn.setText("New Text");
+		playerQueue.add(playerQueue.poll());
+		playerTurn.setText(playerQueue.peek().getName());
+		playerTurn.setBackground(playerQueue.peek().getColor());
 	}
 
 	private void setRoll() {
-		rollValue.setText("1");
+		
+		int val = rand.nextInt(6) + 1;
+		rollValue.setText(String.valueOf(val));
 	}
 
 	private void setGuess() {
