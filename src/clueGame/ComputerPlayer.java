@@ -27,19 +27,24 @@ public class ComputerPlayer extends Player {
 	
 	public BoardCell selectTargets(Set<BoardCell> targets) {
 		boolean tempFlag = false;
+		Card tempCard = new Card();
 		ArrayList<BoardCell> roomList = new ArrayList<>();
+		ArrayList<Card> cardList = new ArrayList<>();
 		for(BoardCell b : targets) {
 			for(Card room : unseenRooms) {
 				if(room.getName().charAt(0) == b.getInitial()) {
 					tempFlag = true;
+					tempCard = room;
 				}
 			}
 			if(b.isRoom() && tempFlag) {
 				roomList.add(b);
+				cardList.add(tempCard);
 			}
 		}
 		if(roomList.size() > 0) {
 			int randIndex = new Random().nextInt(roomList.size());
+			removeSeen(cardList.get(randIndex));
 			return roomList.get(randIndex);
 		}
 		

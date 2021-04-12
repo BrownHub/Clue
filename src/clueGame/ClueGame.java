@@ -17,7 +17,7 @@ public class ClueGame extends JFrame {
 		board.setConfigFiles("ClueLayout.csv", "ClueSetup.txt");		
 		board.initialize();	
 		add(board, BorderLayout.CENTER);
-		add(new GameControlPanel(board), BorderLayout.SOUTH);
+		add(new GameControlPanel(), BorderLayout.SOUTH);
 		add(new KnownCardsPanel(board), BorderLayout.EAST);
 		setVisible(true);
 		JOptionPane.showMessageDialog(new JFrame(), "You are " + board.getThePlayer().getName() + ". \nCan you find who done it?", "Welcome to Clue", JFrame.EXIT_ON_CLOSE);

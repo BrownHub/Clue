@@ -22,30 +22,20 @@ public class GameControlPanel extends JPanel{
 	
 	// Member variables
 	private JTextField playerTurn;
-	private JTextField rollValue;
+	private JTextField rollDisplay;
 	private JTextArea playerGuess;
 	private JTextArea guessResult;
 	private JButton next;
 	private JButton makeAccusation;
-	private Board board;
 	private Queue<Player> playerQueue;
 	private Random rand;
+	private int rollValue;
 	// Constructor, creates and implements each panel
 	public GameControlPanel() {
-		setLayout(new GridLayout(2, 2));
-		add(createTurnPanel());
-		add(createButtonPanel());
-		add(createGuessPanel());
-		add(createGuessResultPanel());
-
-	}
-	// Constructor, creates and implements each panel
-	public GameControlPanel(Board board) {
-		this.board = board;
 		rand = new Random();
 		playerQueue = new LinkedList<>();
-		playerQueue.add(this.board.getThePlayer());
-		for(Player p : this.board.getPlayerSet()) {
+		playerQueue.add(Board.getCurrentBoard().getThePlayer());
+		for(Player p : Board.getCurrentBoard().getPlayerSet()) {
 			if(!(p instanceof HumanPlayer)) {
 				playerQueue.add(p);
 			}
@@ -67,12 +57,12 @@ public class GameControlPanel extends JPanel{
 		playerTurn.setEditable(false);
 		playerTurn.setBackground(playerQueue.peek().getColor());
 		JLabel rollLabel = new JLabel("Roll");
-		rollValue = new JTextField("5");
-		rollValue.setEditable(false);
+		rollDisplay = new JTextField("5");
+		rollDisplay.setEditable(false);
 		panel.add(turnLabel);
 		panel.add(rollLabel);
 		panel.add(playerTurn);
-		panel.add(rollValue);
+		panel.add(rollDisplay);
 
 		return panel;
 	}
@@ -89,14 +79,26 @@ public class GameControlPanel extends JPanel{
 		class NextListener implements ActionListener {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				setPlayerTurn();
-				setRoll();
-				setGuess();
+				handlePlayerTurn();
 			}
 		}
 		
 		next.addActionListener(new NextListener());
 		return panel;
+	}
+	
+	private void handlePlayerTurn() {
+		setPlayerTurn();
+		setRoll();
+		
+		if (getCurrentPlayer() instanceof ComputerPlayer) {
+			Board.getCurrentBoard().calcTargets(getCurrentPlayer().getPlayerCell(), rollValue);
+			BoardCell newCell = ((ComputerPlayer) getCurrentPlayer()).selectTargets(Board.getCurrentBoard().getTargets());
+			getCurrentPlayer().setCell(newCell);
+			
+			setGuess();
+			Board.getCurrentBoard().repaint();
+		}
 	}
 	
 	// creates panel for handling player guesses
@@ -136,14 +138,13 @@ public class GameControlPanel extends JPanel{
 	// setters for each panel
 	private void setPlayerTurn() {
 		playerQueue.add(playerQueue.poll());
-		playerTurn.setText(playerQueue.peek().getName());
-		playerTurn.setBackground(playerQueue.peek().getColor());
+		playerTurn.setText(getCurrentPlayer().getName());
+		playerTurn.setBackground(getCurrentPlayer().getColor());
 	}
 
 	private void setRoll() {
-		
-		int val = rand.nextInt(6) + 1;
-		rollValue.setText(String.valueOf(val));
+		rollValue = rand.nextInt(6) + 1;
+		rollDisplay.setText(String.valueOf(rollValue));
 	}
 
 	private void setGuess() {
@@ -153,6 +154,14 @@ public class GameControlPanel extends JPanel{
 
 	private void setGuessResult() {
 		guessResult.setText("New result");
+	}
+	
+	private Player getCurrentPlayer() {
+		return playerQueue.peek();
+	}
+	
+	private int getRollValue() {
+		return rollValue;
 	}
 	
 	// main function which creates the frame and tests the setters

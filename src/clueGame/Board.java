@@ -53,6 +53,9 @@ public class Board extends JPanel {
 		return theInstance;
 	}
 	
+	public static Board getCurrentBoard() {
+		return theInstance;
+	}
 	@Override
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
@@ -375,6 +378,7 @@ public class Board extends JPanel {
 				case "Computer":
 					type = CardType.PERSON;
 					currCard = new Card(temp[1], type);
+					
 					players.add(new ComputerPlayer(temp[1], getColor(temp[2]), Integer.parseInt(temp[3]), Integer.parseInt(temp[4])));
 					deck.add(currCard);
 					playerDeck.add(currCard);

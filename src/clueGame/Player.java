@@ -23,6 +23,7 @@ public abstract class Player {
 		
 	}
 	
+	
 	public Card disproveSuggestion(Solution aSolution) {
 		ArrayList<Card> matches = new ArrayList();
 		
@@ -56,6 +57,10 @@ public abstract class Player {
 	}
 	
 	// getters and setters	
+	public BoardCell getPlayerCell() {
+		return Board.getCurrentBoard().getCell(row, col);
+	}
+	
 	public int getRow() {
 		return row;
 	}
@@ -64,6 +69,18 @@ public abstract class Player {
 		return col;
 	}
 	
+	public void setCell(BoardCell cell) {
+		this.row = cell.getRow();
+		this.col = cell.getCol();
+	}
+	
+	public void setRow(int row) {
+		this.row = row;
+	}
+	
+	public void setCol(int col) {
+		this.col = col;
+	}
 	public String getName() {
 		return name;
 	}
