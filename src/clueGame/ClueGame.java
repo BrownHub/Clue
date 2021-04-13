@@ -31,7 +31,8 @@ public class ClueGame extends JFrame implements MouseListener {
 	@Override
 	public void mouseClicked(MouseEvent e) {
 	}
-
+	
+	// Moves the player to the selected target if it is valid, otherwise returns an error
 	@Override
 	public void mousePressed(MouseEvent e) {
 		boolean notValid = true;

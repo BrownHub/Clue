@@ -81,7 +81,7 @@ public class GameControlPanel extends JPanel {
 		class NextListener implements ActionListener {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if(moveFinished) {
+				if(moveFinished) {	// Ensures that the player moves before advancing turns
 					resetValidTargets(Board.getCurrentBoard().getGrid());
 					handlePlayerTurn();
 				}
