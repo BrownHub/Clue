@@ -2,6 +2,8 @@ package clueGame;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
@@ -49,7 +51,6 @@ public class Board extends JPanel {
 	// this method returns the only Board
 	public static Board getInstance() {
 		theInstance = new Board();
-
 		return theInstance;
 	}
 	
@@ -59,18 +60,25 @@ public class Board extends JPanel {
 	@Override
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
+		drawCells(g);
+		drawPlayers(g);
+		drawLabels(g);
+	}
+
+	private void drawPlayers(Graphics g) {
+		for(Player p : players) {
+			p.draw(g, getWidth() / numCols, getHeight() / numRows, getWidth(), numCols);
+		}
+	}
+	
+	private void drawCells(Graphics g) {
 		for(BoardCell[] cells : grid) {
 			for(BoardCell c : cells) {
 				c.draw(g, getWidth() / numCols, getHeight() / numRows, getWidth(), numCols);
 			}
 		}
 		
-		for(Player p : players) {
-			p.draw(g, getWidth() / numCols, getHeight() / numRows, getWidth(), numCols);
-		}
-		drawLabels(g);
 	}
-	
 	private void drawLabels(Graphics g) {
 		for(BoardCell[] cells : grid) {
 			for(BoardCell c : cells) {
@@ -556,4 +564,9 @@ public class Board extends JPanel {
 	public HumanPlayer getThePlayer() {
 		return thePlayer;
 	}
+	
+	public BoardCell[][] getGrid() {
+		return grid;
+	}
+
 }

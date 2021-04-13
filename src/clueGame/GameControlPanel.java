@@ -8,6 +8,7 @@ import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Random;
 import java.util.Scanner;
+import java.util.Set;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -18,8 +19,8 @@ import javax.swing.JTextField;
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
 
-public class GameControlPanel extends JPanel{
-	
+public class GameControlPanel extends JPanel {
+
 	// Member variables
 	private JTextField playerTurn;
 	private JTextField rollDisplay;
@@ -30,6 +31,7 @@ public class GameControlPanel extends JPanel{
 	private Queue<Player> playerQueue;
 	private Random rand;
 	private int rollValue;
+	private boolean moveFinished;
 	// Constructor, creates and implements each panel
 	public GameControlPanel() {
 		rand = new Random();
@@ -45,9 +47,9 @@ public class GameControlPanel extends JPanel{
 		add(createButtonPanel());
 		add(createGuessPanel());
 		add(createGuessResultPanel());
-
+		turnOne();
 	}
-	
+
 	// creates panel handling the turns of the player
 	private JPanel createTurnPanel() {
 		JPanel panel = new JPanel();
@@ -66,7 +68,7 @@ public class GameControlPanel extends JPanel{
 
 		return panel;
 	}
-	
+
 	// creates button panel handling making accusations and next player's turn
 	private JPanel createButtonPanel() {
 
@@ -75,32 +77,60 @@ public class GameControlPanel extends JPanel{
 		next = new JButton("Next!");
 		panel.add(makeAccusation);
 		panel.add(next);
-		
+
 		class NextListener implements ActionListener {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				handlePlayerTurn();
+				if(moveFinished) {
+					resetValidTargets(Board.getCurrentBoard().getGrid());
+					handlePlayerTurn();
+				}
 			}
 		}
-		
+
 		next.addActionListener(new NextListener());
 		return panel;
 	}
-	
+
 	private void handlePlayerTurn() {
 		setPlayerTurn();
 		setRoll();
-		
+		Board.getCurrentBoard().calcTargets(getCurrentPlayer().getPlayerCell(), rollValue);
+
 		if (getCurrentPlayer() instanceof ComputerPlayer) {
-			Board.getCurrentBoard().calcTargets(getCurrentPlayer().getPlayerCell(), rollValue);
 			BoardCell newCell = ((ComputerPlayer) getCurrentPlayer()).selectTargets(Board.getCurrentBoard().getTargets());
 			getCurrentPlayer().setCell(newCell);
-			
+
 			setGuess();
+			Board.getCurrentBoard().repaint();
+		} else {
+			setValidTargets(Board.getCurrentBoard().getTargets());
 			Board.getCurrentBoard().repaint();
 		}
 	}
+
+	private void turnOne() {
+		setMoveFinished(false);
+		setRoll();
+		Board.getCurrentBoard().calcTargets(getCurrentPlayer().getPlayerCell(), rollValue);
+		setValidTargets(Board.getCurrentBoard().getTargets());
+		Board.getCurrentBoard().repaint();
+	}
 	
+	private void setValidTargets(Set<BoardCell> targets) {
+		for(BoardCell cell : targets) {
+			cell.setTarget(true);
+		}
+	}
+
+	private void resetValidTargets(BoardCell[][] grid) {
+		for(BoardCell[] cellList : grid) {
+			for(BoardCell cell : cellList) {
+				cell.setTarget(false);
+			}
+		}
+	}
+
 	// creates panel for handling player guesses
 	private JPanel createGuessPanel() {
 		JPanel panel = new JPanel();
@@ -112,12 +142,12 @@ public class GameControlPanel extends JPanel{
 
 		return panel;
 	}
-	
+
 	// updates the player's guess
 	private void updateGuess() {
 		playerGuess.setText("I have no guess");
 	}
-	
+
 	// updates the player's guess result panel
 	private JPanel createGuessResultPanel() {
 		JPanel panel = new JPanel();
@@ -129,17 +159,20 @@ public class GameControlPanel extends JPanel{
 
 		return panel;
 	}
-	
+
 	// updates the result panel
 	private void updateGuessResult() {
 		guessResult.setText("So you have nothing?");
 	}
-	
+
 	// setters for each panel
 	private void setPlayerTurn() {
 		playerQueue.add(playerQueue.poll());
 		playerTurn.setText(getCurrentPlayer().getName());
 		playerTurn.setBackground(getCurrentPlayer().getColor());
+		if(getCurrentPlayer() instanceof HumanPlayer) {
+			setMoveFinished(false);
+		}
 	}
 
 	private void setRoll() {
@@ -155,15 +188,15 @@ public class GameControlPanel extends JPanel{
 	private void setGuessResult() {
 		guessResult.setText("New result");
 	}
-	
+
 	private Player getCurrentPlayer() {
 		return playerQueue.peek();
 	}
-	
-	private int getRollValue() {
-		return rollValue;
+
+	public void setMoveFinished(boolean b) {
+		moveFinished = b;
 	}
-	
+
 	// main function which creates the frame and tests the setters
 	public static void main(String[] args) {
 		GameControlPanel panel = new GameControlPanel();

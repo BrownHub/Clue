@@ -104,11 +104,11 @@ public class ComputerAITest {
 		BoardCell roomTarget = new BoardCell(0, 0);
 		Card roomCard = new Card("Room", CardType.ROOM);
 		roomTarget.setRoom(true);
-		roomTarget.setInitial('M');
+		roomTarget.setInitial('R');
 		oneRoomTargets.add(firstTarget);
 		oneRoomTargets.add(secondTarget);
 		oneRoomTargets.add(roomTarget);
-		
+		oneRoomPlayer.addUnseenRoomCard(roomCard);
 		// Assert that if there is a room in the targets that has not been seen, return it as the target
 		assertTrue(oneRoomPlayer.selectTargets(oneRoomTargets) == roomTarget);
 		

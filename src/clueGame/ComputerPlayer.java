@@ -130,4 +130,9 @@ public class ComputerPlayer extends Player {
 	public Set<Card> getUnseenRooms(){
 		return unseenRooms;
 	}
+
+	public void addUnseenRoomCard(Card roomCard) {
+		unseenRooms.add(roomCard);
+		
+	}
 }

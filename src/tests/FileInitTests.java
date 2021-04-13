@@ -88,7 +88,7 @@ public class FileInitTests {
 		assertFalse(cell.isDoorway());
 		
 		// check if a room is a label cell
-		cell = board.getCell(0, 9);
+		cell = board.getCell(1, 8);
 		room = board.getRoom(cell);
 		assertTrue(room != null);
 		assertEquals(room.getName(), "Alley");
@@ -107,7 +107,7 @@ public class FileInitTests {
 		cell = board.getCell(29, 0);
 		room = board.getRoom(cell);
 		assertTrue(room != null);
-		assertEquals(room.getName(), "Left Apartments");
+		assertEquals(room.getName(), "Left Apt");
 		assertTrue(cell.getSecretPassage() == 'R');
 		
 		// check if a cell is a walkway
