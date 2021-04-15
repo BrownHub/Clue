@@ -57,6 +57,7 @@ public class Board extends JPanel {
 	public static Board getCurrentBoard() {
 		return theInstance;
 	}
+	
 	@Override
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
@@ -498,11 +499,18 @@ public class Board extends JPanel {
 	}
 	
 	
-	public Card handleSuggestion(Player p, Solution aSolution, ArrayList<Player> playerList) {
+	public Card handleSuggestion(Player p, Solution aSolution, Set<Player> playerList) {
+		Card disprovingCard;
 		for (Player player : playerList) {
 			if (player != p) {
-				Card disprovingCard = player.disproveSuggestion(aSolution);
+				disprovingCard = player.disproveSuggestion(aSolution);
 				if (disprovingCard != null) {
+					KnownCardsPanel.getCurrentKnownCards().updateSeen(player, disprovingCard);
+					for(Player computerPlayer: playerList) {
+						if(computerPlayer instanceof ComputerPlayer) {
+							((ComputerPlayer) computerPlayer).removeSeen(disprovingCard);
+						}
+					}
 					return disprovingCard;
 				}
 			}

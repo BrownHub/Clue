@@ -13,6 +13,7 @@ public abstract class Player {
 	String name;
 	Color playerColor;
 	Set<Card> hand;
+
 	public Player(String name, Color color, int row, int col) {
 		super();
 		this.name = name;
@@ -24,8 +25,14 @@ public abstract class Player {
 	}
 	
 	
+	public Player() {
+		this.name = "Empty";
+		hand = new HashSet<>();
+	}
+
+
 	public Card disproveSuggestion(Solution aSolution) {
-		ArrayList<Card> matches = new ArrayList();
+		ArrayList<Card> matches = new ArrayList<>();
 		
 		for (Card cardInHand : hand) {
 			if (cardInHand.equals(aSolution.person) || 
@@ -35,10 +42,19 @@ public abstract class Player {
 			}
 		}
 		
-		if (matches.size() > 0) {
+		if (!matches.isEmpty()) {
 			return matches.get(new Random().nextInt(matches.size()));
 		}
 		return null;
+	}
+	
+	public boolean isInHand(Card c) {
+		for (Card cardInHand : hand) {
+			if (cardInHand.equals(c)) {
+				return true;
+			}
+		}
+		return false;
 	}
 	
 	public void draw(Graphics g, int width, int height, int boardWidth, int columns) {

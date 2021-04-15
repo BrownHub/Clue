@@ -14,4 +14,8 @@ public class Solution {
 	public boolean isEqual(Solution solB) {
 		return (this.person.equals(solB.person) && this.room.equals(solB.room) && this.weapon.equals(solB.weapon));
 	}
+	
+	public String toString() {
+		return "It was " + person.getName() + " in the " + room.getName() + " with the " + weapon.getName() + ".";
+	}
 }

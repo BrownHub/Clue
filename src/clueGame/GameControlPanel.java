@@ -32,6 +32,7 @@ public class GameControlPanel extends JPanel {
 	private Random rand;
 	private int rollValue;
 	private boolean moveFinished;
+
 	// Constructor, creates and implements each panel
 	public GameControlPanel() {
 		rand = new Random();
@@ -54,13 +55,16 @@ public class GameControlPanel extends JPanel {
 	private JPanel createTurnPanel() {
 		JPanel panel = new JPanel();
 		panel.setLayout(new GridLayout(2, 2));
+
 		JLabel turnLabel = new JLabel("Player turn");
 		playerTurn = new JTextField(playerQueue.peek().getName());
 		playerTurn.setEditable(false);
 		playerTurn.setBackground(playerQueue.peek().getColor());
+
 		JLabel rollLabel = new JLabel("Roll");
-		rollDisplay = new JTextField("5");
+		rollDisplay = new JTextField(rollValue);
 		rollDisplay.setEditable(false);
+
 		panel.add(turnLabel);
 		panel.add(rollLabel);
 		panel.add(playerTurn);
@@ -93,6 +97,8 @@ public class GameControlPanel extends JPanel {
 	}
 
 	private void handlePlayerTurn() {
+		// TODO: If called to a room by suggestion, players should be allowed to make a suggestion
+		// TODO: Move players if they were called to a room
 		setPlayerTurn();
 		setRoll();
 		Board.getCurrentBoard().calcTargets(getCurrentPlayer().getPlayerCell(), rollValue);
@@ -100,12 +106,18 @@ public class GameControlPanel extends JPanel {
 		if (getCurrentPlayer() instanceof ComputerPlayer) {
 			BoardCell newCell = ((ComputerPlayer) getCurrentPlayer()).selectTargets(Board.getCurrentBoard().getTargets());
 			getCurrentPlayer().setCell(newCell);
-
-			setGuess();
+			
+			if(getCurrentPlayer().getPlayerCell().isRoom()) {
+				Room suggestionRoom = new Room("Suggestion");
+				suggestionRoom = Board.getCurrentBoard().getRoom(getCurrentPlayer().getPlayerCell());
+				setGuess(((ComputerPlayer) getCurrentPlayer()).createSuggestion(suggestionRoom));
+			}
+			// TODO: Bug where only HumanPlayer disproves the suggestion
 			Board.getCurrentBoard().repaint();
 		} else {
 			setValidTargets(Board.getCurrentBoard().getTargets());
 			Board.getCurrentBoard().repaint();
+			// TODO: Player can make a Guess
 		}
 	}
 
@@ -116,7 +128,7 @@ public class GameControlPanel extends JPanel {
 		setValidTargets(Board.getCurrentBoard().getTargets());
 		Board.getCurrentBoard().repaint();
 	}
-	
+
 	private void setValidTargets(Set<BoardCell> targets) {
 		for(BoardCell cell : targets) {
 			cell.setTarget(true);
@@ -136,16 +148,11 @@ public class GameControlPanel extends JPanel {
 		JPanel panel = new JPanel();
 		playerGuess = new JTextArea();
 		playerGuess.setEditable(false);
-		updateGuess();
+		playerGuess.setText("No guesses yet");
 		panel.add(playerGuess);
 		panel.setBorder(new TitledBorder(new EtchedBorder(), "Guess"));
 
 		return panel;
-	}
-
-	// updates the player's guess
-	private void updateGuess() {
-		playerGuess.setText("I have no guess");
 	}
 
 	// updates the player's guess result panel
@@ -153,16 +160,11 @@ public class GameControlPanel extends JPanel {
 		JPanel panel = new JPanel();
 		guessResult = new JTextArea();
 		guessResult.setEditable(false);
-		updateGuessResult();
+		guessResult.setText("No guesses yet");
 		panel.add(guessResult);
 		panel.setBorder(new TitledBorder(new EtchedBorder(), "Guess Result"));
 
 		return panel;
-	}
-
-	// updates the result panel
-	private void updateGuessResult() {
-		guessResult.setText("So you have nothing?");
 	}
 
 	// setters for each panel
@@ -180,13 +182,26 @@ public class GameControlPanel extends JPanel {
 		rollDisplay.setText(String.valueOf(rollValue));
 	}
 
-	private void setGuess() {
-		playerGuess.setText("new Guess");
-		setGuessResult();
+	private void setGuess(Solution s) {
+		playerGuess.setText(getCurrentPlayer().getName() + " made the guess: " + s);
+		//getCurrentPlayer().
+		setGuessResult(Board.getCurrentBoard().handleSuggestion(getCurrentPlayer(), s, Board.getCurrentBoard().getPlayerSet()));
 	}
 
-	private void setGuessResult() {
-		guessResult.setText("New result");
+	private void setGuessResult(Card c) {
+		if(c == null) {
+			guessResult.setText("No player can disprove the guess");
+		} else {
+			Player hasCard = new ComputerPlayer();
+			for(Player p : Board.getCurrentBoard().getPlayerSet()) {
+				if(p.isInHand(c)) {
+					hasCard = p;
+				}
+			}
+
+			guessResult.setText(hasCard.getName() + " has the card " + c.getName());
+
+		}
 	}
 
 	private Player getCurrentPlayer() {
@@ -209,9 +224,7 @@ public class GameControlPanel extends JPanel {
 		System.out.println("Enter to test if setters work properly");
 		in.nextLine();
 		panel.setRoll();
-		panel.setGuess();
 		panel.setPlayerTurn();
-
 	}
 
 }

@@ -12,7 +12,9 @@ public class ComputerPlayer extends Player {
 	private Set<Card> unseenPersons;
 	private Set<Card> unseenRooms;
 	private Card stub = new Card();
-	
+	public ComputerPlayer() {
+		super();
+	}
 	public ComputerPlayer(String name, Color color, int row, int col, 
 			Set<Card> weapons, Set<Card> persons, Set<Card> rooms) {
 		super(name, color, row, col);
@@ -42,7 +44,7 @@ public class ComputerPlayer extends Player {
 				cardList.add(tempCard);
 			}
 		}
-		if(roomList.size() > 0) {
+		if(!roomList.isEmpty()) {
 			int randIndex = new Random().nextInt(roomList.size());
 			removeSeen(cardList.get(randIndex));
 			return roomList.get(randIndex);
@@ -65,7 +67,6 @@ public class ComputerPlayer extends Player {
 		Card tempPerson = new Card();
 		Card tempWeapon = new Card();
 		Card tempRoom = new Card(room.getName(), CardType.ROOM);
-		
 		for (Card person : unseenPersons) {
 			if (randomCounter == random) {
 				tempPerson = person;

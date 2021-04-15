@@ -9,22 +9,22 @@ import javax.swing.JOptionPane;
 
 public class ClueGame extends JFrame implements MouseListener {
 	
-	private Board board;
 	private GameControlPanel control;
+	
 	public ClueGame() {
 		setSize(700, 1000);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		// Create the board
-		board = Board.getInstance();
-		board.setConfigFiles("ClueLayout.csv", "ClueSetup.txt");		
-		board.initialize();	
-		add(board, BorderLayout.CENTER);
+		Board.getInstance();
+		Board.getCurrentBoard().setConfigFiles("ClueLayout.csv", "ClueSetup.txt");		
+		Board.getCurrentBoard().initialize();	
+		add(Board.getCurrentBoard(), BorderLayout.CENTER);
 		control = new GameControlPanel();
 		add(control, BorderLayout.SOUTH);
-		add(new KnownCardsPanel(board), BorderLayout.EAST);
+		add(KnownCardsPanel.getInstance(), BorderLayout.EAST);
 		addMouseListener(this);
 		setVisible(true);
-		JOptionPane.showMessageDialog(new JFrame(), "You are " + board.getThePlayer().getName() + ". \nCan you find who done it?", "Welcome to Clue", JFrame.EXIT_ON_CLOSE);
+		JOptionPane.showMessageDialog(new JFrame(), "You are " + Board.getCurrentBoard().getThePlayer().getName() + ". \nCan you find who done it?", "Welcome to Clue", JFrame.EXIT_ON_CLOSE);
 	}
 	
 
@@ -36,10 +36,10 @@ public class ClueGame extends JFrame implements MouseListener {
 	@Override
 	public void mousePressed(MouseEvent e) {
 		boolean notValid = true;
-		for(BoardCell b : board.getTargets()) {
-			if(b.isTarget() && b.isClicked(e.getX(), e.getY(), board.getWidth() / board.getNumColumns(), board.getHeight() / board.getNumRows(), board.getWidth(), board.getNumColumns())) {
-				board.getThePlayer().setCell(b);
-				board.repaint();
+		for(BoardCell b : Board.getCurrentBoard().getTargets()) {
+			if(b.isTarget() && b.isClicked(e.getX(), e.getY(), Board.getCurrentBoard().getWidth() / Board.getCurrentBoard().getNumColumns(), Board.getCurrentBoard().getHeight() / Board.getCurrentBoard().getNumRows(),Board.getCurrentBoard().getWidth(),Board.getCurrentBoard().getNumColumns())) {
+				Board.getCurrentBoard().getThePlayer().setCell(b);
+				Board.getCurrentBoard().repaint();
 				notValid = false;
 			}
 		}
