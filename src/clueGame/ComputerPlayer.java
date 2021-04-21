@@ -88,6 +88,7 @@ public class ComputerPlayer extends Player {
 		return new Solution(tempPerson, tempRoom, tempWeapon);
 	}
 	
+	@Override
 	public void addCard(Card c) {
 		super.addCard(c);
 		removeSeen(c);

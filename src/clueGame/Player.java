@@ -35,9 +35,9 @@ public abstract class Player {
 		ArrayList<Card> matches = new ArrayList<>();
 		
 		for (Card cardInHand : hand) {
-			if (cardInHand.equals(aSolution.person) || 
-					cardInHand.equals(aSolution.room) || 
-							cardInHand.equals(aSolution.weapon)) {
+			if (cardInHand.isEquals(aSolution.person) || 
+					cardInHand.isEquals(aSolution.room) || 
+							cardInHand.isEquals(aSolution.weapon)) {
 				matches.add(cardInHand);
 			}
 		}
@@ -88,6 +88,11 @@ public abstract class Player {
 	public void setCell(BoardCell cell) {
 		this.row = cell.getRow();
 		this.col = cell.getCol();
+	}
+	
+	public void setCell(int row, int col) {
+		this.row = row;
+		this.col = col;
 	}
 	
 	public void setRow(int row) {

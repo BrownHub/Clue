@@ -192,7 +192,11 @@ public class Board extends JPanel {
 			for(int i = 0; i < 3; i++) {
 				randCard = getRandomCard(removeDeck);
 				removeDeck.remove(randCard);
-				currPlayer.addCard(randCard);
+				if(currPlayer instanceof ComputerPlayer) {
+					((ComputerPlayer) currPlayer).addCard(randCard);
+				} else {
+					currPlayer.addCard(randCard);
+				}
 			}
 		}
 	}
@@ -387,7 +391,6 @@ public class Board extends JPanel {
 				case "Computer":
 					type = CardType.PERSON;
 					currCard = new Card(temp[1], type);
-					
 					players.add(new ComputerPlayer(temp[1], getColor(temp[2]), Integer.parseInt(temp[3]), Integer.parseInt(temp[4])));
 					deck.add(currCard);
 					playerDeck.add(currCard);
@@ -406,9 +409,12 @@ public class Board extends JPanel {
 		
 		for (Player player: players) {
 			if (player instanceof ComputerPlayer) {
-				((ComputerPlayer) player).setUnseenWeapons(weaponDeck);
-				((ComputerPlayer) player).setUnseenPersons(playerDeck);
-				((ComputerPlayer) player).setUnseenRooms(roomDeck);
+				Set<Card> copyWeaponDeck = new HashSet<>(weaponDeck);
+				Set<Card> copyPlayerDeck = new HashSet<>(playerDeck);
+				Set<Card> copyRoomDeck = new HashSet<>(roomDeck);
+				((ComputerPlayer) player).setUnseenWeapons(copyWeaponDeck);
+				((ComputerPlayer) player).setUnseenPersons(copyPlayerDeck);
+				((ComputerPlayer) player).setUnseenRooms(copyRoomDeck);
 			}
 		}
 	}
@@ -567,6 +573,15 @@ public class Board extends JPanel {
 	
 	public Set<Card> getDeckWithoutSolution() {
 		return deckWithoutSolution;
+	}
+	
+	public Player getPlayerFromSet(String name) {
+		for(Player p : players) {
+			if(p.getName().equals(name)) {
+				return p;
+			}
+		} 
+		return null;
 	}
 	
 	public HumanPlayer getThePlayer() {

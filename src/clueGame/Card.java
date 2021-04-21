@@ -19,4 +19,13 @@ public class Card {
 	public CardType getType() {
 		return type;
 	}
+	
+	
+	public boolean isEquals(Card c) {
+		if (c == this) {
+			return true;
+		}
+		
+		return c.getName() == this.name & c.getType() == this.type;
+	}
 }

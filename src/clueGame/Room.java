@@ -44,5 +44,4 @@ public class Room {
 		this.labelCell = labelCell;
 	}
 	
-	
 }

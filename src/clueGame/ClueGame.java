@@ -4,8 +4,10 @@ import java.awt.BorderLayout;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 
 public class ClueGame extends JFrame implements MouseListener {
 	
@@ -47,6 +49,12 @@ public class ClueGame extends JFrame implements MouseListener {
 			JOptionPane.showMessageDialog(new JFrame(), "NOT A VALID TARGET", "ERROR", JFrame.EXIT_ON_CLOSE);
 		} else {
 			control.setMoveFinished(true);
+			if(control.getCurrentPlayer().getPlayerCell().isRoom()) {
+				int opt = JOptionPane.showConfirmDialog(new JFrame(), "Would you like to make a Suggestion?", "Make a Suggestion:", JOptionPane.YES_NO_OPTION);
+				if(opt == JOptionPane.YES_OPTION) {
+					//TODO: implement player accusation
+				}	
+			}
 		}
 	}
 

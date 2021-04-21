@@ -13,6 +13,7 @@ import java.util.Set;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
@@ -48,7 +49,9 @@ public class GameControlPanel extends JPanel {
 		add(createButtonPanel());
 		add(createGuessPanel());
 		add(createGuessResultPanel());
-		turnOne();
+		setMoveFinished(false);
+		setTurnOrder();
+		handlePlayerTurn();
 	}
 
 	// creates panel handling the turns of the player
@@ -87,6 +90,7 @@ public class GameControlPanel extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				if(moveFinished) {	// Ensures that the player moves before advancing turns
 					resetValidTargets(Board.getCurrentBoard().getGrid());
+					setPlayerTurn();
 					handlePlayerTurn();
 				}
 			}
@@ -95,11 +99,17 @@ public class GameControlPanel extends JPanel {
 		next.addActionListener(new NextListener());
 		return panel;
 	}
-
+	
+	private void setTurnOrder() {
+		while(getCurrentPlayer() instanceof ComputerPlayer) {
+			setPlayerTurn();
+		}
+	}
+	
 	private void handlePlayerTurn() {
 		// TODO: If called to a room by suggestion, players should be allowed to make a suggestion
-		// TODO: Move players if they were called to a room
-		setPlayerTurn();
+		// TODO: Players cannot make accusations
+		
 		setRoll();
 		Board.getCurrentBoard().calcTargets(getCurrentPlayer().getPlayerCell(), rollValue);
 
@@ -108,25 +118,17 @@ public class GameControlPanel extends JPanel {
 			getCurrentPlayer().setCell(newCell);
 			
 			if(getCurrentPlayer().getPlayerCell().isRoom()) {
-				Room suggestionRoom = new Room("Suggestion");
+				Room suggestionRoom;
 				suggestionRoom = Board.getCurrentBoard().getRoom(getCurrentPlayer().getPlayerCell());
 				setGuess(((ComputerPlayer) getCurrentPlayer()).createSuggestion(suggestionRoom));
 			}
-			// TODO: Bug where only HumanPlayer disproves the suggestion
+			//TODO: Players can still move to occupied targets
 			Board.getCurrentBoard().repaint();
 		} else {
 			setValidTargets(Board.getCurrentBoard().getTargets());
 			Board.getCurrentBoard().repaint();
-			// TODO: Player can make a Guess
+			// TODO: Human Player can make a suggestion
 		}
-	}
-
-	private void turnOne() {
-		setMoveFinished(false);
-		setRoll();
-		Board.getCurrentBoard().calcTargets(getCurrentPlayer().getPlayerCell(), rollValue);
-		setValidTargets(Board.getCurrentBoard().getTargets());
-		Board.getCurrentBoard().repaint();
 	}
 
 	private void setValidTargets(Set<BoardCell> targets) {
@@ -184,7 +186,7 @@ public class GameControlPanel extends JPanel {
 
 	private void setGuess(Solution s) {
 		playerGuess.setText(getCurrentPlayer().getName() + " made the guess: " + s);
-		//getCurrentPlayer().
+		Board.getCurrentBoard().getPlayerFromSet(s.person.getName()).setCell(getCurrentPlayer().getRow(), getCurrentPlayer().getCol());;
 		setGuessResult(Board.getCurrentBoard().handleSuggestion(getCurrentPlayer(), s, Board.getCurrentBoard().getPlayerSet()));
 	}
 
@@ -204,27 +206,11 @@ public class GameControlPanel extends JPanel {
 		}
 	}
 
-	private Player getCurrentPlayer() {
+	public Player getCurrentPlayer() {
 		return playerQueue.peek();
 	}
 
 	public void setMoveFinished(boolean b) {
 		moveFinished = b;
 	}
-
-	// main function which creates the frame and tests the setters
-	public static void main(String[] args) {
-		GameControlPanel panel = new GameControlPanel();
-		JFrame frame = new JFrame();
-		frame.setContentPane(panel);
-		frame.setSize(750, 180);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setVisible(true);
-		Scanner in = new Scanner(System.in);
-		System.out.println("Enter to test if setters work properly");
-		in.nextLine();
-		panel.setRoll();
-		panel.setPlayerTurn();
-	}
-
 }

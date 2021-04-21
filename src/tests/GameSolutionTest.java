@@ -126,13 +126,14 @@ public class GameSolutionTest {
 	
 	@Test
 	public void testHandleSuggestion() {
+		ClueGame clue = new ClueGame();
 		// Create three players, 
 		ComputerPlayer playerA = new ComputerPlayer("playerA", Color.BLUE, 0, 0, weapons, persons, rooms);
 		ComputerPlayer playerB = new ComputerPlayer("playerB", Color.GREEN, 1, 1, weapons, persons, rooms);
 		HumanPlayer playerC = new HumanPlayer("playerC", Color.BLACK, 2, 2);
 		ComputerPlayer playerD = new ComputerPlayer("playerD", Color.BLACK, 3, 3, weapons, persons, rooms);
 
-		ArrayList<Player> playerList = new ArrayList<>();
+		Set<Player> playerList = new HashSet<>();
 		
 		// Create three solutions
 		Solution aSolution = new Solution(person1, room1, weapon1);
