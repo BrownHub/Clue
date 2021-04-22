@@ -14,6 +14,8 @@ import java.util.Random;
 import java.util.Scanner;
 import java.util.Set;
 
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 
@@ -504,6 +506,19 @@ public class Board extends JPanel {
 		return userSol.isEqual(theAnswer);
 	}
 	
+	// Handles accusations by players
+	public void handleAccusation(Solution aSolution, Player p) {
+		if(checkAccusation(aSolution)) {
+			ClueGame.getCurrentGame().playerWins(p);
+		} else {
+			if(p instanceof HumanPlayer) {
+				ClueGame.getCurrentGame().playerLoses(p);
+			} else {
+				GameControlPanel.getCurrentPanel().removeCurrentPlayer();
+				JOptionPane.showMessageDialog(new JFrame(), p.getName() + " guessed incorrectly.\n" + p.getName() + " loses.", "Incorrect Accusation", JFrame.EXIT_ON_CLOSE);
+			}
+		}
+	}
 	
 	public Card handleSuggestion(Player p, Solution aSolution, Set<Player> playerList) {
 		Card disprovingCard;
@@ -561,6 +576,18 @@ public class Board extends JPanel {
 
 	public Set<Player> getPlayerSet() {
 		return players;
+	}
+	
+	public Set<Card> getWeaponDeck() {
+		return weaponDeck;
+	}
+	
+	public Set<Card> getRoomDeck() {
+		return roomDeck;
+	}
+	
+	public Set<Card> getPlayerDeck() {
+		return playerDeck;
 	}
 	
 	public Set<Card> getDeck() {

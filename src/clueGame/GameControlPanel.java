@@ -33,7 +33,16 @@ public class GameControlPanel extends JPanel {
 	private Random rand;
 	private int rollValue;
 	private boolean moveFinished;
-
+	private static GameControlPanel control;
+	
+	public static GameControlPanel getInstance() {
+		control = new GameControlPanel();
+		return control;
+	}
+	
+	public static GameControlPanel getCurrentPanel() {
+		return control;
+	}
 	// Constructor, creates and implements each panel
 	public GameControlPanel() {
 		rand = new Random();
@@ -84,7 +93,12 @@ public class GameControlPanel extends JPanel {
 		next = new JButton("Next!");
 		panel.add(makeAccusation);
 		panel.add(next);
-
+		class AccusationListener implements ActionListener {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				JFrame accusationFrame = new SolutionPanel(true, getCurrentPlayer());
+			}
+		}
 		class NextListener implements ActionListener {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -97,6 +111,7 @@ public class GameControlPanel extends JPanel {
 		}
 
 		next.addActionListener(new NextListener());
+		makeAccusation.addActionListener(new AccusationListener());
 		return panel;
 	}
 	
@@ -212,5 +227,11 @@ public class GameControlPanel extends JPanel {
 
 	public void setMoveFinished(boolean b) {
 		moveFinished = b;
+	}
+	
+	public void removeCurrentPlayer() {
+		playerQueue.poll();
+		playerTurn.setText(getCurrentPlayer().getName());
+		playerTurn.setBackground(getCurrentPlayer().getColor());
 	}
 }

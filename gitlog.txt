@@ -1,0 +1,425 @@
+commit 334c7cc655f794fa789faf652c6078c75d52ba2f
+Author: clayne <carson.layne@me.com>
+Date:   Mon Apr 12 21:22:08 2021 -0600
+
+    Added comments on recent commits
+
+commit e42bb7d783e20752a584253eb2ecae43beb199fb
+Author: clayne <carson.layne@me.com>
+Date:   Mon Apr 12 21:19:11 2021 -0600
+
+    Indicated Targets, Player can now move, error message upon invalid target, Game does not advance until the human has finished their move, all prior tests pass
+
+commit a7f2e60d64992bde9c088f164125050578d8519f
+Author: Kendall Brown <kendallbrwn@gmail.com>
+Date:   Sun Apr 11 21:02:43 2021 -0600
+
+    Implemented computer player movement via 'next' button
+
+commit 11412feec639eefdfc04ca24c941100ecfc41fd8
+Author: clayne <carson.layne@me.com>
+Date:   Sun Apr 11 19:55:11 2021 -0600
+
+    Created Splash Screen, Implemented iterating through Player turns, Implemented dice rolls
+
+commit 3fc34a849127483cafbefaf42540f5d9532a5e05
+Author: Kendall Brown <kendallcraigbrown@mymail.mines.edu>
+Date:   Wed Apr 7 17:20:45 2021 -0600
+
+    Added comments
+
+commit 2bbebe7738b211eee186a3842761120c1dc377ad
+Author: Kendall Brown <kendallcraigbrown@mymail.mines.edu>
+Date:   Wed Apr 7 17:15:18 2021 -0600
+
+    Centered board in display. Filled in colors and grid. Displayed labels and players in starting locations.
+
+commit df9da88f43830cec1437d9a9b4e267be567b63fe
+Author: clayne <carson.layne@me.com>
+Date:   Tue Apr 6 14:17:25 2021 -0600
+
+    Created ClueGame Frame, implemented drawing an empty frame for each boardcell, added knowncardspanel and gamecontrol panel to the frame
+
+commit 957eeabbf7dc03011d0668f9251eff14e5af4bac
+Merge: cb2be23 87f106e
+Author: clayne <carson.layne@me.com>
+Date:   Mon Apr 5 20:18:36 2021 -0600
+
+    Implemented updating the seen GUI, added tests to see if they work properly, matches the colors of the seen cards to the player who had that card in the GUI
+
+commit 87f106ef6f2fc9d204090cf7a0b34f2c536f2a19
+Author: Kendall Brown <kendallbrwn@gmail.com>
+Date:   Mon Apr 5 20:30:00 2021 -0600
+
+    'KnownCardsPanel' now displays initial seen cards from hand
+
+commit cb2be23e7b1a7ff33b507cf5329c9a4c82a47823
+Author: clayne <carson.layne@me.com>
+Date:   Mon Apr 5 20:12:12 2021 -0600
+
+    Implemented updating the seen GUI, added tests to see if they work properly, matches the colors of the seen cards to the player who had that card in the GUI
+
+commit 55418bce857e37b8856caaae146aabc8e54333b0
+Author: Kendall Brown <kendallbrwn@gmail.com>
+Date:   Sun Apr 4 22:01:39 2021 -0600
+
+    Created skeleton of 'KnownCardsPanel'
+
+commit c4ed05f7d5088af10e19506fbfdcaa399b1c3d26
+Author: clayne <carson.layne@me.com>
+Date:   Sun Apr 4 19:59:14 2021 -0600
+
+    Created setters and implemented test in main method
+
+commit c650a22f17bd70c97a301f54aee4ed156aaf67fd
+Author: Kendall Brown <kendallbrwn@gmail.com>
+Date:   Sun Apr 4 19:27:59 2021 -0600
+
+    Created GUI skeleton for 'GameControlPanel'
+
+commit b62b867aa84e5e01b174ec50e42037efeaa45d66
+Author: Kendall Brown <kendallbrwn@gmail.com>
+Date:   Sat Mar 27 22:29:30 2021 -0600
+
+    Implemented 'ComputerAITest'
+
+commit 0c2ea6f5f80c444f48b60f5a713c93c8dcacc9a9
+Author: Kendall Brown <kendallbrwn@gmail.com>
+Date:   Sat Mar 27 21:08:44 2021 -0600
+
+    Implemented 'GameSolutionTest'
+
+commit 18e8eb684d37c9f8c2a09269517e579b9fb11f78
+Author: clayne <carson.layne@me.com>
+Date:   Thu Mar 25 18:16:28 2021 -0600
+
+    Implemented SelectTargets test for ComputerAITest and updated and Refactored GameSolutionTest to work with refactors from creating ComputerAITest
+
+commit aae1c27af9bdd1866916a601d24b73fc7daddda5
+Author: Kendall Brown <kendallbrwn@gmail.com>
+Date:   Thu Mar 25 16:08:01 2021 -0600
+
+    Implemented failing 'testCreateSuggestion()' method
+
+commit 34be74b4275e0f8ff482d3ebbc62b8cc2243392c
+Author: clayne <carson.layne@me.com>
+Date:   Thu Mar 25 13:15:57 2021 -0600
+
+    Created ComputerAITest Class
+
+commit 5db23fd37dbfc140775742d5456cddb6605e9d3d
+Author: Kendall Brown <kendallbrwn@gmail.com>
+Date:   Thu Mar 25 12:26:56 2021 -0600
+
+    Fixed name of 'GameSetupTests'
+
+commit dc101d5b96f3d9fa4bd4d7fd0b6464c051840e82
+Author: clayne <carson.layne@me.com>
+Date:   Tue Mar 23 14:31:14 2021 -0600
+
+    implemented tests for HandleSuggestion and DisproveSuggestion, ensured they fail
+
+commit 28321c2b91310b413c9f47cc0d33d956fd47f7db
+Author: clayne <carson.layne@me.com>
+Date:   Tue Mar 23 13:46:12 2021 -0600
+
+    Created GameSolutionTest file, implemented checkAccusation and ensured it failed
+
+commit 1de51e8548e404119e2a50c4fb1560c692cb7ba5
+Author: Kendall Brown <kendallcraigbrown@mymail.mines.edu>
+Date:   Mon Mar 22 22:06:20 2021 -0600
+
+    Created gitlog
+
+commit a58e536d5104c2d056785c612ac6efbe4929ffe5
+Author: Kendall Brown <kendallcraigbrown@mymail.mines.edu>
+Date:   Mon Mar 22 22:05:30 2021 -0600
+
+    Refactored to add CardType. Refactored Player as abstract. Created Solution class. Updated tests to reflect changes and ensured that they pass.
+
+commit c51e29d5d821bb2ec4a0eea3bc10a3e4012cbee0
+Author: clayne <carson.layne@me.com>
+Date:   Mon Mar 22 20:27:42 2021 -0600
+
+    Ensured that all tests pass
+
+commit d525d5e9589bd522889e2b83bf94bee1d85d3b7a
+Author: clayne <carson.layne@me.com>
+Date:   Mon Mar 22 19:59:17 2021 -0600
+
+    Updated Board, ClueSetup, and Player to pass card tests
+
+commit 96c4a2d0fa03dce93e0a98132fdd23da3ff4c9cb
+Author: clayne <carson.layne@me.com>
+Date:   Mon Mar 22 18:39:10 2021 -0600
+
+    ensured that testLoadPeople and testPlayerLocations JUnit tests pass
+
+commit 3f1892e88b2948754ba706b5d6de00966c154014
+Author: clayne <carson.layne@me.com>
+Date:   Mon Mar 22 17:02:56 2021 -0600
+
+    Created Card, Player, ComputerPlayer, and HumanPlayer classes. Implemented stub methods to ensure JUnit tests fail.
+
+commit bffc688e3b8b719a2a4bc950f85b62b09315bbea
+Author: clayne <carson.layne@me.com>
+Date:   Mon Mar 22 16:18:52 2021 -0600
+
+    Created gameSetupTests class, created tests
+
+commit d4759d12f7017aa4ccd7494e114ddfeed5a18f94
+Author: Kendall Brown <kendallcraigbrown@mymail.mines.edu>
+Date:   Wed Mar 17 20:05:51 2021 -0600
+
+    Refactored attribute code for readability.
+
+commit da6b832a95cb65537be8bb3122ddea038b7420e0
+Author: clayne <carson.layne@me.com>
+Date:   Wed Mar 17 19:57:22 2021 -0600
+
+    Added inline comments describing complicated lines
+
+commit 78dd2c1209252d724195082e62c1d403a13f8a3b
+Author: Kendall Brown <kendallcraigbrown@mymail.mines.edu>
+Date:   Wed Mar 17 19:43:44 2021 -0600
+
+    Added block comments and fixed helper method refactoring.
+
+commit 65e7098b8c6676dcb3e6930838ed6b0e6b1bd8c7
+Author: clayne <carson.layne@me.com>
+Date:   Wed Mar 17 18:56:21 2021 -0600
+
+    Refactored methods: Extracted sections from larger method into helper functions
+
+commit 27eebe5d8de773d5c7bf0998e29cc099c5f0f13b
+Author: Kendall Brown <kendallcraigbrown@mymail.mines.edu>
+Date:   Tue Mar 16 14:25:40 2021 -0600
+
+    Refactored unnecessary if statements.
+
+commit b3b6fe031bb428da7ffd80ca18a018b9c10c5284
+Author: clayne <carson.layne@me.com>
+Date:   Tue Mar 16 14:11:17 2021 -0600
+
+    Improved readability of code when adding a secret passage exit to a room center.
+
+commit 3acb156b75f11e1261fa08b28845fe21dc5025a9
+Author: Kendall Brown <kendallcraigbrown@mymail.mines.edu>
+Date:   Tue Mar 16 14:03:39 2021 -0600
+
+    Refactored grid locations to readable variables
+
+commit e4f1e32b237e5a0397eb25fc9fb66a31fbc59f4d
+Author: clayne <carson.layne@me.com>
+Date:   Tue Mar 16 13:40:49 2021 -0600
+
+    Refactor if-elseif-else statement to switch-case statement
+
+commit b3fdb9afb3f888b8c610b94511cc41ff75da15f9
+Author: Kendall Brown <kendallcraigbrown@mymail.mines.edu>
+Date:   Mon Mar 8 19:16:50 2021 -0700
+
+    Created log
+
+commit cc2c335c14f6949e1920bb514bddb035e68b4ad1
+Author: Kendall Brown <kendallcraigbrown@mymail.mines.edu>
+Date:   Mon Mar 8 19:15:55 2021 -0700
+
+    Tweaked 'findAllTargets' in 'Board' to satisfy targets tests
+
+commit 2f4853c59b857d4f22bf5244127ed5b6c03fcf66
+Author: clayne <carson.layne@me.com>
+Date:   Sat Mar 6 17:00:52 2021 -0700
+
+    Ensured Adjacency Tests pass
+
+commit a183badae642e1f1664edda8838d898cc4ec7e48
+Merge: 3b33028 e659009
+Author: clayne <carson.layne@me.com>
+Date:   Fri Mar 5 19:07:56 2021 -0700
+
+    Merging
+
+commit 3b33028f99f1cdbe4ce83de4e058845ab99a5763
+Author: clayne <carson.layne@me.com>
+Date:   Fri Mar 5 19:06:25 2021 -0700
+
+    Created ClueLayoutAdjTargetTests.xlsx indicating test locations, created BoardAdjTargetTests.java containing target tests
+
+commit e6590091a3bf6beceac1b72a2433c5526a4affb6
+Author: Kendall Brown <kendallcraigbrown@mymail.mines.edu>
+Date:   Thu Mar 4 14:31:21 2021 -0700
+
+    Created 'BoardAdjTargetTest' and wrote 'testAdjacensiesRooms()' and some of 'testTargets'
+
+commit d0e63868841e84cc84bdafe5aff32893741e12cb
+Author: clayne <carson.layne@me.com>
+Date:   Wed Mar 3 23:11:15 2021 -0700
+
+    Refactored code: Ensured FileInitTests passes, Ensured ExceptionTests passed
+
+commit da46fd1435180859c56921710a50c78b650fc82a
+Author: clayne <carson.layne@me.com>
+Date:   Tue Mar 2 14:44:51 2021 -0700
+
+    Working through initialize() in Board, incomplete
+
+commit 094025fa91d24a9d8bee53c6888974eb261bd717
+Merge: e27401b eced9a0
+Author: clayne <carson.layne@me.com>
+Date:   Mon Mar 1 21:22:58 2021 -0700
+
+    Merge branch 'river' of https://github.com/BrownHub/Clue into river
+    Merging with main branch, contains finalized files and tests
+
+commit e27401b4565ac1c61b0bcf4b57d14d58ccaa92c8
+Author: clayne <carson.layne@me.com>
+Date:   Mon Mar 1 21:22:42 2021 -0700
+
+    Created FileInitTest, ensured that the tests fail and there are no errors
+
+commit eced9a06f66fe48fd4340101c211969221e11a46
+Merge: da8c866 751375c
+Author: Kendall Brown <kendallcraigbrown@mymail.mines.edu>
+Date:   Mon Mar 1 21:20:58 2021 -0700
+
+    Syncing
+
+commit da8c8660cd1d8ead5b7e70027cc6633958448c0a
+Author: Kendall Brown <kendallcraigbrown@mymail.mines.edu>
+Date:   Mon Mar 1 21:03:29 2021 -0700
+
+    Adjusted files to ensure tests do not error. Created 'Tests.txt'
+
+commit 751375c59f8cf197109753ad8a3f575304a3253e
+Merge: 15cbeda dc48daf
+Author: clayne <carson.layne@me.com>
+Date:   Mon Mar 1 20:32:48 2021 -0700
+
+    Syncing
+
+commit 15cbedad38912f317851291a49d512ab6b899b7f
+Author: clayne <carson.layne@me.com>
+Date:   Mon Mar 1 20:30:22 2021 -0700
+
+    Created FileInitTests, Junit tests for ensuring the board is set up properly
+
+commit dc48daf38ce1c3845eabcf315f557a6ab11c6471
+Author: Kendall Brown <kendallcraigbrown@mymail.mines.edu>
+Date:   Mon Mar 1 19:16:39 2021 -0700
+
+    Created 'clueGame' package and Initialized classes. Imported tests306.
+
+commit 40308842e93b2ebddbcfd4b8f21e93cd3a597dd1
+Merge: 71340da c18cf1a
+Author: clayne <carson.layne@me.com>
+Date:   Sun Feb 28 15:25:22 2021 -0700
+
+    Merge branch 'river' of https://github.com/BrownHub/Clue into river
+
+commit 71340da15af9c8d312c451947038489258746d28
+Author: clayne <carson.layne@me.com>
+Date:   Sun Feb 28 15:25:13 2021 -0700
+
+    Syncing
+
+commit c18cf1a039dc94d1cc7d8c39c863422a16f813cc
+Author: Kendall Brown <kendallcraigbrown@mymail.mines.edu>
+Date:   Sun Feb 28 15:19:14 2021 -0700
+
+    Adjusted code to pass test cases. Fixed some test cases.
+
+commit e803a024c28d96983d9960a15df63cd25fc3b773
+Merge: e9fede6 49692f5
+Author: Kendall Brown <kendallcraigbrown@mymail.mines.edu>
+Date:   Sun Feb 28 13:41:38 2021 -0700
+
+    Merge branch 'river' of https://github.com/BrownHub/Clue into river
+    "Syncing due to Saros functionality."
+
+commit e9fede6308c39f6e959b63b7e335e10fb8300dd8
+Author: Kendall Brown <kendallcraigbrown@mymail.mines.edu>
+Date:   Sun Feb 28 13:39:37 2021 -0700
+
+    "Implemented 'TestBoardCell' and 'TestBoard' constructors"
+
+commit 49692f5e65cf508e5704d744adbd4be727fda16d
+Author: clayne <carson.layne@me.com>
+Date:   Sun Feb 28 13:34:29 2021 -0700
+
+    Set up the grid for TestBoard, ensured that testAdjacency passes
+
+commit 4f0d79ff4a447663591e6d851988bb819895bf73
+Author: Kendall Brown <kendallcraigbrown@mymail.mines.edu>
+Date:   Sun Feb 28 12:52:16 2021 -0700
+
+    Syncing Repos
+
+commit b2502e48ffcbe6bf86203900ae6cee9482f7b539
+Merge: d6db818 a850c02
+Author: Kendall Brown <kendallcraigbrown@mymail.mines.edu>
+Date:   Sun Feb 28 12:49:38 2021 -0700
+
+    Merge branch 'river' of https://github.com/BrownHub/Clue into river
+    Syncing Repos
+
+commit a850c0253db44a5cc1fdf446964545ee9f58f26c
+Author: clayne <carson.layne@me.com>
+Date:   Fri Feb 26 20:23:41 2021 -0700
+
+    Commented out implementations in TestBoard and TestBoardCell, created BoardTestsExp, implemented proper tests, ensuring they fail: Done by both members
+
+commit d6db8182d06acbd26ac31a87e8905bece0e6d072
+Author: Kendall Brown <kendallcraigbrown@mymail.mines.edu>
+Date:   Fri Feb 26 20:17:37 2021 -0700
+
+    Catching up
+
+commit ad9463ed2840d5962f3a720a64fa81a8d697b587
+Author: clayne <carson.layne@me.com>
+Date:   Fri Feb 26 18:46:58 2021 -0700
+
+    created TestBoard.java, implemented functionality
+
+commit 08583e765d99962736ca209984c55ccdf11f49e0
+Author: clayne <carson.layne@me.com>
+Date:   Thu Feb 25 13:24:20 2021 -0700
+
+    Added JUnit5, created packages experiment and tests
+
+commit 1e336148952bd858bd8ddbfc825516feba7d82d4
+Author: clayne <carson.layne@me.com>
+Date:   Wed Feb 24 18:48:08 2021 -0700
+
+    updated ClueLayout.xlsx, changed color of center and title squares
+
+commit 6246390816ef92a9e9f1049555f168156687b0aa
+Merge: c444551 cc7feb3
+Author: Kendall Brown <kendallcraigbrown@mymail.mines.edu>
+Date:   Wed Feb 24 18:39:05 2021 -0700
+
+    Merge branch 'river' of https://github.com/BrownHub/Clue into river
+
+commit c444551a1bf206c61c6949aebf1f7e6bf304ea96
+Author: Kendall Brown <kendallcraigbrown@mymail.mines.edu>
+Date:   Wed Feb 24 18:38:41 2021 -0700
+
+    Modified layout to add a room, correct symbols, and change room layouts. Created .csv file.
+
+commit cc7feb34fba1fd73f58dfd30d4f77182ab1a320e
+Author: clayne <carson.layne@me.com>
+Date:   Wed Feb 24 18:08:18 2021 -0700
+
+    added readme, updated ClueSetup
+
+commit aa0764a9cbabf27f99b4e018f95f56419b69fa6c
+Author: clayne <carson.layne@me.com>
+Date:   Wed Feb 24 17:47:38 2021 -0700
+
+    Created ClueLayout.xlsx
+
+commit ab4ececfa06f044e0dcceb0b20ff6c546187fa2d
+Author: Kendall Brown <kendallcraigbrown@mymail.mines.edu>
+Date:   Wed Feb 24 17:30:24 2021 -0700
+
+    Initial commit

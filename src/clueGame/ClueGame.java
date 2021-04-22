@@ -12,6 +12,17 @@ import javax.swing.JPanel;
 public class ClueGame extends JFrame implements MouseListener {
 	
 	private GameControlPanel control;
+	private static ClueGame instance;
+	
+	private static ClueGame getInstance() {
+		instance = new ClueGame();
+		return instance;
+	}
+	
+	public static ClueGame getCurrentGame() {
+		return instance;
+	}
+	
 	
 	public ClueGame() {
 		setSize(700, 1000);
@@ -21,7 +32,7 @@ public class ClueGame extends JFrame implements MouseListener {
 		Board.getCurrentBoard().setConfigFiles("ClueLayout.csv", "ClueSetup.txt");		
 		Board.getCurrentBoard().initialize();	
 		add(Board.getCurrentBoard(), BorderLayout.CENTER);
-		control = new GameControlPanel();
+		control = GameControlPanel.getInstance();
 		add(control, BorderLayout.SOUTH);
 		add(KnownCardsPanel.getInstance(), BorderLayout.EAST);
 		addMouseListener(this);
@@ -29,6 +40,15 @@ public class ClueGame extends JFrame implements MouseListener {
 		JOptionPane.showMessageDialog(new JFrame(), "You are " + Board.getCurrentBoard().getThePlayer().getName() + ". \nCan you find who done it?", "Welcome to Clue", JFrame.EXIT_ON_CLOSE);
 	}
 	
+	public void playerWins(Player p) {
+		JOptionPane.showMessageDialog(new JFrame(), p.getName() + " wins!", "Game Over!", JFrame.EXIT_ON_CLOSE);
+		dispose();
+	}
+	
+	public void playerLoses(Player p) {
+		JOptionPane.showMessageDialog(new JFrame(), "Incorrect Accusation.\nYou lose!", "Game Over!", JFrame.EXIT_ON_CLOSE);
+		dispose();
+	}
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
@@ -71,7 +91,7 @@ public class ClueGame extends JFrame implements MouseListener {
 	}
 	
 	public static void main(String args[]) {
-		ClueGame clue = new ClueGame();
+		ClueGame clue = ClueGame.getInstance();
 	}
 	
 }
