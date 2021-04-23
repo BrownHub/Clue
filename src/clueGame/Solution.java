@@ -17,6 +17,7 @@ public class Solution {
 		buildSolution(p, r, w);
 	}
 	
+	// builds a solution based on string input
 	private void buildSolution(String p, String r, String w) {
 		for (Card roomCard: Board.getCurrentBoard().getRoomDeck()) {
 			if(roomCard.getName().equals(r)) {

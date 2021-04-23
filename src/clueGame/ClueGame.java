@@ -23,11 +23,10 @@ public class ClueGame extends JFrame implements MouseListener {
 		return instance;
 	}
 
-
 	public ClueGame() {
 		setSize(700, 1000);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		// Create the board
+		// Create the board and add  it to the JFrame
 		Board.getInstance();
 		Board.getCurrentBoard().setConfigFiles("ClueLayout.csv", "ClueSetup.txt");		
 		Board.getCurrentBoard().initialize();	
@@ -39,12 +38,14 @@ public class ClueGame extends JFrame implements MouseListener {
 		setVisible(true);
 		JOptionPane.showMessageDialog(new JFrame(), "You are " + Board.getCurrentBoard().getThePlayer().getName() + ". \nCan you find who done it?", "Welcome to Clue", JFrame.EXIT_ON_CLOSE);
 	}
-
+	
+	// determines if a player has won
 	public void playerWins(Player p) {
 		JOptionPane.showMessageDialog(new JFrame(), p.getName() + " wins!", "Game Over!", JFrame.EXIT_ON_CLOSE);
 		dispose();
 	}
-
+	
+	// determines if the player has lost through an incorrect accusation
 	public void playerLoses(Player p) {
 		JOptionPane.showMessageDialog(new JFrame(), "Incorrect Accusation.\nYou lose!", "Game Over!", JFrame.EXIT_ON_CLOSE);
 		dispose();
@@ -52,6 +53,7 @@ public class ClueGame extends JFrame implements MouseListener {
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
+		
 	}
 
 	// Moves the player to the selected target if it is valid, otherwise returns an error
@@ -72,7 +74,7 @@ public class ClueGame extends JFrame implements MouseListener {
 		} else {
 			control.setMoveFinished(true);
 			if(control.getCurrentPlayer().getPlayerCell().isRoom()) {
-				promptSuggestion();
+				promptSuggestion();	// if a player enters a room, ask if they want to make a suggestion
 			}
 		}
 	}

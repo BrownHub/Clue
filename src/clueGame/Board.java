@@ -60,6 +60,7 @@ public class Board extends JPanel {
 		return theInstance;
 	}
 	
+	//draws initial board
 	@Override
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
@@ -68,12 +69,14 @@ public class Board extends JPanel {
 		drawLabels(g);
 	}
 
+	//draws players on board
 	private void drawPlayers(Graphics g) {
 		for(Player p : players) {
 			p.draw(g, getWidth() / numCols, getHeight() / numRows, getWidth(), numCols);
 		}
 	}
 	
+	//draws board cells
 	private void drawCells(Graphics g) {
 		for(BoardCell[] cells : grid) {
 			for(BoardCell c : cells) {
@@ -82,6 +85,8 @@ public class Board extends JPanel {
 		}
 		
 	}
+	
+	//draws room labels
 	private void drawLabels(Graphics g) {
 		for(BoardCell[] cells : grid) {
 			for(BoardCell c : cells) {
@@ -167,7 +172,7 @@ public class Board extends JPanel {
 		}
 	}
 	
-	//  the solution deck
+	//  Creates the solution deck
 	private void createTheAnswer() {
 		Card solutionWeapon;
 		Card solutionPlayer;
@@ -202,6 +207,8 @@ public class Board extends JPanel {
 			}
 		}
 	}
+	
+	//Returns random card from the given deck
 	public Card getRandomCard(Set<Card> subDeck) {
 		int size = subDeck.size();
 		int cardIndex = new Random().nextInt(size);
@@ -409,6 +416,7 @@ public class Board extends JPanel {
 			}
 		}
 		
+		//Sets unseen cards for computer players
 		for (Player player: players) {
 			if (player instanceof ComputerPlayer) {
 				Set<Card> copyWeaponDeck = new HashSet<>(weaponDeck);
@@ -421,6 +429,7 @@ public class Board extends JPanel {
 		}
 	}
 	
+	//returns color given a string
 	private Color getColor(String color) {
 		switch (color) {
 		case "black":
@@ -532,6 +541,7 @@ public class Board extends JPanel {
 		}
 	}
 	
+	//Process a suggestion made by either computer or human player
 	public Card handleSuggestion(Player p, Solution aSolution) {
 		getPlayerFromSet(aSolution.person.getName()).setCell(p.getPlayerCell());
 		Card disprovingCard;
@@ -555,6 +565,7 @@ public class Board extends JPanel {
 		return null;
 	}
 	
+	//Suggestion processing method used in unit testing
 	public Card handleSuggestion(Player p, Solution aSolution, Set<Player> playerList) {
 		Card disprovingCard;
 		for (Player player : playerList) {

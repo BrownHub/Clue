@@ -14,6 +14,7 @@ import javax.swing.JPanel;
 public class SolutionPanel extends JFrame {
 	private Player player;
 	
+	// Handles GUI for making solutions for accusations and suggestions
 	public SolutionPanel(boolean isAccusation, Player player) {
 		this.player = player;
 		setSize(450, 450);
@@ -29,7 +30,7 @@ public class SolutionPanel extends JFrame {
 		setVisible(true);
 	}
 
-
+	// Creates the accusation panel with appropriate combo boxes for accusations
 	private JPanel createAccusationPanel() {
 		JPanel panel = new JPanel();
 		panel.setLayout(new GridLayout(4, 2));
@@ -65,6 +66,8 @@ public class SolutionPanel extends JFrame {
 
 		submit.setActionCommand("Submit");
 		cancel.setActionCommand("Cancel");
+		
+		// Listener handles the accusation made by the player, the player may click cancel to not submit a solution
 		class Listener implements ActionListener {
 			@Override
 			public void actionPerformed (ActionEvent e) {
@@ -86,6 +89,7 @@ public class SolutionPanel extends JFrame {
 		return panel;
 	}
 	
+	// Creates the accusation panel with appropriate combo boxes for suggestions
 	private JPanel createSuggestionPanel() {
 		JPanel panel = new JPanel();
 		panel.setLayout(new GridLayout(4, 2));
@@ -116,6 +120,7 @@ public class SolutionPanel extends JFrame {
 		panel.add(submit);
 		panel.add(cancel);
 		
+		// Listener handles the suggestion made by the player, the player may click cancel to not submit a solution
 		class Listener implements ActionListener {
 			@Override
 			public void actionPerformed (ActionEvent e) {
@@ -126,7 +131,7 @@ public class SolutionPanel extends JFrame {
 					String weapon = (String) weaponBox.getSelectedItem();
 					
 					Solution playerGuess = new Solution(person, room, weapon);
-					GameControlPanel.getCurrentPanel().setGuess(playerGuess);
+					GameControlPanel.getCurrentPanel().handleGuess(playerGuess);
 				}
 				dispose();
 			}

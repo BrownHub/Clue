@@ -6,15 +6,22 @@ import java.util.HashSet;
 import java.util.Random;
 import java.util.Set;
 
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+
 public class ComputerPlayer extends Player {
 
+	//Instance variables
 	private Set<Card> unseenWeapons;
 	private Set<Card> unseenPersons;
 	private Set<Card> unseenRooms;
 	private Card stub = new Card();
+	
 	public ComputerPlayer() {
 		super();
 	}
+	
+	//Constructs player with unseen card decks
 	public ComputerPlayer(String name, Color color, int row, int col, 
 			Set<Card> weapons, Set<Card> persons, Set<Card> rooms) {
 		super(name, color, row, col);
@@ -23,16 +30,18 @@ public class ComputerPlayer extends Player {
 		unseenRooms = rooms;
 	}
 	
+	//Constructs player without setting unseen card decks
 	public ComputerPlayer(String name, Color color, int row, int col) {
 		super(name, color, row, col);
 	}
 	
+	//Moves computer player on board given a set of possible targets
 	public BoardCell selectTargets(Set<BoardCell> targets) {
 		boolean tempFlag = false;
 		Card tempCard = new Card();
 		ArrayList<BoardCell> roomList = new ArrayList<>();
 		ArrayList<Card> cardList = new ArrayList<>();
-		for(BoardCell b : targets) {
+		for(BoardCell b : targets) {	//Searches possible targets for rooms
 			for(Card room : unseenRooms) {
 				if(room.getName().charAt(0) == b.getInitial()) {
 					tempFlag = true;
@@ -44,12 +53,13 @@ public class ComputerPlayer extends Player {
 				cardList.add(tempCard);
 			}
 		}
-		if(!roomList.isEmpty()) {
+		if(!roomList.isEmpty()) { //Moves to room if possible and unvisited
 			int randIndex = new Random().nextInt(roomList.size());
 			removeSeen(cardList.get(randIndex));
 			return roomList.get(randIndex);
 		}
 		
+		//Moves to walkway location
 		int randIndex = new Random().nextInt(targets.size());
 		int currIndex = 0;
 		for(BoardCell b : targets) {
@@ -61,13 +71,14 @@ public class ComputerPlayer extends Player {
 		return null;
 	}
 	
+	//Computer player makes a suggestion
 	public Solution createSuggestion(Room room) {
 		int random = new Random().nextInt(unseenPersons.size());
 		int randomCounter = 0;
 		Card tempPerson = new Card();
 		Card tempWeapon = new Card();
 		Card tempRoom = new Card(room.getName(), CardType.ROOM);
-		for (Card person : unseenPersons) {
+		for (Card person : unseenPersons) {	//Chooses random person
 			if (randomCounter == random) {
 				tempPerson = person;
 				break;
@@ -77,7 +88,7 @@ public class ComputerPlayer extends Player {
 		
 		random = new Random().nextInt(unseenWeapons.size());
 		randomCounter = 0;
-		for (Card weapon : unseenWeapons) {
+		for (Card weapon : unseenWeapons) {	//Chooses random weapon
 			if (randomCounter == random) {
 				tempWeapon = weapon;
 				break;
@@ -94,6 +105,7 @@ public class ComputerPlayer extends Player {
 		removeSeen(c);
 	}
 	
+	//Remove seen card from appropriate list of unseen cards
 	public void removeSeen(Card c) {
 		switch (c.getType()) {
 		case WEAPON:
@@ -109,6 +121,29 @@ public class ComputerPlayer extends Player {
 		
 	}
 	
+	//Checks to see if computer player can win the game
+	public void solveMystery() {
+		if(unseenRooms.size() == 1 && unseenPersons.size() == 1 && unseenWeapons.size() == 1) {
+			String solutionRoom = "stub";
+			for(Card r : unseenRooms) {
+				solutionRoom = r.getName();
+			}
+			
+			String solutionPerson = "stub";
+			for(Card p : unseenPersons) {
+				solutionPerson = p.getName();
+			}
+			
+			String solutionWeapon = "stub";
+			for(Card w : unseenPersons) {
+				solutionWeapon = w.getName();
+			}
+			JOptionPane.showMessageDialog(new JFrame(), getName() + " made the accusation: " + solutionPerson + ", "  + solutionRoom + ", " + solutionWeapon, "Accusation made", JFrame.EXIT_ON_CLOSE);
+			Board.getCurrentBoard().handleAccusation(new Solution(solutionPerson, solutionRoom, solutionWeapon), this);
+		}
+	}
+	
+	//Setters/getters
 	public void setUnseenWeapons(Set<Card> weapons) {
 		unseenWeapons = weapons;
 	}
@@ -136,25 +171,5 @@ public class ComputerPlayer extends Player {
 	public void addUnseenRoomCard(Card roomCard) {
 		unseenRooms.add(roomCard);
 		
-	}
-	public void solveMystery() {
-		if(unseenRooms.size() == 1 && unseenPersons.size() == 1 && unseenWeapons.size() == 1) {
-			String solutionRoom = "stub";
-			for(Card r : unseenRooms) {
-				solutionRoom = r.getName();
-			}
-			
-			String solutionPerson = "stub";
-			for(Card p : unseenPersons) {
-				solutionPerson = p.getName();
-			}
-			
-			String solutionWeapon = "stub";
-			for(Card w : unseenPersons) {
-				solutionWeapon = w.getName();
-			}
-
-			Board.getCurrentBoard().handleAccusation(new Solution(solutionPerson, solutionRoom, solutionWeapon), this);
-		}
 	}
 }

@@ -31,7 +31,7 @@ public abstract class Player {
 		hand = new HashSet<>();
 	}
 
-
+	// returns a card that disproves a given suggestion
 	public Card disproveSuggestion(Solution aSolution) {
 		ArrayList<Card> matches = new ArrayList<>();
 		
@@ -49,6 +49,7 @@ public abstract class Player {
 		return null;
 	}
 	
+	// checks if a card is in the player's hand
 	public boolean isInHand(Card c) {
 		for (Card cardInHand : hand) {
 			if (cardInHand.equals(c)) {
@@ -58,6 +59,7 @@ public abstract class Player {
 		return false;
 	}
 	
+	// draws the player on the board
 	public void draw(Graphics g, int width, int height, int boardWidth, int columns) {
 		int size;
 		if (width > height) {

@@ -43,7 +43,8 @@ public class KnownCardsPanel extends JPanel {
 	public static KnownCardsPanel getCurrentKnownCards() {
 		return theInstance;
 	}
-
+	
+	// updates the cards seen by the player, only if they have not been seen already
 	public void updateSeen(Player p, Card seenCard) {
 		if(!seenCards.contains(seenCard)) {
 			switch(seenCard.getType()) {
@@ -62,6 +63,7 @@ public class KnownCardsPanel extends JPanel {
 			seenCards.add(seenCard);
 		}
 	}
+	
 	// updates the people seen by the player
 	public void updateSeenPeople(Player p, Card seenCard) {
 		// removes "None"
@@ -110,7 +112,7 @@ public class KnownCardsPanel extends JPanel {
 		seenPeople.setLayout(new GridLayout(0, 1));
 		JLabel inHand = new JLabel("In Hand:");
 		JLabel seen = new JLabel("Seen:");
-
+		
 		seenPeople.add(inHand);
 		boolean hasPerson = false;
 		for (Card card : Board.getCurrentBoard().getThePlayer().getHand()) {
