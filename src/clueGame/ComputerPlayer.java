@@ -137,4 +137,24 @@ public class ComputerPlayer extends Player {
 		unseenRooms.add(roomCard);
 		
 	}
+	public void solveMystery() {
+		if(unseenRooms.size() == 1 && unseenPersons.size() == 1 && unseenWeapons.size() == 1) {
+			String solutionRoom = "stub";
+			for(Card r : unseenRooms) {
+				solutionRoom = r.getName();
+			}
+			
+			String solutionPerson = "stub";
+			for(Card p : unseenPersons) {
+				solutionPerson = p.getName();
+			}
+			
+			String solutionWeapon = "stub";
+			for(Card w : unseenPersons) {
+				solutionWeapon = w.getName();
+			}
+
+			Board.getCurrentBoard().handleAccusation(new Solution(solutionPerson, solutionRoom, solutionWeapon), this);
+		}
+	}
 }

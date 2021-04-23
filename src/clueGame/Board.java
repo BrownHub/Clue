@@ -533,17 +533,20 @@ public class Board extends JPanel {
 	}
 	
 	public Card handleSuggestion(Player p, Solution aSolution) {
+		getPlayerFromSet(aSolution.person.getName()).setCell(p.getPlayerCell());
 		Card disprovingCard;
 		for (Player player : players) {
 			if (player != p) {
 				disprovingCard = player.disproveSuggestion(aSolution);
+				
 				if (disprovingCard != null) {
-					KnownCardsPanel.getCurrentKnownCards().updateSeen(player, disprovingCard);
-					for(Player computerPlayer: players) {
-						if(computerPlayer instanceof ComputerPlayer) {
-							((ComputerPlayer) computerPlayer).removeSeen(disprovingCard);
-						}
+					
+					if (p instanceof ComputerPlayer) {
+						((ComputerPlayer) p).removeSeen(disprovingCard);
+					} else {
+						KnownCardsPanel.getCurrentKnownCards().updateSeen(player, disprovingCard);
 					}
+					
 					return disprovingCard;
 				}
 			}

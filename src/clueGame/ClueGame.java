@@ -72,12 +72,18 @@ public class ClueGame extends JFrame implements MouseListener {
 		} else {
 			control.setMoveFinished(true);
 			if(control.getCurrentPlayer().getPlayerCell().isRoom()) {
-				int opt = JOptionPane.showConfirmDialog(new JFrame(), "Would you like to make a Suggestion?", "Make a Suggestion:", JOptionPane.YES_NO_OPTION);
-				if(opt == JOptionPane.YES_OPTION) {
-					JFrame makeSuggestion = new SolutionPanel(false, control.getCurrentPlayer());
-				}	
+				promptSuggestion();
 			}
 		}
+	}
+
+	public boolean promptSuggestion() {
+		int opt = JOptionPane.showConfirmDialog(new JFrame(), "Would you like to make a Suggestion?", "Make a Suggestion:", JOptionPane.YES_NO_OPTION);
+		if(opt == JOptionPane.YES_OPTION) {
+			JFrame makeSuggestion = new SolutionPanel(false, control.getCurrentPlayer());
+			return true;
+		}
+		return false;
 	}
 
 	@Override

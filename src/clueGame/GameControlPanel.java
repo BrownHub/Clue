@@ -1,5 +1,6 @@
 package clueGame;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -34,12 +35,12 @@ public class GameControlPanel extends JPanel {
 	private int rollValue;
 	private boolean moveFinished;
 	private static GameControlPanel control;
-	
+
 	public static GameControlPanel getInstance() {
 		control = new GameControlPanel();
 		return control;
 	}
-	
+
 	public static GameControlPanel getCurrentPanel() {
 		return control;
 	}
@@ -96,7 +97,11 @@ public class GameControlPanel extends JPanel {
 		class AccusationListener implements ActionListener {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				JFrame accusationFrame = new SolutionPanel(true, getCurrentPlayer());
+				if(!moveFinished && getCurrentPlayer() instanceof HumanPlayer) {
+					JFrame accusationFrame = new SolutionPanel(true, getCurrentPlayer());
+				} else {
+					JOptionPane.showMessageDialog(new JFrame(), "You can only make an accusation at the beginning of your turn", "ERROR:", JFrame.EXIT_ON_CLOSE);
+				}
 			}
 		}
 		class NextListener implements ActionListener {
@@ -114,33 +119,47 @@ public class GameControlPanel extends JPanel {
 		makeAccusation.addActionListener(new AccusationListener());
 		return panel;
 	}
-	
+
 	private void setTurnOrder() {
 		while(getCurrentPlayer() instanceof ComputerPlayer) {
 			setPlayerTurn();
 		}
 	}
-	
+
 	private void handlePlayerTurn() {
-		// TODO: If called to a room by suggestion, players should be allowed to make a suggestion
-		// TODO: Computer Players cannot make accusations
-		
 		setRoll();
 		Board.getCurrentBoard().resetOccupied();
 		Board.getCurrentBoard().calcTargets(getCurrentPlayer().getPlayerCell(), rollValue);
 
 		if (getCurrentPlayer() instanceof ComputerPlayer) {
-			BoardCell newCell = ((ComputerPlayer) getCurrentPlayer()).selectTargets(Board.getCurrentBoard().getTargets());
-			getCurrentPlayer().setCell(newCell);
-
-			if(getCurrentPlayer().getPlayerCell().isRoom()) {
+			((ComputerPlayer) getCurrentPlayer()).solveMystery();
+			if(getCurrentPlayer().getMoved()) {
+				getCurrentPlayer().setMoved(false);
 				Room suggestionRoom;
 				suggestionRoom = Board.getCurrentBoard().getRoom(getCurrentPlayer().getPlayerCell());
 				setGuess(((ComputerPlayer) getCurrentPlayer()).createSuggestion(suggestionRoom));
+			} else {
+
+				BoardCell newCell = ((ComputerPlayer) getCurrentPlayer()).selectTargets(Board.getCurrentBoard().getTargets());
+				getCurrentPlayer().setCell(newCell);
+
+				if(getCurrentPlayer().getPlayerCell().isRoom()) {
+					Room suggestionRoom;
+					suggestionRoom = Board.getCurrentBoard().getRoom(getCurrentPlayer().getPlayerCell());
+					setGuess(((ComputerPlayer) getCurrentPlayer()).createSuggestion(suggestionRoom));
+				}
 			}
 		} else {
-			setValidTargets(Board.getCurrentBoard().getTargets());
-			
+			boolean temp = false;
+			if(getCurrentPlayer().getMoved()) {
+				temp = ClueGame.getCurrentGame().promptSuggestion();
+				getCurrentPlayer().setMoved(false);
+			}
+			if(!temp) {
+				setValidTargets(Board.getCurrentBoard().getTargets());
+			} else {
+				moveFinished = true;
+			}
 		}
 		Board.getCurrentBoard().repaint();
 	}
@@ -199,14 +218,16 @@ public class GameControlPanel extends JPanel {
 	}
 
 	public void setGuess(Solution s) {
+		playerGuess.setLineWrap(true);
+		playerGuess.setWrapStyleWord(true);
 		playerGuess.setText(getCurrentPlayer().getName() + " made the guess: " + s);
-		Board.getCurrentBoard().getPlayerFromSet(s.person.getName()).setCell(getCurrentPlayer().getRow(), getCurrentPlayer().getCol());
+		Board.getCurrentBoard().getPlayerFromSet(s.person.getName()).setMoved(true);
 		setGuessResult(Board.getCurrentBoard().handleSuggestion(getCurrentPlayer(), s));
 	}
 
 	private void setGuessResult(Card c) {
 		if(c == null) {
-			guessResult.setText("No player can disprove the guess");
+			guessResult.setText("No new clue");
 		} else {
 			Player hasCard = new ComputerPlayer();
 			for(Player p : Board.getCurrentBoard().getPlayerSet()) {
@@ -214,8 +235,12 @@ public class GameControlPanel extends JPanel {
 					hasCard = p;
 				}
 			}
-
-			guessResult.setText(hasCard.getName() + " has the card " + c.getName());
+			
+			if(hasCard instanceof HumanPlayer) {
+				guessResult.setText("You disproved with " + c.getName());
+			} else {
+				guessResult.setText("Suggestion disproved by " + hasCard.getName());
+			}
 
 		}
 	}
@@ -227,7 +252,7 @@ public class GameControlPanel extends JPanel {
 	public void setMoveFinished(boolean b) {
 		moveFinished = b;
 	}
-	
+
 	public boolean getMoveFinished() {
 		return moveFinished;
 	}

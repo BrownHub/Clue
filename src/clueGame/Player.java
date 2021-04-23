@@ -10,6 +10,7 @@ import java.util.Set;
 public abstract class Player {
 	int row;
 	int col;
+	boolean moved;
 	String name;
 	Color playerColor;
 	Set<Card> hand;
@@ -21,7 +22,7 @@ public abstract class Player {
 		this.row = row;
 		this.col = col;
 		hand = new HashSet<>();
-		
+		moved = false;
 	}
 	
 	
@@ -116,6 +117,14 @@ public abstract class Player {
 	
 	public void addCard(Card c) {
 		hand.add(c);
+	}
+	
+	public boolean getMoved() {
+		return moved;
+	}
+	
+	public void setMoved(boolean b) {
+		moved = b;
 	}
 
 }

@@ -1,6 +1,7 @@
 package clueGame;
 
 import java.awt.GridLayout;
+import java.util.HashSet;
 import java.util.Scanner;
 import java.util.Set;
 
@@ -17,6 +18,7 @@ public class KnownCardsPanel extends JPanel {
 	private JPanel seenPeople;
 	private JPanel seenRooms;
 	private JPanel seenWeapons;
+	private Set<Card> seenCards;
 	private boolean emptyPeople = true;
 	private boolean emptyRooms = true;
 	private boolean emptyWeapons = true;
@@ -25,12 +27,13 @@ public class KnownCardsPanel extends JPanel {
 	// Constructor
 	// Sets up the panels
 	public KnownCardsPanel() {
+		seenCards = new HashSet<>();
 		setLayout(new GridLayout(3, 1));
 		add(createPeople());
 		add(createRooms());
 		add(createWeapons());
 	}
-	
+
 	// this method returns the only Board
 	public static KnownCardsPanel getInstance() {
 		theInstance = new KnownCardsPanel();
@@ -42,18 +45,21 @@ public class KnownCardsPanel extends JPanel {
 	}
 
 	public void updateSeen(Player p, Card seenCard) {
-		switch(seenCard.getType()) {
-		case WEAPON:
-			updateSeenWeapon(p, seenCard);
-			break;
-		case PERSON:
-			updateSeenPeople(p, seenCard);
-			break;
-		case ROOM:
-			updateSeenRooms(p, seenCard);
-			break;
-		default:
-			break;
+		if(!seenCards.contains(seenCard)) {
+			switch(seenCard.getType()) {
+			case WEAPON:
+				updateSeenWeapon(p, seenCard);
+				break;
+			case PERSON:
+				updateSeenPeople(p, seenCard);
+				break;
+			case ROOM:
+				updateSeenRooms(p, seenCard);
+				break;
+			default:
+				break;
+			}
+			seenCards.add(seenCard);
 		}
 	}
 	// updates the people seen by the player
