@@ -123,27 +123,26 @@ public class GameControlPanel extends JPanel {
 	
 	private void handlePlayerTurn() {
 		// TODO: If called to a room by suggestion, players should be allowed to make a suggestion
-		// TODO: Players cannot make accusations
+		// TODO: Computer Players cannot make accusations
 		
 		setRoll();
+		Board.getCurrentBoard().resetOccupied();
 		Board.getCurrentBoard().calcTargets(getCurrentPlayer().getPlayerCell(), rollValue);
 
 		if (getCurrentPlayer() instanceof ComputerPlayer) {
 			BoardCell newCell = ((ComputerPlayer) getCurrentPlayer()).selectTargets(Board.getCurrentBoard().getTargets());
 			getCurrentPlayer().setCell(newCell);
-			
+
 			if(getCurrentPlayer().getPlayerCell().isRoom()) {
 				Room suggestionRoom;
 				suggestionRoom = Board.getCurrentBoard().getRoom(getCurrentPlayer().getPlayerCell());
 				setGuess(((ComputerPlayer) getCurrentPlayer()).createSuggestion(suggestionRoom));
 			}
-			//TODO: Players can still move to occupied targets
-			Board.getCurrentBoard().repaint();
 		} else {
 			setValidTargets(Board.getCurrentBoard().getTargets());
-			Board.getCurrentBoard().repaint();
-			// TODO: Human Player can make a suggestion
+			
 		}
+		Board.getCurrentBoard().repaint();
 	}
 
 	private void setValidTargets(Set<BoardCell> targets) {
@@ -199,10 +198,10 @@ public class GameControlPanel extends JPanel {
 		rollDisplay.setText(String.valueOf(rollValue));
 	}
 
-	private void setGuess(Solution s) {
+	public void setGuess(Solution s) {
 		playerGuess.setText(getCurrentPlayer().getName() + " made the guess: " + s);
-		Board.getCurrentBoard().getPlayerFromSet(s.person.getName()).setCell(getCurrentPlayer().getRow(), getCurrentPlayer().getCol());;
-		setGuessResult(Board.getCurrentBoard().handleSuggestion(getCurrentPlayer(), s, Board.getCurrentBoard().getPlayerSet()));
+		Board.getCurrentBoard().getPlayerFromSet(s.person.getName()).setCell(getCurrentPlayer().getRow(), getCurrentPlayer().getCol());
+		setGuessResult(Board.getCurrentBoard().handleSuggestion(getCurrentPlayer(), s));
 	}
 
 	private void setGuessResult(Card c) {
@@ -229,6 +228,9 @@ public class GameControlPanel extends JPanel {
 		moveFinished = b;
 	}
 	
+	public boolean getMoveFinished() {
+		return moveFinished;
+	}
 	public void removeCurrentPlayer() {
 		playerQueue.poll();
 		playerTurn.setText(getCurrentPlayer().getName());

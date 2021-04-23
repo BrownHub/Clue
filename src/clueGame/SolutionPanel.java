@@ -97,11 +97,44 @@ public class SolutionPanel extends JFrame {
 		JButton submit = new JButton("Submit");
 		JButton cancel = new JButton("Cancel");
 		
+		String guessedRoomLabel = Board.getCurrentBoard().getRoom(player.getPlayerCell()).getName();
+		JLabel guessedRoom = new JLabel(guessedRoomLabel);
+		JComboBox<String> personBox = new JComboBox<>();
+		for (Card person: Board.getCurrentBoard().getPlayerDeck()) {
+			personBox.addItem(person.getName());
+		}
+		JComboBox<String> weaponBox = new JComboBox<>();
+		for (Card weapon: Board.getCurrentBoard().getWeaponDeck()) {
+			weaponBox.addItem(weapon.getName());
+		}
 		panel.add(roomLabel);
+		panel.add(guessedRoom);
 		panel.add(personLabel);
+		panel.add(personBox);
 		panel.add(weaponLabel);
+		panel.add(weaponBox);		
 		panel.add(submit);
+		panel.add(cancel);
 		
+		class Listener implements ActionListener {
+			@Override
+			public void actionPerformed (ActionEvent e) {
+				String action = e.getActionCommand();
+				if(action.equals("Submit")) {		
+					String room = guessedRoomLabel;
+					String person = (String) personBox.getSelectedItem();
+					String weapon = (String) weaponBox.getSelectedItem();
+					
+					Solution playerGuess = new Solution(person, room, weapon);
+					GameControlPanel.getCurrentPanel().setGuess(playerGuess);
+				}
+				dispose();
+			}
+
+		}
+		
+		submit.addActionListener(new Listener());
+		cancel.addActionListener(new Listener());
 		return panel;
 	}
 	
@@ -109,6 +142,6 @@ public class SolutionPanel extends JFrame {
 		Board board = Board.getInstance();
 		Board.getCurrentBoard().setConfigFiles("ClueLayout.csv", "ClueSetup.txt");		
 		board.initialize();
-		SolutionPanel panel = new SolutionPanel(true, board.getThePlayer());
+		SolutionPanel panel = new SolutionPanel(false, board.getThePlayer());
 	}
 }

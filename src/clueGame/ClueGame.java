@@ -10,20 +10,20 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 public class ClueGame extends JFrame implements MouseListener {
-	
+
 	private GameControlPanel control;
 	private static ClueGame instance;
-	
+
 	private static ClueGame getInstance() {
 		instance = new ClueGame();
 		return instance;
 	}
-	
+
 	public static ClueGame getCurrentGame() {
 		return instance;
 	}
-	
-	
+
+
 	public ClueGame() {
 		setSize(700, 1000);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -39,12 +39,12 @@ public class ClueGame extends JFrame implements MouseListener {
 		setVisible(true);
 		JOptionPane.showMessageDialog(new JFrame(), "You are " + Board.getCurrentBoard().getThePlayer().getName() + ". \nCan you find who done it?", "Welcome to Clue", JFrame.EXIT_ON_CLOSE);
 	}
-	
+
 	public void playerWins(Player p) {
 		JOptionPane.showMessageDialog(new JFrame(), p.getName() + " wins!", "Game Over!", JFrame.EXIT_ON_CLOSE);
 		dispose();
 	}
-	
+
 	public void playerLoses(Player p) {
 		JOptionPane.showMessageDialog(new JFrame(), "Incorrect Accusation.\nYou lose!", "Game Over!", JFrame.EXIT_ON_CLOSE);
 		dispose();
@@ -53,16 +53,18 @@ public class ClueGame extends JFrame implements MouseListener {
 	@Override
 	public void mouseClicked(MouseEvent e) {
 	}
-	
+
 	// Moves the player to the selected target if it is valid, otherwise returns an error
 	@Override
 	public void mousePressed(MouseEvent e) {
 		boolean notValid = true;
-		for(BoardCell b : Board.getCurrentBoard().getTargets()) {
-			if(b.isTarget() && b.isClicked(e.getX(), e.getY(), Board.getCurrentBoard().getWidth() / Board.getCurrentBoard().getNumColumns(), Board.getCurrentBoard().getHeight() / Board.getCurrentBoard().getNumRows(),Board.getCurrentBoard().getWidth(),Board.getCurrentBoard().getNumColumns())) {
-				Board.getCurrentBoard().getThePlayer().setCell(b);
-				Board.getCurrentBoard().repaint();
-				notValid = false;
+		if(!control.getMoveFinished()) { 
+			for(BoardCell b : Board.getCurrentBoard().getTargets()) {
+				if(b.isTarget() && b.isClicked(e.getX(), e.getY(), Board.getCurrentBoard().getWidth() / Board.getCurrentBoard().getNumColumns(), Board.getCurrentBoard().getHeight() / Board.getCurrentBoard().getNumRows(),Board.getCurrentBoard().getWidth(),Board.getCurrentBoard().getNumColumns())) {
+					Board.getCurrentBoard().getThePlayer().setCell(b);
+					Board.getCurrentBoard().repaint();
+					notValid = false;
+				}
 			}
 		}
 		if(notValid) {
@@ -72,7 +74,7 @@ public class ClueGame extends JFrame implements MouseListener {
 			if(control.getCurrentPlayer().getPlayerCell().isRoom()) {
 				int opt = JOptionPane.showConfirmDialog(new JFrame(), "Would you like to make a Suggestion?", "Make a Suggestion:", JOptionPane.YES_NO_OPTION);
 				if(opt == JOptionPane.YES_OPTION) {
-					//TODO: implement player accusation
+					JFrame makeSuggestion = new SolutionPanel(false, control.getCurrentPlayer());
 				}	
 			}
 		}
@@ -89,9 +91,9 @@ public class ClueGame extends JFrame implements MouseListener {
 	@Override
 	public void mouseExited(MouseEvent e) {		
 	}
-	
+
 	public static void main(String args[]) {
 		ClueGame clue = ClueGame.getInstance();
 	}
-	
+
 }

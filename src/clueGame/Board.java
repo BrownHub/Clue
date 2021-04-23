@@ -501,6 +501,18 @@ public class Board extends JPanel {
 		}
 	}
 	
+	// Sets cells to occupied
+	public void resetOccupied() {
+		for(BoardCell[] row : grid) {
+			for(BoardCell c : row) {
+				c.setOccupied(false);
+			}
+		}
+		for(Player p : players) {
+			p.getPlayerCell().setOccupied(true);
+		}
+	}
+	
 	// Checks if the accusation is equal to the answer
 	public boolean checkAccusation(Solution userSol) {
 		return userSol.isEqual(theAnswer);
@@ -518,6 +530,26 @@ public class Board extends JPanel {
 				JOptionPane.showMessageDialog(new JFrame(), p.getName() + " guessed incorrectly.\n" + p.getName() + " loses.", "Incorrect Accusation", JFrame.EXIT_ON_CLOSE);
 			}
 		}
+	}
+	
+	public Card handleSuggestion(Player p, Solution aSolution) {
+		Card disprovingCard;
+		for (Player player : players) {
+			if (player != p) {
+				disprovingCard = player.disproveSuggestion(aSolution);
+				if (disprovingCard != null) {
+					KnownCardsPanel.getCurrentKnownCards().updateSeen(player, disprovingCard);
+					for(Player computerPlayer: players) {
+						if(computerPlayer instanceof ComputerPlayer) {
+							((ComputerPlayer) computerPlayer).removeSeen(disprovingCard);
+						}
+					}
+					return disprovingCard;
+				}
+			}
+		}
+
+		return null;
 	}
 	
 	public Card handleSuggestion(Player p, Solution aSolution, Set<Player> playerList) {
