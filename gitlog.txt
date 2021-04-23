@@ -1,3 +1,39 @@
+commit 30f91c467d64236148f8fd24d549c56ca5b3d85c
+Author: Kendall Brown <kendallbrwn@gmail.com>
+Date:   Thu Apr 22 22:05:09 2021 -0600
+
+    Commented and proofread
+
+commit 262155bc60d6838af2ef84698c62d9f5ed40a760
+Author: clayne <carson.layne@me.com>
+Date:   Thu Apr 22 21:41:48 2021 -0600
+
+    Finished Clue, implemented computers making accusations and fixed displaying multiple copies of cards
+
+commit 5e431a10719a676a6a04e14a5cfec689f85841b6
+Author: clayne <carson.layne@me.com>
+Date:   Thu Apr 22 20:14:42 2021 -0600
+
+    Players can no longer move to occupied walkways, players can now make suggestions
+
+commit e972348e905397e2013c6e022a468481b9527834
+Author: Kendall Brown <kendallbrwn@gmail.com>
+Date:   Thu Apr 22 15:08:41 2021 -0600
+
+    Added 'SolutionPanel' and implemented 'handleAccusation'
+
+commit 699a1687e4c6e1adc7709d5dfecf90a110fe619c
+Author: clayne <carson.layne@me.com>
+Date:   Tue Apr 20 22:01:47 2021 -0600
+
+    Fixed bugs relating to handling suggestions. Refactored handling player turns to be in only one function. Asked the player if they would like to make a suggestion.
+
+commit dcf5f22f29a51ddaf05f6e636ab939c2323fd52a
+Author: clayne <carson.layne@me.com>
+Date:   Thu Apr 15 14:43:40 2021 -0600
+
+    Refactored KnownCardsPanel to be static, Refactored handlesuggestion to update the KnownCardsPanel, Computer Players may now make guesses, created updateSeen in KnownCardsPanel to handle updating the list of seen cards, Created a toString for solution.
+
 commit 334c7cc655f794fa789faf652c6078c75d52ba2f
 Author: clayne <carson.layne@me.com>
 Date:   Mon Apr 12 21:22:08 2021 -0600
